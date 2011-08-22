@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="com.song7749.web.monitoring">
-        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/resources"/>
-        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/com.song7749.mds.board/com.song7749.mds.board">
             <dependency-type>uses</dependency-type>
         </dependent-module>
@@ -13,6 +11,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/com.song7749.web.monitoring/target/classes"/>
-        <property name="context-root" value="/"/>
+        <property name="context-root" value="com.song7749.web.monitoring"/>
     </wb-module>
 </project-modules>
