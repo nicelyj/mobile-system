@@ -1,0 +1,37 @@
+package com.song7749.mds.board.model;
+
+public class Board {
+	private Integer boardSeq;
+	private String boardName;
+
+	/**
+	 * @return the boardSeq
+	 */
+	public Integer getBoardSeq() {
+		return boardSeq;
+	}
+
+	/**
+	 * @param boardSeq
+	 *            the boardSeq to set
+	 */
+	public void setBoardSeq(Integer boardSeq) {
+		this.boardSeq = boardSeq;
+	}
+
+	/**
+	 * @return the boardName
+	 */
+	public String getBoardName() {
+		return boardName;
+	}
+
+	/**
+	 * @param boardName
+	 *            the boardName to set
+	 */
+	public void setBoardName(String boardName) {
+		this.boardName = boardName;
+	}
+
+}

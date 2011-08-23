@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="BoardList">
+	<cacheModel id="boardCache" type="LRU">
+		<flushInterval minutes="10" />
+		<property name="size" value="10000" />
+		<flushOnExecute statement="BoardList.insertBoard"/>
+	</cacheModel>
+	<cacheModel id="boardListCache" type="LRU">
+		<flushInterval minutes="30"/>
+		<property name="size" value="10000"/>
+	</cacheModel>
+	
+	<!-- 보드입력 -->
+	<insert id="insertBoard" parameterClass="com.song7749.mds.board.model.Board">
+		INSERT INTO board set boardName = '$boardName$'
+		<selectKey resultClass="int" keyProperty="boardSeq">
+			SELECT LAST_INSERT_ID() as boardSeq
+		</selectKey>
+	</insert>
+</sqlMap>
