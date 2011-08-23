@@ -1,5 +1,7 @@
 package com.song7749.mds.board.dao;
 
+import java.util.ArrayList;
+
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
 import com.song7749.base.Dao;
@@ -29,6 +31,11 @@ public class BoardDao implements Dao {
 		Integer processVal = (int) boardmaster.update("BoardList.insertBoard",
 				board);
 		return processVal;
+	}
+
+	public ArrayList<Board> selectBoards(Board board) {
+		return (ArrayList<Board>) this.boardslave.queryForList(
+				"BoardList.selectBoards", board);
 	}
 
 }

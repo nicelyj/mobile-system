@@ -29,9 +29,9 @@ public class BoardManagerImpl implements BoardManager {
 		return null;
 	}
 
-	public ArrayList<Board> selectBoardList(Board board) {
+	public ArrayList<Board> selectBoards(Board board) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.boardDao.selectBoards(board);
 	}
 
 	public Integer insertBoardList(BoardList boardList) {

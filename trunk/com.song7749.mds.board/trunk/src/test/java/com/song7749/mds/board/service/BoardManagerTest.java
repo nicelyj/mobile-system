@@ -1,5 +1,7 @@
 package com.song7749.mds.board.service;
 
+import java.util.ArrayList;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -68,8 +70,12 @@ public class BoardManagerTest extends TestCase {
 	 * {@link com.song7749.mds.board.service.BoardManager#selectBoardList(com.song7749.mds.board.model.Board)}
 	 * .
 	 */
-	public void testSelectBoardList() {
-		fail("Not yet implemented");
+	@Test
+	public void testSelectBoards() {
+		Board board = new Board();
+		ArrayList<Board> boards = new ArrayList<Board>();
+		boards = this.boardManager.selectBoards(board);
+		System.out.println(boards);
 	}
 
 	/**

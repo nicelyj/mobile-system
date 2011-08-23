@@ -17,7 +17,7 @@ public interface BoardManager {
 
 	public Integer deleteBoard(Board board);
 
-	public ArrayList<Board> selectBoardList(Board board);
+	public ArrayList<Board> selectBoards(Board board);
 
 	public Integer insertBoardList(BoardList boardList);
 

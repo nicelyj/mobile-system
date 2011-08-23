@@ -17,9 +17,18 @@
 	
 	<!-- 보드입력 -->
 	<insert id="insertBoard" parameterClass="com.song7749.mds.board.model.Board">
-		INSERT INTO board set boardName = '$boardName$'
+		INSERT INTO Board set boardName = '$boardName$'
 		<selectKey resultClass="int" keyProperty="boardSeq">
 			SELECT LAST_INSERT_ID() as boardSeq
 		</selectKey>
 	</insert>
+	<!-- 보드목록 조회 -->
+	<select id="selectBoards" parameterClass="com.song7749.mds.board.model.Board"  resultClass="com.song7749.mds.board.model.Board" cacheModel="BoardList.boardCache" >
+		SELECT boardSeq,boardName FROM Board WHERE 1=1
+		<dynamic>
+			<isGreaterThan property="Board.boardSeq" compareValue="0">
+				AND boardSeq=#Board.boardSeq#
+			</isGreaterThan>
+		</dynamic>
+	</select>
 </sqlMap>
