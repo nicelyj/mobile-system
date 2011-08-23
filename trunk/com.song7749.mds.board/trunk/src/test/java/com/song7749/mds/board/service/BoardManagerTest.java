@@ -27,24 +27,15 @@ public class BoardManagerTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#setBoardDao(com.song7749.mds.board.dao.BoardDao)}
+	 * {@link com.song7749.mds.board.service.BoardManager#insertBoard(com.song7749.mds.board.model.Board)}
 	 * .
 	 */
 	@Test
-	public void testSetBoardDao() {
+	public void testInsertBoard() {
 		Board board = new Board();
 		board.setBoardName("test");
 		int insertid = this.boardManager.insertBoard(board);
 		Assert.assertTrue("보드가 입력되지 않음", insertid > 0);
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#insertBoard(com.song7749.mds.board.model.Board)}
-	 * .
-	 */
-	public void testInsertBoard() {
-		fail("Not yet implemented");
 	}
 
 	/**
