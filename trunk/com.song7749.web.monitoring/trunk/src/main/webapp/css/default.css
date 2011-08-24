@@ -1,0 +1,49 @@
+@import url("global.css");
+
+html {
+	height:100%;
+}
+
+body {
+	height:100%;
+	background: #DDDDDD;
+	font-family: ±¼¸²;
+	font-size: 0.7em;
+	margin-left: 10px;
+	margin-top: 0px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	text-align: center;
+}
+
+a, a:visited, a:active {
+	color: #007dc6;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #22b9ff;
+	text-decoration: none;
+}
+
+a img {
+	border-style: none;
+	position: relative;
+	top: 1px;
+}
+
+#wrapper-outer {
+	background-color: #FFFFFF;
+	min-width:1004px;
+	position:relative; 
+	margin:0px;
+	margin-bottom:-45px;
+	min-height:100%;
+	padding: 0px;
+	z-index: 0;
+}
+#wrapper {
+	padding:0px;
+	margin:0px;
+	padding-bottom: 45px;
+}
