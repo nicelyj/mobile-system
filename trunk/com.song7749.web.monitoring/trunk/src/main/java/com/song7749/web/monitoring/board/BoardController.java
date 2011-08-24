@@ -43,6 +43,15 @@ public class BoardController {
 		String boardSeq = request.getParameter("boardSeq");
 		String boardName = request.getParameter("boardName");
 
+		Board board = new Board();
+		board.setBoardName(boardName);
+		try {
+			this.boardManager.insertBoard(board);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
 		try {
 			response.sendRedirect("boardForm.html");
 		} catch (IOException e) {

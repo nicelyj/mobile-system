@@ -17,9 +17,11 @@
 		</div>
 		<decorator:body />
 	</div>
+	<!-- 
 	<div id="bottomMenu">		
 		<page:applyDecorator page="/decorators/common/foot.jsp" name="commonFoot"/>
 	</div>
+	 -->
 </div>
 </body>
 </html>
