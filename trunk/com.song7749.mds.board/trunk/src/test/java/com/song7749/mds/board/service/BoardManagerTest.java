@@ -24,6 +24,7 @@ import com.song7749.mds.board.model.Board;
 public class BoardManagerTest extends TestCase {
 	@Autowired
 	private BoardManager boardManager;
+	private static Board staticBoard;
 
 	/**
 	 * Test method for
@@ -34,26 +35,9 @@ public class BoardManagerTest extends TestCase {
 	public void testInsertBoard() {
 		Board board = new Board();
 		board.setBoardName("test");
-		int insertid = this.boardManager.insertBoard(board);
-		Assert.assertTrue("보드가 입력되지 않음", insertid > 0);
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#updateBoard(com.song7749.mds.board.model.Board)}
-	 * .
-	 */
-	public void testUpdateBoard() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoard(com.song7749.mds.board.model.Board)}
-	 * .
-	 */
-	public void testDeleteBoard() {
-		fail("Not yet implemented");
+		Integer insertid = this.boardManager.insertBoard(board);
+		BoardManagerTest.staticBoard = board;
+		Assert.assertTrue(insertid > 0);
 	}
 
 	/**
@@ -66,7 +50,35 @@ public class BoardManagerTest extends TestCase {
 		Board board = new Board();
 		ArrayList<Board> boards = new ArrayList<Board>();
 		boards = this.boardManager.selectBoards(board);
-		System.out.println(boards);
+		Assert.assertTrue(boards.size() > 0);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#updateBoard(com.song7749.mds.board.model.Board)}
+	 * .
+	 */
+	@Test
+	public void testUpdateBoard() {
+		Board board = BoardManagerTest.staticBoard;
+		board.setBoardName("testupdate");
+		int affectedRows = this.boardManager.updateBoard(board);
+		Assert.assertTrue(affectedRows > 0);
+
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoard(com.song7749.mds.board.model.Board)}
+	 * .
+	 */
+	@Test
+	public void testDeleteBoard() {
+		Board board = new Board();
+		// board.setBoardName("test");
+		board.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
+		int processVal = this.boardManager.deleteBoard(board);
+		Assert.assertTrue("보드삭제 실패", processVal > 0);
 	}
 
 	/**

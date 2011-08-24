@@ -20,13 +20,11 @@ public class BoardManagerImpl implements BoardManager {
 	}
 
 	public Integer updateBoard(Board board) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.boardDao.updateBoard(board);
 	}
 
 	public Integer deleteBoard(Board board) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.boardDao.deleteBoard(board);
 	}
 
 	public ArrayList<Board> selectBoards(Board board) {
