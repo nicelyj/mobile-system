@@ -3,7 +3,9 @@ package com.song7749.mds.board.model;
 import java.sql.Date;
 import java.sql.Time;
 
-public class BoardComment {
+import com.song7749.base.BaseObject;
+
+public class BoardComment extends BaseObject {
 	private Integer boardCommentSeq;
 	private Integer boardListSeq;
 	private String comment;

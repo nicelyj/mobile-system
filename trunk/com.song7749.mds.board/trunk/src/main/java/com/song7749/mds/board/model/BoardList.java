@@ -3,7 +3,9 @@ package com.song7749.mds.board.model;
 import java.sql.Date;
 import java.sql.Time;
 
-public class BoardList {
+import com.song7749.base.BaseObject;
+
+public class BoardList extends BaseObject {
 	private Integer boardListSeq = 0;
 	private Integer boardSeq = 0;
 	private String boardTitle = "";

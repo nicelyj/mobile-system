@@ -6,15 +6,15 @@
 
 <sqlMap namespace="BoardList">
 	<cacheModel id="boardCache" type="LRU">
-		<flushInterval hours="48" />
 		<property name="size" value="10000" />
 		<flushOnExecute statement="BoardList.insertBoard"/>
 		<flushOnExecute statement="BoardList.deleteBoard"/>
 		<flushOnExecute statement="BoardList.updateBoard"/>
+		<flushInterval minutes="10" />
 	</cacheModel>
 	<cacheModel id="boardListCache" type="LRU">
-		<flushInterval hours="48"/>
 		<property name="size" value="10000"/>
+		<flushInterval minutes="10"/>
 	</cacheModel>
 	
 	<!-- 보드입력 -->

@@ -1,6 +1,8 @@
 package com.song7749.mds.board.model;
 
-public class BoardContents {
+import com.song7749.base.BaseObject;
+
+public class BoardContents extends BaseObject {
 	private Integer boardListSeq;
 	private String contents = "";
 
