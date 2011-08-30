@@ -14,12 +14,7 @@
 	</li>
 	<li>게시판
 		<ul>
-			<li>게시판 관리 &rArr;&rArr;
-				<ul>
-					<li><a href="/board/boardForm.html">게시판 생성</a></li>
-					<li><a href="/board/boardList.html">게시판 목록</a></li>
-				</ul>
-			</li>
+			<li><a href="/board/boardList.html">게시판 관리</a></li>
 			<c:forEach var="board" items="${menuBoards }">
 				<li>${board.boardName }</li>
 			</c:forEach>

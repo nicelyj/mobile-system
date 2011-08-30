@@ -23,19 +23,6 @@ public class BoardController {
 	public BoardController() {
 	}
 
-	@RequestMapping("board/boardForm.html")
-	public String boardForm(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
-
-		String viewTemplete = "board/boardForm";
-
-		setBoardList(modelMap);
-		modelMap.addAttribute("javascript",
-				"<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
-
-		return viewTemplete;
-	}
-
 	@RequestMapping("board/boardList.html")
 	public String BoardList(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
@@ -43,6 +30,7 @@ public class BoardController {
 
 		setBoardList(modelMap);
 		modelMap.addAttribute("javascript",
+				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"+
 				"<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
 
 		return ViewTemplete;
@@ -70,7 +58,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "board/boardProcess.html", method = RequestMethod.PUT)
-	public void boardUpdate(HttpServletRequest request, ModelMap modelMap) {
+	public void boardUpdate(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
 
 		String boardSeq = request.getParameter("boardSeq");
 		String boardName = request.getParameter("boardName");
@@ -87,7 +75,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "board/boardProcess.html", method = RequestMethod.DELETE)
-	public void boardDelete(HttpServletRequest request, ModelMap modelMap) {
+	public void boardDelete(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
 
 		String boardSeq = request.getParameter("boardSeq");
 
