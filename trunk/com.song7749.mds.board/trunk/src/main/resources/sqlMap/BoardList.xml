@@ -5,17 +5,18 @@
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="BoardList">
-	<cacheModel id="boardCache" type="LRU">
-		<property name="size" value="10000" />
+	<cacheModel id="boardCache" type="LRU" readOnly="true" serialize="false">
+		<property name="size" value="500" />
+		<flushOnExecute statement="BoardList.dummySql"/>
 		<flushOnExecute statement="BoardList.insertBoard"/>
-		<flushOnExecute statement="BoardList.deleteBoard"/>
 		<flushOnExecute statement="BoardList.updateBoard"/>
-		<flushInterval minutes="10" />
+		<flushOnExecute statement="BoardList.deleteBoard"/>
+		<flushInterval hours="1"/>
 	</cacheModel>
-	<cacheModel id="boardListCache" type="LRU">
-		<property name="size" value="10000"/>
-		<flushInterval minutes="10"/>
-	</cacheModel>
+	
+	<statement id="dummySql">
+		SELECT 1
+	</statement>
 	
 	<!-- 보드입력 -->
 	<insert id="insertBoard" parameterClass="com.song7749.mds.board.model.Board">
@@ -28,7 +29,7 @@
 		boardName = '$boardName$'
 		<selectKey keyProperty="boardSeq" resultClass="Integer">
 			SELECT LAST_INSERT_ID()
-		</selectKey>		
+		</selectKey>
 	</insert>
 
 	<!-- 보드 수정 -->
@@ -52,11 +53,11 @@
 	<!-- 보드 목록 리스트 맵 -->
 	<resultMap class="com.song7749.mds.board.model.Board" id="Board-result">
 		<result property="boardSeq" column="boardSeq"/>
-		<result property="boardName" column="boardName"/>
+		<result property="boardName" column="boardName" />
 	</resultMap>
 
 	<!-- 보드목록 조회 -->
-	<select id="selectBoards" parameterClass="com.song7749.mds.board.model.Board" resultMap="Board-result" cacheModel="BoardList.boardCache" >
+	<sql id="selectBoardSql">
 		SELECT boardSeq,boardName FROM Board WHERE 1=1
 		<dynamic>
 			<isGreaterThan property="boardSeq" compareValue="0">
@@ -66,5 +67,12 @@
 				AND boardName='$boardName$'
 			</isNotEmpty>
 		</dynamic>
+	</sql>
+	<select id="selectBoards" parameterClass="com.song7749.mds.board.model.Board" resultMap="Board-result">
+		<include refid="selectBoardSql"/>
 	</select>
+	<select id="selectBoardsCaches" parameterClass="com.song7749.mds.board.model.Board" resultMap="Board-result" cacheModel="BoardList.boardCache" >
+		<include refid="selectBoardSql"/>
+	</select>
+	<!-- 보드목록 조회 끝 -->
 </sqlMap>

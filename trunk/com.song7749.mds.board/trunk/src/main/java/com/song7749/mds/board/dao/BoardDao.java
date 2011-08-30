@@ -37,18 +37,9 @@ public class BoardDao implements Dao {
 	public Integer insertBoard(Board board) {
 		Integer processVal = (Integer) boardmaster.insert(
 				"BoardList.insertBoard", board);
-		return processVal;
-	}
 
-	/**
-	 * 보드 목록 .<br>
-	 * 
-	 * @param board
-	 * @return
-	 */
-	public ArrayList<Board> selectBoards(Board board) {
-		return (ArrayList<Board>) this.boardslave.queryForList(
-				"BoardList.selectBoards", board);
+		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
+		return processVal;
 	}
 
 	/**
@@ -64,15 +55,35 @@ public class BoardDao implements Dao {
 
 		Integer processVal = (int) boardmaster.update("BoardList.deleteBoard",
 				board);
+		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
 		return processVal;
 	}
 
+	/**
+	 * 보드 수정
+	 * 
+	 * @param board
+	 * @return
+	 */
 	public Integer updateBoard(Board board) {
 		if (board.getBoardSeq() == null || board.getBoardSeq() == 0)
 			throw new InvalidParameterException();
 
 		Integer processVal = (int) boardmaster.update("BoardList.updateBoard",
 				board);
+		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
 		return processVal;
 	}
+
+	/**
+	 * 보드 목록 .<br>
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public ArrayList<Board> selectBoards(Board board) {
+		return (ArrayList<Board>) this.boardslave.queryForList(
+				"BoardList.selectBoardsCaches", board);
+	}
+
 }

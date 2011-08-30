@@ -7,10 +7,17 @@
 <!-- 설정참고: http://commons.apache.org/dbcp/configuration.html -->
 <sqlMapConfig>
 	<properties resource="db.properties" />
-	<settings useStatementNamespaces="true" />
+	<settings 
+		useStatementNamespaces="true" 
+		cacheModelsEnabled="true"
+		enhancementEnabled="true"
+		lazyLoadingEnabled="true"
+	/>
+
 
 	<transactionManager type="JDBC" commitRequired="false">
 		<dataSource type="DBCP">
+			<property name="SetAutoCommitAllowed" value="true"/>		
 			<property name="driverClassName" value="${testServer.boardmaster.driver}" />
 			<property name="url" value="${testServer.boardmaster.url}" />
 			<property name="username" value="${testServer.boardmaster.username}" />
