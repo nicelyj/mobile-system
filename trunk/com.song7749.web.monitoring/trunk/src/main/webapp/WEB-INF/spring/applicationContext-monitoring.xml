@@ -16,5 +16,4 @@
 
 	<context:annotation-config />
 
-	<bean id="boardUtil" class="com.song7749.web.util.board.BoardUtil"/>
 </beans>

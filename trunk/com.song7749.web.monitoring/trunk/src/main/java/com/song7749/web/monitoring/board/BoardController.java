@@ -10,17 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.song7749.mds.board.model.Board;
 import com.song7749.mds.board.service.BoardManager;
-import com.song7749.web.util.board.BoardUtil;
 
 @Controller
 public class BoardController {
 	@Autowired
 	private BoardManager boardManager;
-	@Autowired
-	private BoardUtil boardUtil;
 
 	public BoardController() {
 	}
@@ -30,17 +28,30 @@ public class BoardController {
 			HttpServletResponse response, ModelMap modelMap) {
 
 		String viewTemplete = "board/boardForm";
-		ArrayList<Board> boards = boardUtil.getBoardList();
-		modelMap.addAttribute("menuBoards", boards);
+
+		setBoardList(modelMap);
+		modelMap.addAttribute("javascript",
+				"<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
 
 		return viewTemplete;
 	}
 
-	@RequestMapping("board/boardProcess.html")
-	public void boardProcess(HttpServletRequest request,
+	@RequestMapping("board/boardList.html")
+	public String BoardList(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String ViewTemplete = "board/boardList";
+
+		setBoardList(modelMap);
+		modelMap.addAttribute("javascript",
+				"<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
+
+		return ViewTemplete;
+	}
+
+	@RequestMapping(value = "board/boardProcess.html", method = RequestMethod.POST)
+	public void boardInsert(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 
-		String boardSeq = request.getParameter("boardSeq");
 		String boardName = request.getParameter("boardName");
 
 		Board board = new Board();
@@ -48,15 +59,50 @@ public class BoardController {
 		try {
 			this.boardManager.insertBoard(board);
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 
 		try {
-			response.sendRedirect("boardForm.html");
+			response.sendRedirect("boardList.html");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@RequestMapping(value = "board/boardProcess.html", method = RequestMethod.PUT)
+	public void boardUpdate(HttpServletRequest request, ModelMap modelMap) {
+
+		String boardSeq = request.getParameter("boardSeq");
+		String boardName = request.getParameter("boardName");
+
+		Board board = new Board();
+		board.setBoardSeq(Integer.parseInt(boardSeq));
+		board.setBoardName(boardName);
+		try {
+			this.boardManager.updateBoard(board);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@RequestMapping(value = "board/boardProcess.html", method = RequestMethod.DELETE)
+	public void boardDelete(HttpServletRequest request, ModelMap modelMap) {
+
+		String boardSeq = request.getParameter("boardSeq");
+
+		Board board = new Board();
+		board.setBoardSeq(Integer.parseInt(boardSeq));
+		try {
+			this.boardManager.deleteBoard(board);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void setBoardList(ModelMap modelMap) {
+		ArrayList<Board> boards = boardManager.selectBoards(new Board());
+		modelMap.addAttribute("boards", boards);
+		modelMap.addAttribute("menuBoards", boards);
 	}
 }
