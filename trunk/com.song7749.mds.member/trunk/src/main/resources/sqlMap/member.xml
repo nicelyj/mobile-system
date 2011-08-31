@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Member">
+	<cacheModel id="memberCache" type="LRU" readOnly="true" serialize="false">
+		<property name="size" value="500" />
+		<flushOnExecute statement="Member.dummySql"/>
+		<flushOnExecute statement="Member.insertMember"/>
+		<flushOnExecute statement="Member.insertMemberDetail"/>		
+		<flushOnExecute statement="Member.deleteMember"/>
+		<flushOnExecute statement="Member.deleteMemberDetail"/>		
+		<flushInterval hours="1"/>
+	</cacheModel>
+	
+	<statement id="dummySql">
+		SELECT 1
+	</statement>
+
+	<insert id="insertMember" parameterClass="com.song7749.mds.member.model.Member">
+		INSERT INTO Member SET memberId= '$memberId$' ,
+				memberName= '$memberName$',
+				memberNickName='$memberNickName$',
+				memberPassword= '$memberPassword$',
+				memberPasswordQ= '$memberPasswordQ$',
+				memberPasswordA= '$memberPasswordA$',
+				memberEmail= '$memberEmail$',
+				memberLastLoginTime=now()
+		<selectKey keyProperty="memberSeq" resultClass="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>					
+	</insert>
+
+	<insert id="insertMemberDetail" parameterClass="com.song7749.mds.member.model.Member">
+		INSERT INTO MemberDetail SET memberSeq= #memberSeq#,
+				memberResistNumber= '$memberDetail.memberResistNumber$',
+				memberZipcode= '$memberDetail.memberZipcode$',
+				memberAddressBase= '$memberDetail.memberAddressBase$',
+				memberAddressDetail= '$memberDetail.memberAddressDetail$',
+				memberPhoneNumber= '$memberDetail.memberPhoneNumber$',
+				memberMobileNumber= '$memberDetail.memberMobileNumber$'
+		<selectKey keyProperty="memberSeq" resultClass="Integer">
+			SELECT MAX(memberSeq) FROM MemberDetail
+		</selectKey>					
+	</insert>
+
+	<update id="updateMember" parameterClass="com.song7749.mds.member.model.Member">
+		UPDATE Member SET
+		 <dynamic>		
+			<isNotEmpty property="memberName">
+				memberName= '$memberName$' 
+			</isNotEmpty>		 
+			<isNotEmpty property="memberNickName" prepend=",">
+				memberNickName= '$memberNickName$' 
+			</isNotEmpty>		 
+			<isNotEmpty property="memberPassword" prepend=",">
+				memberPassword= '$memberPassword$' 
+			</isNotEmpty>		 
+			<isNotEmpty property="memberPasswordQ" prepend=",">
+				memberPasswordQ= '$memberPasswordQ$' 
+			</isNotEmpty>		 
+			<isNotEmpty property="memberPasswordA" prepend=",">
+				memberPasswordA= '$memberPasswordA$' 
+			</isNotEmpty>		 
+			<isNotEmpty property="memberEmail" prepend=",">
+				memberEmail= '$memberEmail$'
+			</isNotEmpty>		 
+		</dynamic>
+			, memberLastLoginTime=now()
+		WHERE 
+			memberSeq= #memberSeq#
+	</update>
+
+	<update id="updateMemberDetail" parameterClass="com.song7749.mds.member.model.Member">
+		UPDATE MemberDetail SET
+		<dynamic>
+			<isNotEmpty property="memberDetail.memberResistNumber">
+				memberResistNumber= '$memberDetail.memberResistNumber$'
+			</isNotEmpty>		 
+			<isNotEmpty property="memberDetail.memberZipcode" prepend=",">
+				memberZipcode= '$memberDetail.memberZipcode$'
+			</isNotEmpty>		 
+			<isNotEmpty property="memberDetail.memberAddressBase" prepend=",">
+				memberAddressBase= '$memberDetail.memberAddressBase$'
+			</isNotEmpty>		 
+			<isNotEmpty property="memberDetail.memberAddressDetail" prepend=",">
+				memberAddressDetail= '$memberDetail.memberAddressDetail$'
+			</isNotEmpty>		 
+			<isNotEmpty property="memberDetail.memberPhoneNumber" prepend=",">
+				memberPhoneNumber= '$memberDetail.memberPhoneNumber$'
+			</isNotEmpty>		 
+			<isNotEmpty property="memberDetail.memberMobileNumber" prepend=",">
+				memberMobileNumber= '$memberDetail.memberMobileNumber$'
+			</isNotEmpty>
+		</dynamic>		 
+		WHERE
+			memberSeq= #memberSeq#
+	</update>
+
+	
+	<delete id="deleteMember" parameterClass="com.song7749.mds.member.model.Member">
+		DELETE FROM Member WHERE memberSeq=#memberSeq#
+	</delete>
+	
+	<delete id="deleteMemberDetail" parameterClass="com.song7749.mds.member.model.Member">
+		DELETE FROM Member WHERE memberSeq=#memberSeq#
+	</delete>
+	
+	<resultMap class="com.song7749.mds.member.model.Member" id="selectMemberListByMemberCommand-result">
+		<result property="memberSeq" column="memberSeq"/>
+		<result property="memberId" column="memberId"/>
+		<result property="memberName" column="memberName"/>
+		<result property="memberNickName" column="memberNickName"/>
+		<result property="memberPassword" column="memberPassword"/>
+		<result property="memberPasswordQ" column="memberPasswordQ"/>
+		<result property="memberEmail" column="memberEmail"/>
+		<result property="memberLastLoginTime" column="memberLastLoginTime"/>
+		<result property="memberDetail.memberResistNumber" column="memberResistNumber"/>
+		<result property="memberDetail.memberZipcode" column="memberZipcode"/>
+		<result property="memberDetail.memberAddressBase" column="memberAddressBase"/>
+		<result property="memberDetail.memberAddressDetail" column="memberAddressDetail"/>
+		<result property="memberDetail.memberPhoneNumber" column="memberPhoneNumber"/>
+		<result property="memberDetail.memberMobileNumber" column="memberMobileNumber"/>
+	</resultMap>
+	
+	<select id="selectMemberListByMemberCommand" cacheModel="Member.memberCache" parameterClass="com.song7749.mds.member.model.command.MemberCommand" resultMap="selectMemberListByMemberCommand-result">
+		SELECT
+			m.memberSeq,
+			m.memberId,
+			m.memberName,
+			m.memberNickName,
+			m.memberPassword,
+			m.memberPasswordQ,
+			m.memberPasswordA,
+			m.memberEmail,
+			m.memberLastLoginTime,
+			md.memberResistNumber,
+			md.memberZipcode,
+			md.memberAddressBase,
+			md.memberAddressDetail,
+			md.memberPhoneNumber,
+			md.memberMobileNumber
+		FROM Member as m 
+		INNER JOIN MemberDetail as md ON (m.memberSeq=md.MemberSeq)
+		WHERE 1=1
+		<dynamic>
+			<isGreaterThan property="member.memberSeq" compareValue="0">
+				AND m.memberSeq= #member.memberSeq#
+			</isGreaterThan>
+			<isNotEmpty property="member.memberId">
+				AND m.memberId='$member.memberId$'
+			</isNotEmpty>
+		</dynamic>			
+	</select>
+	
+</sqlMap>

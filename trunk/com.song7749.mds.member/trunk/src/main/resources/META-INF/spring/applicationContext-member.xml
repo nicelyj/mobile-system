@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+	default-autowire="no">
+
+	<context:annotation-config />
+	<!-- ================================= sqlMap 설정 ===================================== -->
+
+	<!--
+	sqlMap의 설정파일은 개발자PC용, 테스트서버용, 실제서비스 서버용으로 구분함.
+	생성자의 파라메터 순서대로
+	첫번째 - 개발자 PC용 설정파일.
+	두번째 - 테스트 서버용 설정파일.
+	세번째 - 실제 서비스 서버용 설정파일.
+	테스트 서버에는 JAVA_SERVER_SORT='TEST' 환경변수를 반드시 설정할 것.
+	-->
+
+	<!-- membermaster -->
+	<bean id="sqlMapClient.membermaster"
+		class="com.song7749.base.SqlMapClientFactoryBeanDynamic">
+		<constructor-arg value="sqlMapConfig/developer/membermaster.xml" />
+		<constructor-arg value="sqlMapConfig/testServer/membermaster.xml" />
+		<constructor-arg value="sqlMapConfig/realServer/membermaster.xml" />
+	</bean>
+
+	<bean id="sqlMapClientTemplate.membermaster"
+		class="org.springframework.orm.ibatis.SqlMapClientTemplate"
+		p:sqlMapClient-ref="sqlMapClient.membermaster" />
+
+	<!-- memberslave -->
+	<bean id="sqlMapClient.memberslave"
+		class="com.song7749.base.SqlMapClientFactoryBeanDynamic">
+		<constructor-arg value="sqlMapConfig/developer/memberslave.xml" />
+		<constructor-arg value="sqlMapConfig/testServer/memberslave.xml" />
+		<constructor-arg value="sqlMapConfig/realServer/memberslave.xml" />
+	</bean>
+	
+	<bean id="sqlMapClientTemplate.memberslave"
+		class="org.springframework.orm.ibatis.SqlMapClientTemplate"
+		p:sqlMapClient-ref="sqlMapClient.memberslave" />
+
+	<!-- ================================= DAO 설정 ===================================== -->
+	<bean id="memberDao" class="com.song7749.mds.member.dao.MemberDaoImpl"
+		p:membermaster-ref="sqlMapClientTemplate.membermaster" p:memberslave-ref="sqlMapClientTemplate.memberslave" />
+
+	<!-- ================================ Manager 설정 =================================== -->
+	<bean id="memberManager" class="com.song7749.mds.member.service.MemberManagerImpl"
+		p:memberDao-ref="memberDao" />
+
+</beans>
