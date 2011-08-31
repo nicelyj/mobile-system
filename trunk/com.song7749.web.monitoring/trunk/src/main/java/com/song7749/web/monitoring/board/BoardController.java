@@ -29,9 +29,10 @@ public class BoardController {
 		String ViewTemplete = "board/boardList";
 
 		setBoardList(modelMap);
-		modelMap.addAttribute("javascript",
-				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"+
-				"<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
+		modelMap.addAttribute(
+				"javascript",
+				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
+						+ "<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
 
 		return ViewTemplete;
 	}
@@ -58,7 +59,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "board/boardProcess.html", method = RequestMethod.PUT)
-	public void boardUpdate(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+	public void boardUpdate(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
 
 		String boardSeq = request.getParameter("boardSeq");
 		String boardName = request.getParameter("boardName");
@@ -75,7 +77,8 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "board/boardProcess.html", method = RequestMethod.DELETE)
-	public void boardDelete(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) {
+	public void boardDelete(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
 
 		String boardSeq = request.getParameter("boardSeq");
 
