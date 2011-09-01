@@ -20,8 +20,8 @@ import com.song7749.mds.member.model.command.MemberCommand;
 public class MemberManagerTest {
 	@Autowired
 	private MemberManager memberManager;
-	private static Member staticMember;
-	private static MemberAuth staticMemberAuth;
+	public static Member staticMember;
+	public static MemberAuth staticMemberAuth;
 
 	@Test
 	public void testInsertMember() {

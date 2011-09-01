@@ -1,7 +1,23 @@
 package com.song7749.mds.member.model;
 
 import com.song7749.base.BaseObject;
+import com.song7749.util.security.SecurityUtil;
 
+/**
+ * <pre>
+ * Class Name : MemberAuth.java
+ * Description : 회원 인증 모듈
+* 	인증키 셋은 setMemeber 호출시에만 초기화 된다.
+*  Modification Information
+*  Modify Date 	Modifier		Comment
+* -----------------------------------------------
+*  2011. 9. 1.		song7749		신규 생성
+* 
+* </pre>
+* 
+* @author song7749
+* @since 2011. 9. 1.
+*/
 public class MemberAuth extends BaseObject {
 	private static final long serialVersionUID = 1L;
 	private static final String authKey = "AuGKgbnaERwetngaQWgjbnadfHeghPOqerdfaBUGHAdfe";
@@ -25,6 +41,12 @@ public class MemberAuth extends BaseObject {
 	 */
 	public void setMember(Member member) {
 		this.member = member;
+		this.memberSeq = member.getMemberSeq();
+		try {
+			this.memberAuthKey = SecurityUtil.getCryptoMD5String(this.memberSeq+MemberAuth.authKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

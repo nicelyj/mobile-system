@@ -23,7 +23,7 @@
 		INSERT INTO Member SET memberId= '$memberId$' ,
 				memberName= '$memberName$',
 				memberNickName='$memberNickName$',
-				memberPassword= '$memberPassword$',
+				memberPassword= PASSWORD('$memberPassword$'),
 				memberPasswordQ= '$memberPasswordQ$',
 				memberPasswordA= '$memberPasswordA$',
 				memberEmail= '$memberEmail$',
@@ -56,7 +56,7 @@
 				memberNickName= '$memberNickName$' 
 			</isNotEmpty>		 
 			<isNotEmpty property="memberPassword" prepend=",">
-				memberPassword= '$memberPassword$' 
+				memberPassword= PASSWORD('$memberPassword$') 
 			</isNotEmpty>		 
 			<isNotEmpty property="memberPasswordQ" prepend=",">
 				memberPasswordQ= '$memberPasswordQ$' 
@@ -105,7 +105,7 @@
 	</delete>
 	
 	<delete id="deleteMemberDetail" parameterClass="com.song7749.mds.member.model.Member">
-		DELETE FROM Member WHERE memberSeq=#memberSeq#
+		DELETE FROM MemberDetail WHERE memberSeq=#memberSeq#
 	</delete>
 	
 	<resultMap class="com.song7749.mds.member.model.Member" id="selectMemberListByMemberCommand-result">
@@ -113,7 +113,6 @@
 		<result property="memberId" column="memberId"/>
 		<result property="memberName" column="memberName"/>
 		<result property="memberNickName" column="memberNickName"/>
-		<result property="memberPassword" column="memberPassword"/>
 		<result property="memberPasswordQ" column="memberPasswordQ"/>
 		<result property="memberPasswordA" column="memberPasswordA"/>
 		<result property="memberEmail" column="memberEmail"/>
@@ -132,7 +131,6 @@
 			m.memberId,
 			m.memberName,
 			m.memberNickName,
-			m.memberPassword,
 			m.memberPasswordQ,
 			m.memberPasswordA,
 			m.memberEmail,
@@ -152,6 +150,9 @@
 			</isGreaterThan>
 			<isNotEmpty property="member.memberId">
 				AND m.memberId='$member.memberId$'
+			</isNotEmpty>
+			<isNotEmpty property="member.memberPassword">
+				AND memberPassword= PASSWORD('$member.memberPassword$') 
 			</isNotEmpty>
 		</dynamic>			
 	</select>

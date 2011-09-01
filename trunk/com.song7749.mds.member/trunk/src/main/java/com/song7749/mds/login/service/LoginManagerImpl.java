@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.song7749.exception.MemberLoginException;
 import com.song7749.mds.member.model.Member;
+import com.song7749.mds.member.model.MemberAuth;
 import com.song7749.mds.member.model.command.MemberCommand;
 import com.song7749.mds.member.service.MemberManager;
+import com.song7749.mds.member.service.MemberManagerTest;
 
 /**
  * <pre>
@@ -32,10 +35,20 @@ public class LoginManagerImpl implements LoginManager {
 		MemberCommand memberCommand = new MemberCommand();
 		memberCommand.setMember(member);
 
-		ArrayList<Member> selectedMember = this.memberManager
+		ArrayList<Member> selectedMemberList = this.memberManager
 				.selectMemberListByMemberSearchCommand(memberCommand);
 
-		return null;
+		if(selectedMemberList.size() == 0)
+			throw new MemberLoginException();
+		
+		Member selectedMember = selectedMemberList.get(0);
+		
+		MemberAuth memberAuth = new MemberAuth();
+		memberAuth.setMember(selectedMember);
+		// TODO ÄíÅ°±Á±â
+		
+		Integer processVal = this.memberManager.insertMemberAuth(memberAuth);
+		return processVal > 0;
 	}
 
 	public Boolean logout(Member member) {
