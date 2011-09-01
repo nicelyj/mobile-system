@@ -23,7 +23,7 @@
 		INSERT INTO Board set 
 		<dynamic>
 			<isGreaterThan property="boardSeq" compareValue="0">
-				boardSeq=#boardSeq#
+				boardSeq=#boardSeq# ,
 			</isGreaterThan>
 		</dynamic>
 		boardName = '$boardName$'

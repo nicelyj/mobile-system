@@ -3,6 +3,8 @@ package com.song7749.mds.board.model;
 import com.song7749.base.BaseObject;
 
 public class Board extends BaseObject {
+	private static final long serialVersionUID = -952945932664626399L;
+
 	private Integer boardSeq;
 	private String boardName;
 

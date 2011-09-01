@@ -6,6 +6,7 @@ import java.sql.Time;
 import com.song7749.base.BaseObject;
 
 public class BoardComment extends BaseObject {
+	private static final long serialVersionUID = -2733045706223144843L;
 	private Integer boardCommentSeq;
 	private Integer boardListSeq;
 	private String comment;

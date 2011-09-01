@@ -6,6 +6,7 @@ import java.sql.Time;
 import com.song7749.base.BaseObject;
 
 public class BoardList extends BaseObject {
+	private static final long serialVersionUID = 5102094027180361972L;
 	private Integer boardListSeq = 0;
 	private Integer boardSeq = 0;
 	private String boardTitle = "";
