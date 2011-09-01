@@ -6,6 +6,7 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.song7749.mds.member.model.Member;
+import com.song7749.mds.member.model.MemberAuth;
 import com.song7749.mds.member.model.command.MemberCommand;
 
 @Repository
@@ -68,5 +69,20 @@ public class MemberDaoImpl implements MemberDao {
 
 		return (ArrayList<Member>) memberslave.queryForList(
 				"Member.selectMemberListByMemberCommand", memberCommand);
+	}
+
+	public Integer insertMemberAuth(MemberAuth memberAuth) {
+		return (Integer) membermaster.insert("Member.insertMemberAuth",
+				memberAuth);
+	}
+
+	public Integer deleteMemberAuth(MemberAuth memberAuth) {
+		return membermaster.delete("Member.deleteMemberAuth", memberAuth);
+	}
+
+	public ArrayList<MemberAuth> selectMemberAuthListByMemberAuth(
+			MemberAuth memberAuth) {
+		return (ArrayList<MemberAuth>) membermaster.queryForList(
+				"Member.selectMemberAuthListByMemberAuth", memberAuth);
 	}
 }

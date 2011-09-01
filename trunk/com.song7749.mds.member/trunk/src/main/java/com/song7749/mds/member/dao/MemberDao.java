@@ -6,6 +6,7 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
 import com.song7749.base.Dao;
 import com.song7749.mds.member.model.Member;
+import com.song7749.mds.member.model.MemberAuth;
 import com.song7749.mds.member.model.command.MemberCommand;
 
 public interface MemberDao extends Dao {
@@ -27,4 +28,11 @@ public interface MemberDao extends Dao {
 
 	public ArrayList<Member> selectMemberListByMemberCommand(
 			MemberCommand memberCommand);
+
+	public Integer insertMemberAuth(MemberAuth memberAuth);
+
+	public Integer deleteMemberAuth(MemberAuth memberAuth);
+
+	public ArrayList<MemberAuth> selectMemberAuthListByMemberAuth(
+			MemberAuth memberAuth);
 }
