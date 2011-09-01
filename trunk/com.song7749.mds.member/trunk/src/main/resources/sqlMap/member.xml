@@ -76,10 +76,7 @@
 	<update id="updateMemberDetail" parameterClass="com.song7749.mds.member.model.Member">
 		UPDATE MemberDetail SET
 		<dynamic>
-			<isNotEmpty property="memberDetail.memberResistNumber">
-				memberResistNumber= '$memberDetail.memberResistNumber$'
-			</isNotEmpty>		 
-			<isNotEmpty property="memberDetail.memberZipcode" prepend=",">
+			<isNotEmpty property="memberDetail.memberZipcode">
 				memberZipcode= '$memberDetail.memberZipcode$'
 			</isNotEmpty>		 
 			<isNotEmpty property="memberDetail.memberAddressBase" prepend=",">
@@ -94,6 +91,9 @@
 			<isNotEmpty property="memberDetail.memberMobileNumber" prepend=",">
 				memberMobileNumber= '$memberDetail.memberMobileNumber$'
 			</isNotEmpty>
+			<isNotEmpty property="memberDetail.memberResistNumber" prepend=",">
+				memberResistNumber= '$memberDetail.memberResistNumber$'
+			</isNotEmpty>		 
 		</dynamic>		 
 		WHERE
 			memberSeq= #memberSeq#
@@ -115,6 +115,7 @@
 		<result property="memberNickName" column="memberNickName"/>
 		<result property="memberPassword" column="memberPassword"/>
 		<result property="memberPasswordQ" column="memberPasswordQ"/>
+		<result property="memberPasswordA" column="memberPasswordA"/>
 		<result property="memberEmail" column="memberEmail"/>
 		<result property="memberLastLoginTime" column="memberLastLoginTime"/>
 		<result property="memberDetail.memberResistNumber" column="memberResistNumber"/>
@@ -153,6 +154,45 @@
 				AND m.memberId='$member.memberId$'
 			</isNotEmpty>
 		</dynamic>			
+	</select>
+	
+	<insert id="insertMemberAuth" parameterClass="com.song7749.mds.member.model.MemberAuth">
+		INSERT INTO MemberAuth SET	
+			memberSeq = #memberSeq#,
+			memberAuthKey = '$memberAuthKey$',
+			memberAuthDateTime = now()
+		<selectKey keyProperty="memberAuthSeq" resultClass="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>					
+	</insert>
+	
+	<delete id="deleteMemberAuth" parameterClass="com.song7749.mds.member.model.MemberAuth">
+		DELETE FROM MemberAuth WHERE memberSeq = #memberSeq#
+	</delete>
+	
+	<resultMap class="com.song7749.mds.member.model.MemberAuth" id="selectMemberAuthListByMemberAuth-result">
+		<result property="memberAuthSeq" column="memberAuthSeq"/>	
+		<result property="memberSeq" column="memberSeq"/>
+		<result property="memberAuthKey" column="memberAuthKey"/>
+		<result property="memberAuthDateTime" column="memberAuthDateTime"/>
+	</resultMap>
+	<select id="selectMemberAuthListByMemberAuth" parameterClass="com.song7749.mds.member.model.MemberAuth" resultMap="selectMemberAuthListByMemberAuth-result">
+		SELECT	
+			memberAuthSeq,
+  			memberSeq,
+  			memberAuthKey,
+  			memberAuthDateTime
+  		FROM
+  			MemberAuth
+  		WHERE 1=1
+  		<dynamic>
+  			<isNotEmpty property="memberAuthKey">
+  				AND memberAuthKey = '$memberAuthKey$'
+  			</isNotEmpty>
+  			<isGreaterThan property="memberSeq" compareValue="0">
+  				AND memberSeq = #memberSeq# 
+  			</isGreaterThan>
+  		</dynamic>
 	</select>
 	
 </sqlMap>
