@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.song7749.mds.member.model.Member;
+import com.song7749.mds.member.model.MemberAuth;
 import com.song7749.mds.member.model.MemberDetail;
 import com.song7749.mds.member.model.command.MemberCommand;
 
@@ -20,11 +21,12 @@ public class MemberManagerTest {
 	@Autowired
 	private MemberManager memberManager;
 	private static Member staticMember;
+	private static MemberAuth staticMemberAuth;
 
 	@Test
 	public void testInsertMember() {
 		Member member = new Member();
-		member.setMemberId("song7749");
+		member.setMemberId("song77494");
 		member.setMemberName("¼Û¹Î¼ö");
 		member.setMemberNickName("º¸¾Æ¹ì");
 		member.setMemberPassword("123456789");
@@ -89,4 +91,29 @@ public class MemberManagerTest {
 		Assert.assertTrue(processVal > 0);
 	}
 
+	@Test
+	public void testInsertMemberAuth() {
+		MemberAuth memberAuth = new MemberAuth();
+		memberAuth.setMemberSeq(1);
+		memberAuth.setMemberAuthKey("12312asdfkjaselfjaselfkjaslgjdsrgrwefae");
+
+		Integer processVal = this.memberManager.insertMemberAuth(memberAuth);
+		Assert.assertTrue(processVal > 0);
+		MemberManagerTest.staticMemberAuth = memberAuth;
+	}
+
+	@Test
+	public void testSelectMemberAuthListByMemberAuth() {
+		MemberAuth memberAuth = MemberManagerTest.staticMemberAuth;
+		ArrayList<MemberAuth> memberAuthList = this.memberManager
+				.selectMemberAuthListByMemberAuth(memberAuth);
+		Assert.assertTrue(memberAuthList.size() > 0);
+	}
+
+	@Test
+	public void testDeleteMemberAuth() {
+		MemberAuth memberAuth = MemberManagerTest.staticMemberAuth;
+		Integer processVal = this.memberManager.deleteMemberAuth(memberAuth);
+		Assert.assertTrue(processVal > 0);
+	}
 }
