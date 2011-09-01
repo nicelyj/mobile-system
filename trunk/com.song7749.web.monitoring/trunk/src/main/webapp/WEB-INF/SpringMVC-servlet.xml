@@ -15,20 +15,10 @@
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd		
 		">
 
-	<context:component-scan base-package="com.song7749.web.monitoring.main" />
-	<context:component-scan base-package="com.song7749.web.monitoring.board" />
-	
 	<mvc:annotation-driven/>
 	<!--<mvc:default-servlet-handler/>-->
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/view/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="maxUploadSize" value="16777216" /> <!-- 16 MB -->
-		<property name="defaultEncoding" value="UTF-8" />
-	</bean>
-
+	<context:component-scan base-package="com.song7749.web.monitoring.main" />
+	<context:component-scan base-package="com.song7749.web.monitoring.board" />
+	<context:component-scan base-package="com.song7749.web.monitoring.member" />
 </beans>

@@ -10,4 +10,14 @@
     <tlib-version>1.2</tlib-version>
     <short-name>ELfunctions</short-name>
 
+    <function>
+        <description>문자열 자르기</description>
+        <name>cutString</name>
+        <function-class>
+            com.song7749.web.util.StringUtil
+        </function-class>
+        <function-signature>
+            java.lang.String cutString(java.lang.String, java.lang.Integer, java.lang.String)
+        </function-signature>
+    </function>
 </taglib>

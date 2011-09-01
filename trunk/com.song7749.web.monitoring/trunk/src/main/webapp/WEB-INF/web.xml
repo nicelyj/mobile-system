@@ -77,7 +77,9 @@
 	<servlet-mapping>
 		<servlet-name>SpringMVC</servlet-name>
 		<url-pattern>*.html</url-pattern>
-		<url-pattern>*.do</url-pattern>
+		<url-pattern>*.atom</url-pattern>
+		<url-pattern>*.xml</url-pattern>
+		<url-pattern>*.json</url-pattern>				
 	</servlet-mapping>
 
 	<welcome-file-list>

@@ -10,6 +10,9 @@
         <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/com.song7749.core/com.song7749.core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module deploy-path="/WEB-INF/lib" handle="module:/resource/com.song7749.mds.member/com.song7749.mds.member">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/com.song7749.web.monitoring/target/classes"/>
         <property name="context-root" value="com.song7749.web.monitoring"/>
     </wb-module>

@@ -1,7 +1,4 @@
 $(document).ready(function(){
-	/**
-	 * form validate
-	 */
 	$("#frmInsertMember").validate({
 		groups:{
 			postCode:"postCode1 postCode1",
@@ -59,18 +56,18 @@ $(document).ready(function(){
 				digits: true,
 				rangelength:  [8, 12]
 			},
-			password: {
+			memberPassword: {
 				required : true,
 				minlength: 8
 			},
-			passwordRepeat: {
-				equalTo: "[name=password]"
+			memberPasswordRepeat: {
+				equalTo: "[name=memberPassword]"
 			},
-			passwordQ: {
+			memberPasswordQ: {
 				required : true,
 				minlength: 4
 			},
-			passwordA: {
+			memberPasswordA: {
 				required : true,
 				minlength: 4
 			},
@@ -78,70 +75,74 @@ $(document).ready(function(){
 				required : true,
 				email: true
 			}
-		},
+		},		
 		messages:{
 			memberId:{
-				required: "È¸¿ø ID´Â ÇÊ¼öÇ×¸ñ ÀÔ´Ï´Ù.",
-				rangelength: $.format("È¸¿ø ID´Â  ÃÖ¼Ò {0} ÃÖ´ë {1} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required: "íšŒì› IDëŠ” í•„ìˆ˜í•­ëª© ì…ë‹ˆë‹¤.",
+				rangelength: $.format("íšŒì› IDëŠ”  ìµœì†Œ {0} ìµœëŒ€ {1} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			memberName:{
-				required: "ÀÌ¸§Àº ÇÊ¼ö Ç×¸ñ ÀÔ´Ï´Ù.",
-				minlength: $.format("ÀÌ¸§Àº  ÃÖ¼Ò {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required: "ì´ë¦„ì€ í•„ìˆ˜ í•­ëª© ì…ë‹ˆë‹¤.",
+				minlength: $.format("ì´ë¦„ì€  ìµœì†Œ {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			memberNickName:{
-				required: "´Ğ³×ÀÓÀº ÇÊ¼ö Ç×¸ñ ÀÔ´Ï´Ù.",
-				minlength: $.format("´Ğ³×ÀÓÀº   ÃÖ¼Ò {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required: "ë‹‰ë„¤ì„ì€ í•„ìˆ˜ í•­ëª© ì…ë‹ˆë‹¤.",
+				minlength: $.format("ë‹‰ë„¤ì„ì€   ìµœì†Œ {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			postCode1 : {
-				required: "¿ìÆí¹øÈ£´Â ÇÊ¼ö Ç×¸ñ ÀÔ´Ï´Ù.",
-				digits: "¿ìÆí¹øÈ£´Â ¼ıÀÚ·Î ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù.",
-				minlength: $.format("¿ìÆí¹øÈ£´Â  ÃÖ¼Ò {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required: "ìš°í¸ë²ˆí˜¸ëŠ” í•„ìˆ˜ í•­ëª© ì…ë‹ˆë‹¤.",
+				digits: "ìš°í¸ë²ˆí˜¸ëŠ” ìˆ«ìë¡œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤.",
+				minlength: $.format("ìš°í¸ë²ˆí˜¸ëŠ”  ìµœì†Œ {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			postCode1 : {
-				required: "¿ìÆí¹øÈ£´Â ÇÊ¼ö Ç×¸ñ ÀÔ´Ï´Ù. <br/>",
-				digits: "¿ìÆí¹øÈ£´Â ¼ıÀÚ·Î ÀÔ·ÂÇÏ¼Å¾ß ÇÕ´Ï´Ù. <br/>",
-				minlength: $.format("¿ìÆí¹øÈ£´Â  ÃÖ¼Ò {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required: "ìš°í¸ë²ˆí˜¸ëŠ” í•„ìˆ˜ í•­ëª© ì…ë‹ˆë‹¤. <br/>",
+				digits: "ìš°í¸ë²ˆí˜¸ëŠ” ìˆ«ìë¡œ ì…ë ¥í•˜ì…”ì•¼ í•©ë‹ˆë‹¤. <br/>",
+				minlength: $.format("ìš°í¸ë²ˆí˜¸ëŠ”  ìµœì†Œ {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			addressBase: {
-				required : "±âº» ÁÖ¼Ò´Â ÇÊ¼ö Ç×¸ñ ÀÔ´Ï´Ù.",
-				minlength: $.format("±âº» ÁÖ¼Ò´Â  ÃÖ¼Ò  {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required : "ê¸°ë³¸ ì£¼ì†ŒëŠ” í•„ìˆ˜ í•­ëª© ì…ë‹ˆë‹¤.",
+				minlength: $.format("ê¸°ë³¸ ì£¼ì†ŒëŠ”  ìµœì†Œ  {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			addressDetail: {
-				required : "»ó¼¼ ÁÖ¼Ò´Â ÇÊ¼ö Ç×¸ñ ÀÔ´Ï´Ù.",
-				minlength: $.format("±âº» ÁÖ¼Ò´Â  ÃÖ¼Ò  {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required : "ìƒì„¸ ì£¼ì†ŒëŠ” í•„ìˆ˜ í•­ëª© ì…ë‹ˆë‹¤.",
+				minlength: $.format("ê¸°ë³¸ ì£¼ì†ŒëŠ”  ìµœì†Œ  {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			phoneNumber: {
-				required : "ÀüÈ­¹øÈ£´Â ÇÊ¼ö ÀÔ·Â°ª ÀÔ´Ï´Ù.",
-				digits: "ÀüÈ­¹øÈ£´Â ¼ıÀÚ¸¸ ÀÔ·Â °¡´ÉÇÕ´Ï´Ù.",
-				rangelength: $.format("ÀüÈ­¹øÈ£´Â ÃÖ¼Ò  {0} ÃÖ´ë {1} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required : "ì „í™”ë²ˆí˜¸ëŠ” í•„ìˆ˜ ì…ë ¥ê°’ ì…ë‹ˆë‹¤.",
+				digits: "ì „í™”ë²ˆí˜¸ëŠ” ìˆ«ìë§Œ ì…ë ¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.",
+				rangelength: $.format("ì „í™”ë²ˆí˜¸ëŠ” ìµœì†Œ  {0} ìµœëŒ€ {1} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			mobilePhoneNumber: {
-				required : "ÇÚµåÆù ¹øÈ£´Â ÇÊ¼ö ÀÔ·Â°ª ÀÔ´Ï´Ù.",
-				digits: "ÇÚµåÆù ¹øÈ£´Â ¼ıÀÚ¸¸ ÀÔ·Â °¡´ÉÇÕ´Ï´Ù.",
-				rangelength: $.format("ÇÚµåÆù ¹øÈ£´Â ÃÖ¼Ò  {0} ÃÖ´ë {1} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+				required : "í•¸ë“œí° ë²ˆí˜¸ëŠ” í•„ìˆ˜ ì…ë ¥ê°’ ì…ë‹ˆë‹¤.",
+				digits: "í•¸ë“œí° ë²ˆí˜¸ëŠ” ìˆ«ìë§Œ ì…ë ¥ ê°€ëŠ¥í•©ë‹ˆë‹¤.",
+				rangelength: $.format("í•¸ë“œí° ë²ˆí˜¸ëŠ” ìµœì†Œ  {0} ìµœëŒ€ {1} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
-			password: {
-				required : "ÆĞ½º¿öµå´Â ÇÊ¼ö°ª ÀÔ´Ï´Ù.",
-				minlength: $.format("ÆĞ½º¿öµå´Â ÃÖ¼Ò  {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+			memberPassword: {
+				required : "íŒ¨ìŠ¤ì›Œë“œëŠ” í•„ìˆ˜ê°’ ì…ë‹ˆë‹¤.",
+				minlength: $.format("íŒ¨ìŠ¤ì›Œë“œëŠ” ìµœì†Œ  {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
-			passwordRepeat: {
-				equalTo: "ÆĞ½º¿öµå¿Í ÀçÀÔ·ÂµÈ ÆĞ½º¿öµå°¡ ´Ù¸¨´Ï´Ù. ÆĞ½º¿öµå´Â ÀÏÄ¡ÇØ¾ß ÇÕ´Ï´Ù."
+			memberPasswordRepeat: {
+				equalTo: "íŒ¨ìŠ¤ì›Œë“œì™€ ì¬ì…ë ¥ëœ íŒ¨ìŠ¤ì›Œë“œê°€ ë‹¤ë¦…ë‹ˆë‹¤. íŒ¨ìŠ¤ì›Œë“œëŠ” ì¼ì¹˜í•´ì•¼ í•©ë‹ˆë‹¤."
 			},			
-			passwordQ: {
-				required : "ÆĞ½º¿öµå Áú¹®Àº ÇÊ¼ö ÀÔ·Â°ª ÀÔ´Ï´Ù.",
-				minlength: $.format("ÆĞ½º¿öµå Áú¹®Àº ÃÖ¼Ò  {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+			memberPasswordQ: {
+				required : "íŒ¨ìŠ¤ì›Œë“œ ì§ˆë¬¸ì€ í•„ìˆ˜ ì…ë ¥ê°’ ì…ë‹ˆë‹¤.",
+				minlength: $.format("íŒ¨ìŠ¤ì›Œë“œ ì§ˆë¬¸ì€ ìµœì†Œ  {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
-			passwordA: {
-				required : "ÆĞ½º¿öµå Áú¹®¿¡ ´ëÇÑ ´äº¯Àº ÇÊ¼ö ÀÔ·Â°ª ÀÔ´Ï´Ù.",
-				minlength: $.format("ÆĞ½º¿öµå Áú¹®¿¡ ´ëÇÑ ´äº¯Àº ÃÖ¼Ò  {0} ±ÛÀÚ ÀÌ»ó ÀÔ·ÂÇØ¾ßÇÕ´Ï´Ù.")
+			memberPasswordA: {
+				required : "íŒ¨ìŠ¤ì›Œë“œ ì§ˆë¬¸ì— ëŒ€í•œ ë‹µë³€ì€ í•„ìˆ˜ ì…ë ¥ê°’ ì…ë‹ˆë‹¤.",
+				minlength: $.format("íŒ¨ìŠ¤ì›Œë“œ ì§ˆë¬¸ì— ëŒ€í•œ ë‹µë³€ì€ ìµœì†Œ  {0} ê¸€ì ì´ìƒ ì…ë ¥í•´ì•¼í•©ë‹ˆë‹¤.")
 			},
 			email : {
-				required : " ÀÌ¸ŞÀÏ ÁÖ¼Ò¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä",				
-				email : "ÀÌ¸ŞÀÏ Çü½ÄÀÌ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù."
+				required : " ì´ë©”ì¼ ì£¼ì†Œë¥¼ ì…ë ¥í•´ ì£¼ì„¸ìš”",				
+				email : "ì´ë©”ì¼ í˜•ì‹ì´ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤."
 			}			
 		},
+
 		submitHandler: function(form) {
-			form.submit();
+			if($(form).find("[name='memberSeq']").val() > 0){
+				$(form).append('<input type="hidden" name="_method" value="PUT" />');
+			}
+			form.submit();				
 		}
 	});
 });

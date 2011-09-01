@@ -8,3 +8,4 @@
 <script type="text/javascript" src="/js/jquery/jquery.jdMenu.js"></script>
 <script type="text/javascript" src="/js/jquery/jquery.validate.min.js"></script>
 <script type="text/javascript" src="/js/common/commonValidate.js"></script>
+<script type="text/javascript" src="/js/common/topMenu.js"></script>

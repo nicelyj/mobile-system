@@ -1,9 +1,12 @@
-var deleteMember = function (memberSeq){
-	if(confirm("Á¤¸» »èÁ¦ÇÏ½Ã°Ú½À´Ï±î?")){
-		document.location = './member/memberTran.jsp?dataMode=delete&memberSeq='+memberSeq;
-	}
-	else{
-		return ;
-	}
-	
+var updateMember = function(memberSeq){
+	document.location = '/member/memberModifyForm.html?memberSeq='+memberSeq;
+};
+var deleteMember = function(memberSeq){
+	var params = new Object();
+	params._method 	= 'DELETE';
+	params.memberSeq= memberSeq;
+	if(confirm('ì •ë§ ì‚­ì œí•˜ì‹œê² ìŠµë‹ˆê¹Œ?'))
+		commonAjax("/member/memberProcess.html",params);
+	else
+		return;
 };

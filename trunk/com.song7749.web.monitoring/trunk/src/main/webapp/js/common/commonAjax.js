@@ -1,11 +1,14 @@
-var commonAjax = function(url,params){
+var commonAjax = function(url,params,moveUrl){
 	$.ajax({
 		url:url,
 		dataType:"text/json",
 		data:params,
 		type:"POST",
 		success: function(){ 
-			document.location = document.location.href;			   
+			if(moveUrl == undefined)
+				document.location = document.location.href;
+			else
+				document.location = moveUrl;				
 	   },
 	   error:function(){
 		   alert('error');
