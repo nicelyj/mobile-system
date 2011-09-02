@@ -12,7 +12,7 @@ import com.song7749.web.util.CookieUtil;
  *  Modification Information
  *  Modify Date 	Modifier			Comment
  * -----------------------------------------------
- *  2011. 9. 2.	song7749			    重鋭 持失
+ *  2011. 9. 2.		song7749			重鋭 持失
  * 
  * </pre>
  * 
