@@ -1,6 +1,10 @@
 package com.song7749.mds.member.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,6 +12,8 @@ import com.song7749.exception.MemberLoginException;
 import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.model.MemberAuth;
 import com.song7749.mds.member.model.command.MemberCommand;
+import com.song7749.util.security.SecurityUtil;
+import com.song7749.util.string.ObjectSerializeUtil;
 
 /**
  * <pre>
@@ -30,10 +36,10 @@ public class LoginManagerImpl implements LoginManager {
 	protected MemberManager memberManager;
 	protected Member member = new Member();
 
-	public Boolean login(MemberAuth cookieAuth) {
+	public Boolean login(MemberAuth memberAuth) {
 
 		MemberCommand memberCommand = new MemberCommand();
-		memberCommand.setMember(cookieAuth.getMember());
+		memberCommand.setMember(memberAuth.getMember());
 
 		ArrayList<Member> selectedMemberList = this.memberManager
 				.selectMemberListByMemberSearchCommand(memberCommand);
@@ -43,31 +49,28 @@ public class LoginManagerImpl implements LoginManager {
 
 		Member selectedMember = selectedMemberList.get(0);
 
-		MemberAuth memberAuth = new MemberAuth();
+		// 마지막 로그인 시간을 웹서버 기분시로 넣는다.
+		Date date = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+		selectedMember.setMemberLastLoginTime(formatter.format(date));
 
-		// 이미 로그인한 회원인가 확인
-		if (!cookieAuth.getMemberAuthKey().equals("")) {
-			memberAuth.setMemberSeq(selectedMember.getMemberSeq());
-			ArrayList<MemberAuth> memberAuthList = this.memberManager
-					.selectMemberAuthListByMemberAuth(memberAuth);
-
-			// 최신 로그인 정보를 가져와서 키를 비교 한다.
-			MemberAuth selectedMemberAuth = memberAuthList.get(memberAuthList
-					.size() - 1);
-			if (cookieAuth.getMemberAuthKey().equals(
-					selectedMemberAuth.getMemberAuthKey()))
-				return true;
+		// serialize 한뒤에 암호화하여 저장한다.
+		String memberAuthKey = null;
+		try {
+			memberAuthKey = SecurityUtil.encrypt(ObjectSerializeUtil
+					.toString(selectedMember));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		memberAuth.setMember(selectedMember);
+		memberAuth.setMemberAuthKey(memberAuthKey);
 		Integer processVal = this.memberManager.insertMemberAuth(memberAuth);
 		return processVal > 0;
 	}
 
-	public Boolean logout(MemberAuth cookieAuth) {
-		MemberAuth memberAuth = new MemberAuth();
-		memberAuth.setMemberAuthKey(cookieAuth.getMemberAuthKey());
-		memberAuth.setMemberSeq(cookieAuth.getMemberSeq());
+	public Boolean logout(MemberAuth memberAuth) {
 		try {
 			this.memberManager.deleteMemberAuth(memberAuth);
 		} catch (Exception e) {
@@ -76,20 +79,45 @@ public class LoginManagerImpl implements LoginManager {
 		return true;
 	}
 
-	public Boolean checkAuth(MemberAuth cookieAuth) {
-		// 쿠키에 인증키와 시간이 존재하는가 확인한 뒤에
-		// 인증키 없으면 로그인 페이지로
-		// 있으면 시간이 정해진 시간보다 이전인가 확인하여
-		// 정해진 시간 뒤면 재인증 시키고
-		// 아니면 아무것도 안한다.
+	public Boolean checkAuth(MemberAuth memberAuth) {
+		if (memberAuth.getMemberAuthKey().equals("")) {
+			return false;
+		} else {
+			Member member = this.getAuth(memberAuth);
 
-		return null;
+			// 유효기간 초과되었는가 검사한다.
+			SimpleDateFormat formatter = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+			// 쿠키시간
+			Date cookieTime = null;
+			Date nowTime = new Date();
+			try {
+				cookieTime = formatter.parse(member.getMemberLastLoginTime());
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+
+			// 유효기간이 지났다!
+			if (cookieTime.getTime() + 1 * 60 * 60 * 1000 < nowTime.getTime()) {
+				this.logout(memberAuth);
+				return false;
+			}
+			// 유효기간 이내면, 시간을 갱신해서 처리해준다.
+			else {
+				member.setMemberLastLoginTime(formatter.format(nowTime));
+				return true;
+			}
+		}
 	}
 
-	public Member getAuth(MemberAuth cookieAuth) {
-		// 쿠키에서 인증키와 memberSeq 를 읽어서
-		// 존재하는가 확인한 뒤에
-		// 회원정보를 반환.
-		return null;
+	public Member getAuth(MemberAuth memberAuth) {
+		Member member = null;
+		try {
+			member = (Member) ObjectSerializeUtil.fromString(SecurityUtil
+					.decrypt(memberAuth.getMemberAuthKey()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return member;
 	}
 }

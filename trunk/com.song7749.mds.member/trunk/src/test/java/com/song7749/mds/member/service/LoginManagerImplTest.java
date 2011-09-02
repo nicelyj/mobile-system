@@ -1,6 +1,5 @@
 package com.song7749.mds.member.service;
 
-import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -60,24 +59,30 @@ public class LoginManagerImplTest {
 		Member member = LoginManagerImplTest.staticMember;
 		MemberAuth memberAuth = new MemberAuth();
 		memberAuth.setMember(member);
-		Boolean processBoolean;
-		processBoolean = this.loginManager.login(memberAuth);
+		Boolean processBoolean = this.loginManager.login(memberAuth);
 		Assert.assertTrue(processBoolean);
-	}
-
-	@Test
-	public void testLogout() {
-		fail("Not yet implemented");
+		LoginManagerImplTest.staticMemberAuth = memberAuth;
 	}
 
 	@Test
 	public void testCheckAuth() {
-		fail("Not yet implemented");
+		Boolean processBoolean = this.loginManager
+				.checkAuth(LoginManagerImplTest.staticMemberAuth);
+		Assert.assertTrue(processBoolean);
 	}
 
 	@Test
 	public void testGetAuth() {
-		fail("Not yet implemented");
+		Member member = this.loginManager
+				.getAuth(LoginManagerImplTest.staticMemberAuth);
+		Assert.assertEquals(member.getMemberId(),
+				LoginManagerImplTest.staticMember.getMemberId());
 	}
 
+	@Test
+	public void testLogout() {
+		Boolean processBoolean = this.loginManager
+				.logout(LoginManagerImplTest.staticMemberAuth);
+		Assert.assertTrue(processBoolean);
+	}
 }

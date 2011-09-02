@@ -55,6 +55,6 @@
 	<bean id="memberManager" class="com.song7749.mds.member.service.MemberManagerImpl"
 		p:memberDao-ref="memberDao" />
 	
-	<bean id="loginManager" class="com.song7749.mds.login.service.LoginManagerImpl" />		
+	<bean id="loginManager" class="com.song7749.mds.member.service.LoginManagerImpl" />		
 
 </beans>

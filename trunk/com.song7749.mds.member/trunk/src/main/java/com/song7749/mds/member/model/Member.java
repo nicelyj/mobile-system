@@ -1,6 +1,5 @@
 package com.song7749.mds.member.model;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 import com.song7749.base.BaseObject;
@@ -17,7 +16,7 @@ public class Member extends BaseObject {
 	private String memberPasswordQ;
 	private String memberPasswordA;
 	private String memberEmail;
-	private Date memberLastLoginTime;
+	private String memberLastLoginTime;
 
 	private MemberDetail memberDetail;
 
@@ -159,7 +158,7 @@ public class Member extends BaseObject {
 	/**
 	 * @return the memberLastLoginTime
 	 */
-	public Date getMemberLastLoginTime() {
+	public String getMemberLastLoginTime() {
 		return memberLastLoginTime;
 	}
 
@@ -167,7 +166,7 @@ public class Member extends BaseObject {
 	 * @param memberLastLoginTime
 	 *            the memberLastLoginTime to set
 	 */
-	public void setMemberLastLoginTime(Date memberLastLoginTime) {
+	public void setMemberLastLoginTime(String memberLastLoginTime) {
 		this.memberLastLoginTime = memberLastLoginTime;
 	}
 
@@ -184,13 +183,6 @@ public class Member extends BaseObject {
 	 */
 	public void setMemberDetail(MemberDetail memberDetail) {
 		this.memberDetail = memberDetail;
-	}
-
-	/**
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }

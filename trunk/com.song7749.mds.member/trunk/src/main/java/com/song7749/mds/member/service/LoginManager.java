@@ -19,11 +19,11 @@ import com.song7749.mds.member.model.MemberAuth;
  * @since 2011. 9. 1.
  */
 public interface LoginManager {
-	public Boolean login(MemberAuth cookieAuth);
+	public Boolean login(MemberAuth memberAuth);
 
-	public Boolean logout(MemberAuth cookieAuth);
+	public Boolean logout(MemberAuth memberAuth);
 
-	public Boolean checkAuth(MemberAuth cookieAuth);
+	public Boolean checkAuth(MemberAuth memberAuth);
 
-	public Member getAuth(MemberAuth cookieAuth);
+	public Member getAuth(MemberAuth memberAuth);
 }

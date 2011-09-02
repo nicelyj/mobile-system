@@ -22,7 +22,7 @@ public class MemberAuth extends BaseObject {
 	private Member member;
 	private Integer memberAuthSeq;
 	private Integer memberSeq;
-	private String memberAuthKey;
+	private String memberAuthKey = "";
 	private String memberAuthDateTime;
 
 	/**
