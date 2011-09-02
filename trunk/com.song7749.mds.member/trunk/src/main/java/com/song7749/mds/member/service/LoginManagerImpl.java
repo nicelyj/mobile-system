@@ -55,15 +55,7 @@ public class LoginManagerImpl implements LoginManager {
 				"yyyy-MM-dd HH:mm:ss", Locale.KOREA);
 		selectedMember.setMemberLastLoginTime(formatter.format(date));
 
-		// serialize 한뒤에 암호화하여 저장한다.
-		String memberAuthKey = null;
-		try {
-			memberAuthKey = SecurityUtil.encrypt(ObjectSerializeUtil
-					.toString(selectedMember));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		String memberAuthKey = this.setAuth(selectedMember);
 		memberAuth.setMember(selectedMember);
 		memberAuth.setMemberAuthKey(memberAuthKey);
 		Integer processVal = this.memberManager.insertMemberAuth(memberAuth);
@@ -102,9 +94,10 @@ public class LoginManagerImpl implements LoginManager {
 				this.logout(memberAuth);
 				return false;
 			}
-			// 유효기간 이내면, 시간을 갱신해서 처리해준다.
+			// 유효기간 이내면, 시간을 갱신해서 다시 인증키를 기록한다.
 			else {
 				member.setMemberLastLoginTime(formatter.format(nowTime));
+				memberAuth.setMemberAuthKey(this.setAuth(member));
 				return true;
 			}
 		}
@@ -119,5 +112,18 @@ public class LoginManagerImpl implements LoginManager {
 			e.printStackTrace();
 		}
 		return member;
+	}
+	
+	private String setAuth(Member member){
+		String memberAuthKey = null;
+		try {
+			// serialize 한뒤에 암호화하여 저장한다.
+			memberAuthKey = SecurityUtil.encrypt(ObjectSerializeUtil
+					.toString(member));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return memberAuthKey;
 	}
 }
