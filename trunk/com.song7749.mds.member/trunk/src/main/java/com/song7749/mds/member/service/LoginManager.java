@@ -1,6 +1,7 @@
-package com.song7749.mds.login.service;
+package com.song7749.mds.member.service;
 
 import com.song7749.mds.member.model.Member;
+import com.song7749.mds.member.model.MemberAuth;
 
 /**
  * <pre>
@@ -18,11 +19,11 @@ import com.song7749.mds.member.model.Member;
  * @since 2011. 9. 1.
  */
 public interface LoginManager {
-	public Boolean login(Member member);
+	public Boolean login(MemberAuth cookieAuth);
 
-	public Boolean logout(Member member);
+	public Boolean logout(MemberAuth cookieAuth);
 
-	public Boolean checkAuth();
+	public Boolean checkAuth(MemberAuth cookieAuth);
 
-	public Member getAuth();
+	public Member getAuth(MemberAuth cookieAuth);
 }

@@ -1,9 +1,8 @@
-package com.song7749.mds.login.service;
+package com.song7749.mds.member.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.model.MemberAuth;
 import com.song7749.mds.member.model.MemberDetail;
-import com.song7749.mds.member.service.MemberManager;
-import com.song7749.mds.member.service.MemberManagerTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:META-INF/spring/applicationContext*" })
@@ -26,9 +23,9 @@ public class LoginManagerImplTest {
 	private MemberManager memberManager;
 	public static Member staticMember;
 	public static MemberAuth staticMemberAuth;
-	
+
 	@org.junit.Before
-	public void setUp(){
+	public void setUp() {
 		Member member = new Member();
 		member.setMemberId("song77494");
 		member.setMemberName("¼Û¹Î¼ö");
@@ -51,19 +48,22 @@ public class LoginManagerImplTest {
 		Integer processVal = this.memberManager.insertMember(member);
 		LoginManagerImplTest.staticMember = member;
 	}
+
 	@After
-	public void tearDown(){
+	public void tearDown() {
 		Member member = LoginManagerImplTest.staticMember;
-		Integer processVal = this.memberManager.deleteMember(member);	
+		Integer processVal = this.memberManager.deleteMember(member);
 	}
-	
+
 	@Test
 	public void testLogin() {
 		Member member = LoginManagerImplTest.staticMember;
-		System.out.println();
-		Boolean processBoolean = this.loginManager.login(member );
+		MemberAuth memberAuth = new MemberAuth();
+		memberAuth.setMember(member);
+		Boolean processBoolean;
+		processBoolean = this.loginManager.login(memberAuth);
 		Assert.assertTrue(processBoolean);
-	}	
+	}
 
 	@Test
 	public void testLogout() {
