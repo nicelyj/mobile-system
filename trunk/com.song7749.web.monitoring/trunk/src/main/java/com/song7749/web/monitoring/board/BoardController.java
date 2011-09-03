@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.song7749.mds.board.model.Board;
 import com.song7749.mds.board.service.BoardManager;
+import com.song7749.web.monitoring.base.BaseController;
 
 @Controller
 @RequestMapping("/board")
-public class BoardController {
+public class BoardController extends BaseController {
 	@Autowired
 	private BoardManager boardManager;
 
@@ -29,15 +30,17 @@ public class BoardController {
 			HttpServletResponse response, ModelMap modelMap) {
 		String ViewTemplete = "board/boards";
 
-		ArrayList<Board> boards = boardManager.selectBoards(new Board());
-		modelMap.addAttribute("boards", boards);
-
 		if (request.getRequestURI().equals("/board/boards.html")) {
+			// 로그인 체크
+			super.checkAuth(request, response, modelMap);
 			modelMap.addAttribute(
 					"javascript",
 					"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
 							+ "<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
 		}
+		
+		ArrayList<Board> boards = boardManager.selectBoards(new Board());
+		modelMap.addAttribute("boards", boards);
 		return ViewTemplete;
 	}
 
@@ -47,6 +50,9 @@ public class BoardController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
+		// 로그인 체크
+		super.checkAuth(request, response, modelMap);
+		
 		Board board = new Board();
 		board.setBoardName(boardName);
 		try {
@@ -63,6 +69,9 @@ public class BoardController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
+		// 로그인 체크
+		super.checkAuth(request, response, modelMap);
+		
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		board.setBoardName(boardName);
@@ -80,6 +89,9 @@ public class BoardController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
+		// 로그인 체크
+		super.checkAuth(request, response, modelMap);
+	
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		try {
@@ -87,5 +99,31 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@RequestMapping("/boardList.html")
+	public String boardList(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String ViewTemplete = "board/boardList";
+	
+		
+		
+		return ViewTemplete;
+	}
+	
+	@RequestMapping("/boardListForm.html")
+	public String boardListForm(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String ViewTemplete = "board/boardListForm";
+	
+		
+		
+		return ViewTemplete;
+	}
+	
+	@RequestMapping(value="/boardListProcess.html",method= RequestMethod.POST)
+	public void boardListProcess(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		
 	}
 }

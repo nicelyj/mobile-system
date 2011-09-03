@@ -17,10 +17,11 @@ import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.model.MemberDetail;
 import com.song7749.mds.member.model.command.MemberCommand;
 import com.song7749.mds.member.service.MemberManager;
+import com.song7749.web.monitoring.base.BaseController;
 
 @Controller
 @RequestMapping("/member")
-public class MemberContorller {
+public class MemberContorller extends BaseController {
 	@Autowired
 	private MemberManager memberManager;
 
@@ -29,9 +30,11 @@ public class MemberContorller {
 
 	@RequestMapping("/memberList.html")
 	public String memberList(HttpServletRequest request,
-			HttpServletResponse httpResponse, ModelMap modelMap) {
+			HttpServletResponse response, ModelMap modelMap) {
 		String ViewTemplete = "member/memberList";
-
+		// 로그인 체크
+		super.checkAuth(request, response, modelMap);
+		
 		MemberCommand memberCommand = new MemberCommand();
 		ArrayList<Member> memberList = this.memberManager
 				.selectMemberListByMemberSearchCommand(memberCommand);
@@ -45,7 +48,7 @@ public class MemberContorller {
 		return ViewTemplete;
 	}
 
-	@RequestMapping({ "/memberJoinForm.html", "/memberModifyForm.html" })
+	@RequestMapping({ "/memberForm.html", "/memberJoinForm.html", "/memberModifyForm.html" })
 	public String MemberInputForm(
 			@RequestParam(value = "memberSeq", defaultValue = "0", required = false) Integer memberSeq,
 			HttpServletRequest request, HttpServletResponse response,
@@ -53,6 +56,10 @@ public class MemberContorller {
 
 		String ViewTemplete = "member/memberJoinForm";
 
+		if(!request.getRequestURI().equals("/member/memberJoinForm.html")){
+			super.checkAuth(request, response, modelMap);
+		}
+		
 		if (request.getRequestURI().equals("/member/memberModifyForm.html")
 				&& memberSeq > 0) {
 
@@ -91,7 +98,7 @@ public class MemberContorller {
 			@RequestParam(value = "mobilePhoneNumber", defaultValue = "", required = true) String memberMobileNumber,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
-
+	
 		Member member = new Member();
 		member.setMemberName(memberName);
 		member.setMemberNickName(memberNickName);
@@ -132,6 +139,9 @@ public class MemberContorller {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
+		// 로그인 체크
+		super.checkAuth(request, response, modelMap);
+	
 		Member member = new Member();
 		member.setMemberSeq(memberSeq);
 		try {

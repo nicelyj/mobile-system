@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.song7749.mds.board.model.Board;
 import com.song7749.mds.board.service.BoardManager;
+import com.song7749.web.monitoring.base.BaseController;
 
 @Controller
-public class MainController {
-	@Autowired
-	private BoardManager boardManager;
+public class MainController extends BaseController{
 
 	public MainController() {
 
@@ -26,10 +25,7 @@ public class MainController {
 	public String mainIndex(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 
-		ArrayList<Board> boards = boardManager.selectBoards(new Board());
 		String viewTemplete = "main/index";
-
-		modelMap.addAttribute("menuBoards", boards);
 		return viewTemplete;
 	}
 }
