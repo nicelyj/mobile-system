@@ -28,41 +28,40 @@ public class BoardManagerImpl implements BoardManager {
 	}
 
 	public ArrayList<Board> selectBoards(Board board) {
-		// TODO Auto-generated method stub
 		return this.boardDao.selectBoards(board);
 	}
 
 	public Integer insertBoardList(BoardList boardList) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer processVal = this.boardDao.insertBoardList(boardList);
+		processVal +=this.boardDao.insertBoardContents(boardList);
+		return processVal;
 	}
 
 	public Integer updateBoardList(BoardList boardList) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer processVal = this.boardDao.updateBoardList(boardList);
+		processVal +=this.boardDao.updateBoardContents(boardList);
+		return processVal;
 	}
 
 	public Integer updateBoardListReadCount(BoardList boardList)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return this.boardDao.updateBoardListReadCount(boardList);
 	}
 
 	public Integer deleteBoardList(BoardList boardList) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer processVal = this.boardDao.deleteBoardContents(boardList);
+		processVal+= this.boardDao.deleteBoardList(boardList);
+		return processVal;
 	}
 
-	public Integer selectCountBoardListFrame(
-			BoardListCommand boardListSearchCommand) {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer selectCountBoardListByBoardListCommand(
+			BoardListCommand boardListCommand) {
+		return this.boardDao.selectCountBoardListByBoardListCommand(boardListCommand);
 	}
 
-	public ArrayList<BoardList> selectBoardListFrame(
-			BoardListCommand boardListSearchCommand) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<BoardList> selectBoardListsByBoardListCommand(
+			BoardListCommand boardListCommand) {
+		return this.boardDao.selectBoardListsByBoardListCommand(boardListCommand);
 	}
 
 	public Integer insertBoardCommnet(BoardComment boardComment)

@@ -12,6 +12,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.song7749.mds.board.model.Board;
+import com.song7749.mds.board.model.BoardContents;
+import com.song7749.mds.board.model.BoardList;
+import com.song7749.mds.board.model.command.BoardListCommand;
 
 /**
  * BoardManagerTest
@@ -25,6 +28,7 @@ public class BoardManagerTest extends TestCase {
 	@Autowired
 	private BoardManager boardManager;
 	private static Board staticBoard;
+	private static BoardList staticBoardList;
 
 	/**
 	 * Test method for
@@ -69,25 +73,26 @@ public class BoardManagerTest extends TestCase {
 
 	/**
 	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoard(com.song7749.mds.board.model.Board)}
-	 * .
-	 */
-	@Test
-	public void testDeleteBoard() {
-		Board board = new Board();
-		// board.setBoardName("test");
-		board.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
-		int processVal = this.boardManager.deleteBoard(board);
-		Assert.assertTrue("보드삭제 실패", processVal > 0);
-	}
-
-	/**
-	 * Test method for
 	 * {@link com.song7749.mds.board.service.BoardManager#insertBoardList(com.song7749.mds.board.model.BoardList)}
 	 * .
 	 */
+	@Test
 	public void testInsertBoardList() {
-		fail("Not yet implemented");
+		BoardList boardList = new BoardList();
+		boardList.setBoardCommentCount(0);
+		boardList.setBoardListDisplayYN("Y");
+		boardList.setBoardListPublicReadYN("Y");
+		boardList.setBoardReadCount(0);
+		boardList.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
+		boardList.setBoardTitle("테스트게시물");
+		boardList.setMemberIp("127.0.0.1");
+		boardList.setMemberNickName("닉네임이다");
+		boardList.setMemberSeq(1);
+		boardList.setBoardContents(new BoardContents());
+		boardList.getBoardContents().setContents("게시판내용입니다");
+		int processVal = this.boardManager.insertBoardList(boardList);
+		Assert.assertTrue(processVal>0);
+		BoardManagerTest.staticBoardList = boardList;
 	}
 
 	/**
@@ -95,8 +100,22 @@ public class BoardManagerTest extends TestCase {
 	 * {@link com.song7749.mds.board.service.BoardManager#updateBoardList(com.song7749.mds.board.model.BoardList)}
 	 * .
 	 */
+	@Test
 	public void testUpdateBoardList() {
-		fail("Not yet implemented");
+		BoardList boardList = BoardManagerTest.staticBoardList;
+		boardList.setBoardCommentCount(1);
+		boardList.setBoardListDisplayYN("N");
+		boardList.setBoardListPublicReadYN("N");
+		boardList.setBoardReadCount(1);
+		boardList.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
+		boardList.setBoardTitle("테스트게시물2");
+		boardList.setMemberIp("127.0.0.19");
+		boardList.setMemberNickName("이상한 닉네임");
+		boardList.setMemberSeq(1);
+		boardList.setBoardContents(new BoardContents());
+		boardList.getBoardContents().setContents("게시판내용입니다. 게시판내용 수정입니다.");
+		int processVal = this.boardManager.updateBoardList(boardList);
+		Assert.assertTrue(processVal>0);
 	}
 
 	/**
@@ -104,17 +123,10 @@ public class BoardManagerTest extends TestCase {
 	 * {@link com.song7749.mds.board.service.BoardManager#updateBoardListReadCount(com.song7749.mds.board.model.BoardList)}
 	 * .
 	 */
+	@Test
 	public void testUpdateBoardListReadCount() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoardList(com.song7749.mds.board.model.BoardList)}
-	 * .
-	 */
-	public void testDeleteBoardList() {
-		fail("Not yet implemented");
+		int processVal = this.boardManager.updateBoardList(BoardManagerTest.staticBoardList);
+		Assert.assertTrue(processVal>0);		
 	}
 
 	/**
@@ -122,8 +134,12 @@ public class BoardManagerTest extends TestCase {
 	 * {@link com.song7749.mds.board.service.BoardManager#selectCountBoardListFrame(com.song7749.mds.board.model.command.BoardListCommand)}
 	 * .
 	 */
-	public void testSelectCountBoardListFrame() {
-		fail("Not yet implemented");
+	@Test
+	public void testSelectCountBoardListByBoardListCommand() {
+		BoardListCommand boardListCommand = new BoardListCommand();
+		boardListCommand.setBoardList(BoardManagerTest.staticBoardList);
+		int processVal = this.boardManager.selectCountBoardListByBoardListCommand(boardListCommand );
+		Assert.assertTrue(processVal>0);		
 	}
 
 	/**
@@ -131,8 +147,25 @@ public class BoardManagerTest extends TestCase {
 	 * {@link com.song7749.mds.board.service.BoardManager#selectBoardListFrame(com.song7749.mds.board.model.command.BoardListCommand)}
 	 * .
 	 */
-	public void testSelectBoardListFrame() {
-		fail("Not yet implemented");
+	@Test
+	public void testSelectBoardListsByBoardListCommand() {
+		BoardListCommand boardListCommand = new BoardListCommand();
+		boardListCommand.setBoardList(BoardManagerTest.staticBoardList);
+		ArrayList<BoardList> boardLists = this.boardManager.selectBoardListsByBoardListCommand(boardListCommand);
+		Assert.assertTrue(boardLists.size()>0);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoardList(com.song7749.mds.board.model.BoardList)}
+	 * .
+	 */
+	@Test
+	public void testDeleteBoardList() {
+		BoardList boardList = new BoardList();
+		boardList.setBoardListSeq(BoardManagerTest.staticBoardList.getBoardListSeq());
+		int processVal = this.boardManager.deleteBoardList(boardList);
+		Assert.assertTrue(processVal>0);		
 	}
 
 	/**
@@ -180,4 +213,17 @@ public class BoardManagerTest extends TestCase {
 		fail("Not yet implemented");
 	}
 
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoard(com.song7749.mds.board.model.Board)}
+	 * .
+	 */
+	@Test
+	public void testDeleteBoard() {
+		Board board = new Board();
+		// board.setBoardName("test");
+		board.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
+		int processVal = this.boardManager.deleteBoard(board);
+		Assert.assertTrue("보드삭제 실패", processVal > 0);
+	}
 }

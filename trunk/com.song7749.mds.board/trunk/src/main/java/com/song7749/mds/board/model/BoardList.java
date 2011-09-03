@@ -7,20 +7,20 @@ import com.song7749.base.BaseObject;
 
 public class BoardList extends BaseObject {
 	private static final long serialVersionUID = 5102094027180361972L;
-	private Integer boardListSeq = 0;
-	private Integer boardSeq = 0;
-	private String boardTitle = "";
-	private Integer boardReadCount = 0;
-	private Integer boardCommentCount = 0;
-	private Integer memberSeq = 0;
-	private String memberNickName = "";
-	private String memberIp = "";
-	private String boardListDisplayYN = "";
-	private String boardListPublicReadYN = "";
-	private Date createDate;
-	private Time createTime;
-	private Date updateDate;
-	private Time updateTime;
+	private Integer boardListSeq;
+	private Integer boardSeq;
+	private String boardTitle;
+	private Integer boardReadCount;
+	private Integer boardCommentCount;
+	private Integer memberSeq;
+	private String memberNickName;
+	private String memberIp;
+	private String boardListDisplayYN;
+	private String boardListPublicReadYN;
+	private String createDatetime;
+	private String updateDatetime;
+
+	private BoardContents boardContents;
 
 	/**
 	 * @return the boardListSeq
@@ -30,8 +30,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param boardListSeq
-	 *            the boardListSeq to set
+	 * @param boardListSeq the boardListSeq to set
 	 */
 	public void setBoardListSeq(Integer boardListSeq) {
 		this.boardListSeq = boardListSeq;
@@ -45,8 +44,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param boardSeq
-	 *            the boardSeq to set
+	 * @param boardSeq the boardSeq to set
 	 */
 	public void setBoardSeq(Integer boardSeq) {
 		this.boardSeq = boardSeq;
@@ -60,8 +58,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param boardTitle
-	 *            the boardTitle to set
+	 * @param boardTitle the boardTitle to set
 	 */
 	public void setBoardTitle(String boardTitle) {
 		this.boardTitle = boardTitle;
@@ -75,8 +72,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param boardReadCount
-	 *            the boardReadCount to set
+	 * @param boardReadCount the boardReadCount to set
 	 */
 	public void setBoardReadCount(Integer boardReadCount) {
 		this.boardReadCount = boardReadCount;
@@ -90,8 +86,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param boardCommentCount
-	 *            the boardCommentCount to set
+	 * @param boardCommentCount the boardCommentCount to set
 	 */
 	public void setBoardCommentCount(Integer boardCommentCount) {
 		this.boardCommentCount = boardCommentCount;
@@ -105,8 +100,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param memberSeq
-	 *            the memberSeq to set
+	 * @param memberSeq the memberSeq to set
 	 */
 	public void setMemberSeq(Integer memberSeq) {
 		this.memberSeq = memberSeq;
@@ -120,8 +114,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param memberNickName
-	 *            the memberNickName to set
+	 * @param memberNickName the memberNickName to set
 	 */
 	public void setMemberNickName(String memberNickName) {
 		this.memberNickName = memberNickName;
@@ -135,8 +128,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param memberIp
-	 *            the memberIp to set
+	 * @param memberIp the memberIp to set
 	 */
 	public void setMemberIp(String memberIp) {
 		this.memberIp = memberIp;
@@ -150,8 +142,7 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param boardListDisplayYN
-	 *            the boardListDisplayYN to set
+	 * @param boardListDisplayYN the boardListDisplayYN to set
 	 */
 	public void setBoardListDisplayYN(String boardListDisplayYN) {
 		this.boardListDisplayYN = boardListDisplayYN;
@@ -165,70 +156,51 @@ public class BoardList extends BaseObject {
 	}
 
 	/**
-	 * @param boardListPublicReadYN
-	 *            the boardListPublicReadYN to set
+	 * @param boardListPublicReadYN the boardListPublicReadYN to set
 	 */
 	public void setBoardListPublicReadYN(String boardListPublicReadYN) {
 		this.boardListPublicReadYN = boardListPublicReadYN;
 	}
 
 	/**
-	 * @return the createDate
+	 * @return the createDatetime
 	 */
-	public Date getCreateDate() {
-		return createDate;
+	public String getCreateDatetime() {
+		return createDatetime;
 	}
 
 	/**
-	 * @param createDate
-	 *            the createDate to set
+	 * @param createDatetime the createDatetime to set
 	 */
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setCreateDatetime(String createDatetime) {
+		this.createDatetime = createDatetime;
 	}
 
 	/**
-	 * @return the createTime
+	 * @return the updateDatetime
 	 */
-	public Time getCreateTime() {
-		return createTime;
+	public String getUpdateDatetime() {
+		return updateDatetime;
 	}
 
 	/**
-	 * @param createTime
-	 *            the createTime to set
+	 * @param updateDatetime the updateDatetime to set
 	 */
-	public void setCreateTime(Time createTime) {
-		this.createTime = createTime;
+	public void setUpdateDatetime(String updateDatetime) {
+		this.updateDatetime = updateDatetime;
 	}
 
 	/**
-	 * @return the updateDate
+	 * @return the boardContents
 	 */
-	public Date getUpdateDate() {
-		return updateDate;
+	public BoardContents getBoardContents() {
+		return boardContents;
 	}
 
 	/**
-	 * @param updateDate
-	 *            the updateDate to set
+	 * @param boardContents the boardContents to set
 	 */
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	/**
-	 * @return the updateTime
-	 */
-	public Time getUpdateTime() {
-		return updateTime;
-	}
-
-	/**
-	 * @param updateTime
-	 *            the updateTime to set
-	 */
-	public void setUpdateTime(Time updateTime) {
-		this.updateTime = updateTime;
+	public void setBoardContents(BoardContents boardContents) {
+		this.boardContents = boardContents;
 	}
 }

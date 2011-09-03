@@ -7,6 +7,8 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
 import com.song7749.base.Dao;
 import com.song7749.mds.board.model.Board;
+import com.song7749.mds.board.model.BoardList;
+import com.song7749.mds.board.model.command.BoardListCommand;
 
 public class BoardDaoImpl implements BoardDao {
 	private SqlMapClientTemplate boardmaster;
@@ -35,7 +37,7 @@ public class BoardDaoImpl implements BoardDao {
 	 * @return
 	 */
 	public Integer insertBoard(Board board) {
-		Integer processVal = (Integer) boardmaster.insert(
+		Integer processVal = (Integer) this.boardmaster.insert(
 				"BoardList.insertBoard", board);
 
 		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
@@ -53,7 +55,7 @@ public class BoardDaoImpl implements BoardDao {
 				&& board.getBoardName().isEmpty())
 			throw new InvalidParameterException();
 
-		Integer processVal = (int) boardmaster.update("BoardList.deleteBoard",
+		Integer processVal = (Integer) this.boardmaster.update("BoardList.deleteBoard",
 				board);
 		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
 		return processVal;
@@ -69,7 +71,7 @@ public class BoardDaoImpl implements BoardDao {
 		if (board.getBoardSeq() == null || board.getBoardSeq() == 0)
 			throw new InvalidParameterException();
 
-		Integer processVal = (int) boardmaster.update("BoardList.updateBoard",
+		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoard",
 				board);
 		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
 		return processVal;
@@ -81,9 +83,60 @@ public class BoardDaoImpl implements BoardDao {
 	 * @param board
 	 * @return
 	 */
+	@Override
 	public ArrayList<Board> selectBoards(Board board) {
 		return (ArrayList<Board>) this.boardslave.queryForList(
 				"BoardList.selectBoardsCaches", board);
 	}
 
+	@Override
+	public Integer insertBoardList(BoardList boardList) {
+		Integer processVal = (Integer) this.boardmaster.insert("BoardList.insertBoardList", boardList);
+		return processVal;
+	}
+	
+	public Integer insertBoardContents(BoardList boardList){
+		Integer processVal = (Integer) this.boardmaster.insert("BoardList.insertBoardContents", boardList);	
+		return processVal;
+	}
+
+	@Override
+	public Integer updateBoardList(BoardList boardList) {
+		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoardList", boardList);
+		return processVal;
+	}
+
+	@Override
+	public Integer updateBoardContents(BoardList boardList) {
+		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoardContents", boardList);
+		return processVal;
+	}
+
+	@Override
+	public Integer updateBoardListReadCount(BoardList boardList) {
+		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoardListReadCount", boardList);
+		return processVal;
+	}
+
+	@Override
+	public Integer selectCountBoardListByBoardListCommand(
+			BoardListCommand boardListCommand) {
+		return  (Integer) this.boardslave.queryForObject("BoardList.selectCountBoardListByBoardListCommand", boardListCommand);
+	}
+
+	@Override
+	public ArrayList<BoardList> selectBoardListsByBoardListCommand(
+			BoardListCommand boardListCommand) {
+		return (ArrayList<BoardList>)this.boardslave.queryForList("BoardList.selectBoardListsByBoardListCommand", boardListCommand);
+	}
+
+	@Override
+	public Integer deleteBoardContents(BoardList boardList) {
+		return (Integer)this.boardmaster.delete("BoardList.deleteBoardContents", boardList);
+	}
+
+	@Override
+	public Integer deleteBoardList(BoardList boardList) {
+		return (Integer)this.boardmaster.delete("BoardList.deleteBoardList", boardList);
+	}
 }

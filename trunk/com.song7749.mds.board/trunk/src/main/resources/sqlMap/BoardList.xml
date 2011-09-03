@@ -75,4 +75,157 @@
 		<include refid="selectBoardSql"/>
 	</select>
 	<!-- 보드목록 조회 끝 -->
+	
+	<!-- 보드리스트 입력 -->
+	<insert id="insertBoardList" parameterClass="com.song7749.mds.board.model.BoardList" >
+		INSERT INTO BoardList set
+			boardSeq = #boardSeq#,
+			boardTitle = '$boardTitle$',
+			boardReadCount = #boardReadCount#,
+			boardCommentCount = #boardCommentCount#,
+			memberSeq = #memberSeq#,
+			memberNickName = '$memberNickName$',
+			memberIp = '$memberIp$',
+			boardListDisplayYN = '$boardListDisplayYN$',
+			boardListPublicReadYN = '$boardListPublicReadYN$',
+			createDatetime = now(),
+			updateDatetime = now()	
+		<selectKey keyProperty="boardListSeq" resultClass="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<!-- 보드컨텐츠 입력 -->
+	<insert id="insertBoardContents" parameterClass="com.song7749.mds.board.model.BoardList">
+		INSERT INTO BoardContents set
+			boardListSeq =#boardListSeq#,
+			contents = '$boardContents.contents$';	
+		<selectKey keyProperty="boardListSeq" resultClass="Integer">
+			SELECT MAX(boardListSeq) from BoardContents
+		</selectKey>				
+	</insert>
+	
+	<!-- 보드리스트 업데이트 -->
+	<update id="updateBoardList" parameterClass="com.song7749.mds.board.model.BoardList">
+		UPDATE BoardList set
+			updateDatetime = now()
+		<dynamic>
+			<isGreaterThan property="boardSeq" compareValue="0" prepend=",">
+				boardSeq = #boardSeq#
+			</isGreaterThan>
+			<isNotEmpty property="boardTitle" prepend=",">
+				boardTitle = '$boardTitle$'
+			</isNotEmpty>
+			<isGreaterEqual property="boardReadCount" compareValue="0"  prepend=",">
+				boardReadCount = #boardReadCount#
+			</isGreaterEqual>
+			<isGreaterEqual property="boardCommentCount" compareValue="0" prepend=",">
+				boardCommentCount = #boardCommentCount#
+			</isGreaterEqual>
+			<isNotEmpty property="boardListDisplayYN" prepend=",">
+				boardListDisplayYN = '$boardListDisplayYN$'
+			</isNotEmpty>
+			<isNotEmpty property="boardListPublicReadYN" prepend=",">
+				boardListPublicReadYN = '$boardListPublicReadYN$'
+			</isNotEmpty>
+		</dynamic>	
+		WHERE 
+			boardListSeq=#boardListSeq#	
+	</update>
+	
+	<update id="updateBoardListReadCount" parameterClass="com.song7749.mds.board.model.BoardList">
+		UPDATE BoardList SET boardReadCount=boardReadCount+1 WHERE boardListSeq=#boardListSeq#	 
+	</update>
+	
+	<!-- 보드컨텐츠 업데이트 -->
+	<update id="updateBoardContents" parameterClass="com.song7749.mds.board.model.BoardList">
+		UPDATE BoardContents set
+			contents = '$boardContents.contents$'
+		WHERE
+ 			boardListSeq =#boardListSeq#
+	</update>
+
+	<!-- 보드리스트 삭제 -->
+	<delete id="deleteBoardList" parameterClass="com.song7749.mds.board.model.BoardList">
+		<dynamic>
+			<isParameterPresent>
+				DELETE FROM BoardList WHERE 1=1
+			</isParameterPresent>
+			<isGreaterThan property="boardListSeq" compareValue="0">
+				AND boardListSeq=#boardListSeq#
+			</isGreaterThan>
+			<isGreaterThan property="boardSeq" compareValue="0">
+				AND boardSeq=#boardSeq#
+			</isGreaterThan>
+		</dynamic>	
+	</delete>
+	
+	<delete id="deleteBoardContents" parameterClass="com.song7749.mds.board.model.BoardList">
+		DELETE FROM BoardContents WHERE boardListSeq=#boardListSeq#
+	</delete>
+
+	<sql id="boardListWhere">
+		WHERE 1=1
+		<dynamic>
+			<isGreaterEqual property="boardList.boardSeq" compareValue="0">
+				AND bl.boardSeq=#boardList.boardSeq#
+			</isGreaterEqual>
+			<isNotEmpty property="boardList.boardTitle">
+				AND bl.boardTitle like '%$boardList.boardTitle$%'
+			</isNotEmpty>
+			<isGreaterThan property="boardList.memberSeq" compareValue="0">
+				AND bl.memberSeq=#boardList.memberSeq#
+			</isGreaterThan>
+			<isNotEmpty property="boardList.boardListDisplayYN">
+				AND bl.boardListDisplayYN='$boardList.boardListDisplayYN$'
+			</isNotEmpty>
+		ORDER BY bl.boardListSeq DESC
+		</dynamic>
+	</sql>
+
+	<resultMap class="com.song7749.mds.board.model.BoardList" id="selectBoardListsByBoardListCommand-result">
+		<result property="boardListSeq" column="boardListSeq"/>
+		<result property="boardSeq" column="boardSeq"/>
+		<result property="boardTitle" column="boardTitle"/>
+		<result property="boardReadCount" column="boardReadCount"/>
+		<result property="boardCommentCount" column="boardCommentCount"/>
+		<result property="memberSeq" column="memberSeq"/>
+		<result property="memberNickName" column="memberNickName"/>
+		<result property="memberIp" column="memberIp"/>
+		<result property="boardListDisplayYN" column="boardListDisplayYN"/>
+		<result property="boardListPublicReadYN" column="boardListPublicReadYN"/>
+		<result property="createDatetime" column="createDatetime"/>
+		<result property="updateDatetime" column="updateDatetime"/>
+		<result property="boardContents.contents" column="contents"/>
+	</resultMap>
+
+	<select id="selectBoardListsByBoardListCommand" parameterClass="com.song7749.mds.board.model.command.BoardListCommand" resultMap="selectBoardListsByBoardListCommand-result">
+		SELECT 
+			bl.boardListSeq,
+			bl.boardSeq,
+			bl.boardTitle,
+			bl.boardReadCount,
+			bl.boardCommentCount,
+			bl.memberSeq,
+			bl.memberNickName,
+			bl.memberIp,
+			bl.boardListDisplayYN,
+			bl.boardListPublicReadYN,
+			bl.createDatetime,
+			bl.updateDatetime,
+			bc.contents			
+		FROM
+			BoardList bl 
+			LEFT JOIN BoardContents bc ON (bl.boardListSeq=bc.boardListSeq)
+		<include refid="boardListWhere" />
+	</select>
+
+	<select id="selectCountBoardListByBoardListCommand" parameterClass="com.song7749.mds.board.model.command.BoardListCommand" resultClass="Integer">
+		SELECT 
+			COUNT(*) AS CNT
+		FROM
+			BoardList bl 
+			LEFT JOIN BoardContents bc ON (bl.boardListSeq=bc.boardListSeq)
+		<include refid="boardListWhere" />
+	</select>
 </sqlMap>

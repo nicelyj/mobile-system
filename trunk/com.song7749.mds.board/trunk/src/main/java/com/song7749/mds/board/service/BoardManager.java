@@ -28,11 +28,11 @@ public interface BoardManager {
 
 	public Integer deleteBoardList(BoardList boardList);
 
-	public Integer selectCountBoardListFrame(
-			BoardListCommand boardListSearchCommand);
+	public Integer selectCountBoardListByBoardListCommand(
+			BoardListCommand boardListCommand);
 
-	public ArrayList<BoardList> selectBoardListFrame(
-			BoardListCommand boardListSearchCommand);
+	public ArrayList<BoardList> selectBoardListsByBoardListCommand(
+			BoardListCommand boardListCommand);
 
 	public Integer insertBoardCommnet(BoardComment boardComment)
 			throws Exception;
