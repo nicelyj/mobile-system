@@ -34,7 +34,6 @@ import com.song7749.util.string.ObjectSerializeUtil;
 public class LoginManagerImpl implements LoginManager {
 	@Autowired
 	protected MemberManager memberManager;
-	protected Member member = new Member();
 
 	public Boolean login(MemberAuth memberAuth) {
 
@@ -46,7 +45,7 @@ public class LoginManagerImpl implements LoginManager {
 
 		if (selectedMemberList.size() == 0)
 			throw new MemberLoginException();
-
+		
 		Member selectedMember = selectedMemberList.get(0);
 
 		// 마지막 로그인 시간을 웹서버 기분시로 넣는다.

@@ -72,14 +72,6 @@ public class LoginManagerImplTest {
 	}
 
 	@Test
-	public void testGetAuth() {
-		Member member = this.loginManager
-				.getAuth(LoginManagerImplTest.staticMemberAuth);
-		Assert.assertEquals(member.getMemberId(),
-				LoginManagerImplTest.staticMember.getMemberId());
-	}
-
-	@Test
 	public void testLogout() {
 		Boolean processBoolean = this.loginManager
 				.logout(LoginManagerImplTest.staticMemberAuth);
