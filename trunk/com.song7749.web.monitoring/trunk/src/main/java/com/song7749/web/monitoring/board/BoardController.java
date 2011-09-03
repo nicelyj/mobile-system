@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.song7749.mds.board.model.Board;
+import com.song7749.mds.board.model.BoardContents;
+import com.song7749.mds.board.model.BoardList;
+import com.song7749.mds.board.model.command.BoardListCommand;
 import com.song7749.mds.board.service.BoardManager;
+import com.song7749.mds.member.model.Member;
 import com.song7749.web.monitoring.base.BaseController;
 
 @Controller
@@ -33,6 +37,7 @@ public class BoardController extends BaseController {
 		if (request.getRequestURI().equals("/board/boards.html")) {
 			// 로그인 체크
 			super.checkAuth(request, response, modelMap);
+
 			modelMap.addAttribute(
 					"javascript",
 					"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
@@ -102,28 +107,86 @@ public class BoardController extends BaseController {
 	}
 
 	@RequestMapping("/boardList.html")
-	public String boardList(HttpServletRequest request,
+	public String boardList(
+			@RequestParam(value="boardSeq",defaultValue="1",required=false) Integer boardSeq,
+			HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
+		
 		String ViewTemplete = "board/boardList";
+		// 로그인 체크 
+		super.checkAuth(request, response, modelMap);
 	
+		// 게시판 조회
+		Board board = new Board();
+		board.setBoardSeq(boardSeq);
+		ArrayList<Board> boards = this.boardManager.selectBoards(board);
+		board.setBoardName(boards.get(0).getBoardName());
 		
+		// 게시글 리스트 조회
+		BoardListCommand boardListCommand = new BoardListCommand();
+		boardListCommand.setBoardList(new BoardList());
+		boardListCommand.getBoardList().setBoardSeq(boardSeq);
+		ArrayList<BoardList> boardLists = this.boardManager.selectBoardListsByBoardListCommand(boardListCommand );
 		
+		modelMap.addAttribute("board", board);
+		modelMap.addAttribute("boardLists", boardLists);
+		modelMap.addAttribute(
+				"javascript","<script type=\"text/javascript\" src=\"/js/board/boardList.js\"></script>");
 		return ViewTemplete;
 	}
 	
 	@RequestMapping("/boardListForm.html")
-	public String boardListForm(HttpServletRequest request,
+	public String boardListForm(
+			@RequestParam(value="boardSeq",defaultValue="1",required=true) Integer boardSeq,
+			HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		String ViewTemplete = "board/boardListForm";
-	
+		// 로그인 체크 
+		super.checkAuth(request, response, modelMap);
 		
+		// 게시판 조회
+		Board board = new Board();
+		board.setBoardSeq(boardSeq);
+		ArrayList<Board> boards = this.boardManager.selectBoards(board);
+		board.setBoardName(boards.get(0).getBoardName());
 		
+		modelMap.addAttribute("board", board);
 		return ViewTemplete;
 	}
 	
 	@RequestMapping(value="/boardListProcess.html",method= RequestMethod.POST)
-	public void boardListProcess(HttpServletRequest request,
+	public void boardListProcess(
+			@RequestParam(value="title",defaultValue="",required=true) String boardTitle,
+			@RequestParam(value="contents",defaultValue="",required=true) String contents,
+			@RequestParam(value="memberNickName",defaultValue="",required=true) String memberNickName,
+			@RequestParam(value="boardListPublicReadYN",defaultValue="N",required=true) String boardListPublicReadYN,
+			@RequestParam(value="boardSeq",defaultValue="0",required=true) Integer boardSeq,
+			@RequestParam(value="boardListSeq",defaultValue="0",required=true) Integer boardListSeq,
+			HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
+
+		// 로그인 체크 
+		super.checkAuth(request, response, modelMap);		
+		Member member = (Member) modelMap.get("loginMember");
+		
+		BoardList boardList = new BoardList();
+		boardList.setMemberSeq(member.getMemberSeq());
+		boardList.setBoardCommentCount(0);
+		boardList.setBoardListDisplayYN("Y");
+		boardList.setBoardListPublicReadYN(boardListPublicReadYN);
+		boardList.setBoardListSeq(boardListSeq);
+		boardList.setBoardReadCount(0);
+		boardList.setBoardSeq(boardSeq);
+		boardList.setBoardTitle(boardTitle);
+		boardList.setMemberIp(request.getRemoteAddr());
+		boardList.setBoardContents(new BoardContents());
+		boardList.getBoardContents().setContents(contents);
+		try {
+			this.boardManager.insertBoardList(boardList);
+			response.sendRedirect("/board/boardList.html?boardSeq="+boardSeq);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 }

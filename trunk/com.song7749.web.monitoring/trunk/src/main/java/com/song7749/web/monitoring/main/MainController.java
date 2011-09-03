@@ -24,7 +24,7 @@ public class MainController extends BaseController{
 	@RequestMapping("/index.html")
 	public String mainIndex(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
-
+		
 		String viewTemplete = "main/index";
 		return viewTemplete;
 	}

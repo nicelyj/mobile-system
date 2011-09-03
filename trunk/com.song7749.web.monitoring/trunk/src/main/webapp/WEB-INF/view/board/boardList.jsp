@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp"%>
 ${javascript }
+<input type="hidden" name="boardSeq" value="${board.boardSeq }">
+<input type="hidden" name="boardName" value="${board.boardName }">
+${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기">
 <table  class="table-list valid">
 	<thead>
 		<tr>
@@ -16,16 +19,28 @@ ${javascript }
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>글번호</td>
-			<td>제목</td>
-			<td>아이디</td>
-			<td>닉네임</td>
-			<td>조회수</td>
-			<td>댓글수</td>
-			<td>작성일</td>
-			<td>수정</td>
-			<td>삭제</td>
-		</tr>
+		<c:choose>
+			<c:when test="${fn:length(boardLists) >0 }">
+				<c:forEach var="boardList" items="${boardLists }">
+					<tr>
+						<td>${boardList.boardListSeq }</td>
+						<td>${boardList.boardTitle }</td>
+						<td>아이디</td>
+						<td>${boardList.memberNickName }</td>
+						<td>${boardList.boardReadCount }</td>
+						<td>${boardList.boardCommentCount }</td>
+						<td>${boardList.createDatetime }</td>
+						<td>수정</td>
+						<td>삭제</td>
+					</tr>
+				</c:forEach>
+			</c:when>
+			<c:otherwise>
+				<tr>
+					<td colspan="9">게시글이 없습니다.</td>
+				</tr>
+			</c:otherwise>
+		</c:choose>
 	</tbody>
 </table>
+<input type="button" name="bntBoardWrite" value="글쓰기">
