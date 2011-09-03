@@ -22,12 +22,12 @@ public class CookieUtil {
 
 	public static Cookie createCookie(String name, String value)
 			throws IOException {
-		return new Cookie(name, URLEncoder.encode(value, "UTF-8"));
+		return new Cookie(name, value);
 	}
 
 	public static Cookie createCookie(String name, String value, String path,
 			int maxAge) throws IOException {
-		Cookie cookie = new Cookie(name, URLEncoder.encode(value, "UTF-8"));
+		Cookie cookie = new Cookie(name, value);
 		cookie.setPath(path);
 		cookie.setMaxAge(maxAge);
 		return cookie;
@@ -35,7 +35,7 @@ public class CookieUtil {
 
 	public static Cookie createCookie(String name, String value, String domain,
 			String path, int maxAge) throws IOException {
-		Cookie cookie = new Cookie(name, URLEncoder.encode(value, "UTF-8"));
+		Cookie cookie = new Cookie(name, value);
 		cookie.setDomain(domain);
 		cookie.setPath(path);
 		cookie.setMaxAge(maxAge);
@@ -51,7 +51,7 @@ public class CookieUtil {
 		if (cookie == null) {
 			return null;
 		}
-		return URLDecoder.decode(cookie.getValue(), "UTF-8");
+		return cookie.getValue();
 	}
 
 	public boolean exists(String name) {
