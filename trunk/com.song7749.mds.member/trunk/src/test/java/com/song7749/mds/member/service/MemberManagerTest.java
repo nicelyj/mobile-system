@@ -26,10 +26,10 @@ public class MemberManagerTest {
 	@Test
 	public void testInsertMember() {
 		Member member = new Member();
-		member.setMemberId("song77494");
-		member.setMemberName("송민수");
-		member.setMemberNickName("보아뱀");
-		member.setMemberPassword("123456789");
+		member.setMemberId("song7749");
+		member.setMemberName("송민수2");
+		member.setMemberNickName("보아뱀2");
+		member.setMemberPassword("1111111111");
 		member.setMemberPasswordA("어머니 성함");
 		member.setMemberPasswordQ("어머니 성함은?");
 		member.setMemberEmail("song7749@gmail.com");
@@ -54,9 +54,9 @@ public class MemberManagerTest {
 
 		Member member = new Member();
 		member.setMemberSeq(MemberManagerTest.staticMember.getMemberSeq());
-		member.setMemberName("송민수2");
-		member.setMemberNickName("보아뱀2");
-		member.setMemberPassword("1234567892");
+		member.setMemberName("송민수");
+		member.setMemberNickName("보아뱀");
+		member.setMemberPassword("11111111");
 		member.setMemberPasswordA("어머니 성함2");
 		member.setMemberPasswordQ("어머니 성함은2?");
 		member.setMemberEmail("song7749@gmail.com2");
@@ -115,5 +115,20 @@ public class MemberManagerTest {
 		MemberAuth memberAuth = MemberManagerTest.staticMemberAuth;
 		Integer processVal = this.memberManager.deleteMemberAuth(memberAuth);
 		Assert.assertTrue(processVal > 0);
+	}
+	
+	
+	/**
+	 * 테스트용 ID 강제 입력을 위한 처리
+	 */
+	@Test
+	public void testInsertTestMember(){
+		MemberCommand memberCommand = new MemberCommand();
+		memberCommand.setMember(MemberManagerTest.staticMember);
+		ArrayList<Member> members = this.memberManager.selectMemberListByMemberSearchCommand(memberCommand );
+		
+		if(members.size() == 0){
+			this.memberManager.insertMember(MemberManagerTest.staticMember);
+		}
 	}
 }
