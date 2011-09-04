@@ -2,6 +2,7 @@ package com.song7749.mds.member.service;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -57,8 +58,10 @@ public class LoginWebUtil {
 		}
 	}
 	
-	public void checkAuth(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse)
+	public Boolean checkAuth(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse)
 			throws Exception {
+		
+		Boolean chekLogin = false;
 		CookieUtil cookieUtil = new CookieUtil(httpServletRequest);
 		
 		if(cookieUtil.getValue("authKey") == null){
@@ -70,8 +73,10 @@ public class LoginWebUtil {
 				this.redirectLoginForm(httpServletRequest,httpServletResponse);
 			}else{// 로그인 성공시에 쿠키값 갱신
 				httpServletResponse.addCookie(CookieUtil.createCookie("authKey", memberAuth.getMemberAuthKey(), "/", 1*60*60));	
+				chekLogin = true;
 			}
 		}
+		return chekLogin;
 	}
 	
 	public Member getAuth(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws IOException{
@@ -98,23 +103,32 @@ public class LoginWebUtil {
 			if(this.loginManager.checkAuth(memberAuth) == true){
 				this.loginManager.logout(memberAuth);
 				httpServletResponse.addCookie(CookieUtil.createCookie("authKey", "", "/", -1));
+				String url = null;
 				if(httpServletRequest.getParameter("returnUrl") == null)
-					httpServletResponse.sendRedirect("/");
+					url = "/";
 				else
-					httpServletResponse.sendRedirect(httpServletRequest.getParameter("returnUrl"));
+					url = httpServletRequest.getParameter("returnUrl");
+				
+				try {
+					httpServletRequest.getRequestDispatcher(url).forward(httpServletRequest, httpServletResponse);
+				} catch (ServletException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
 	public void redirectLoginForm(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse){
 		try {
+			String url = null;
 			if(httpServletRequest.getParameter("returnUrl") == null){
-				httpServletResponse.sendRedirect("/login/loginForm.html?returnUrl=/");
+				url = "/login/loginForm.html?returnUrl=/";
 			}
 			else{
-				httpServletResponse.sendRedirect("/login/loginForm.html?returnUrl="+httpServletRequest.getParameter("returnUrl"));
+				url = "/login/loginForm.html?returnUrl="+httpServletRequest.getParameter("returnUrl");
 			}
-		} catch (IOException e) {
+			httpServletRequest.getRequestDispatcher(url).forward(httpServletRequest, httpServletResponse);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

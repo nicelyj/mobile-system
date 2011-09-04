@@ -26,7 +26,7 @@ public class MemberManagerTest {
 	@Test
 	public void testInsertMember() {
 		Member member = new Member();
-		member.setMemberId("song7749");
+		member.setMemberId("song77492");
 		member.setMemberName("송민수2");
 		member.setMemberNickName("보아뱀2");
 		member.setMemberPassword("1111111111");
@@ -78,7 +78,8 @@ public class MemberManagerTest {
 	@Test
 	public void testSelectMemberListByMemberSearchCommand() {
 		MemberCommand memberCommand = new MemberCommand();
-
+		memberCommand.setMember(new Member());
+		memberCommand.getMember().setMemberSeqList(new ArrayList<Integer>(MemberManagerTest.staticMember.getMemberSeq()));
 		ArrayList<Member> members = this.memberManager
 				.selectMemberListByMemberSearchCommand(memberCommand);
 		Assert.assertTrue(members.size() > 0);
@@ -115,20 +116,5 @@ public class MemberManagerTest {
 		MemberAuth memberAuth = MemberManagerTest.staticMemberAuth;
 		Integer processVal = this.memberManager.deleteMemberAuth(memberAuth);
 		Assert.assertTrue(processVal > 0);
-	}
-	
-	
-	/**
-	 * 테스트용 ID 강제 입력을 위한 처리
-	 */
-	@Test
-	public void testInsertTestMember(){
-		MemberCommand memberCommand = new MemberCommand();
-		memberCommand.setMember(MemberManagerTest.staticMember);
-		ArrayList<Member> members = this.memberManager.selectMemberListByMemberSearchCommand(memberCommand );
-		
-		if(members.size() == 0){
-			this.memberManager.insertMember(MemberManagerTest.staticMember);
-		}
 	}
 }
