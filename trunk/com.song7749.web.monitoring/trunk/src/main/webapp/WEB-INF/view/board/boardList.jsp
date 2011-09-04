@@ -8,14 +8,13 @@ ${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기
 	<thead>
 		<tr>
 			<th>글번호</th>
-			<th>제목</th>
+			<th width="500">제목</th>
 			<th>아이디</th>
-			<th>닉네임</th>
-			<th>조회수</th>
-			<th>댓글수</th>
+			<th width="50">조회수</th>
+			<th width="50">댓글수</th>
 			<th>작성일</th>
-			<th>수정</th>
-			<th>삭제</th>
+			<th width="50">수정</th>
+			<th width="50">삭제</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -23,15 +22,21 @@ ${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기
 			<c:when test="${fn:length(boardLists) >0 }">
 				<c:forEach var="boardList" items="${boardLists }">
 					<tr>
-						<td>${boardList.boardListSeq }</td>
+						<td>
+							${boardList.boardListSeq }
+							<input type="hidden" name="boardListSeq" value="${boardList.boardListSeq }">
+						</td>
 						<td>${boardList.boardTitle }</td>
-						<td>아이디</td>
-						<td>${boardList.memberNickName }</td>
+						<td>${memberIdMap[boardList.memberSeq] }(${boardList.memberNickName })</td>
 						<td>${boardList.boardReadCount }</td>
 						<td>${boardList.boardCommentCount }</td>
 						<td>${boardList.createDatetime }</td>
-						<td>수정</td>
-						<td>삭제</td>
+						<td>
+							<input type="button" name="bntModifyBoardList" value="수정">
+						</td>
+						<td>
+							<input type="button" name="bntDeleteBoardList" value="삭제">
+						</td>
 					</tr>
 				</c:forEach>
 			</c:when>

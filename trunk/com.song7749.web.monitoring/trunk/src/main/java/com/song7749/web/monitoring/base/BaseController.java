@@ -13,14 +13,16 @@ public class BaseController {
 	@Autowired
 	protected LoginWebUtil loginWebUtil; 
 	
-	protected void checkAuth(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,ModelMap modelMap){
+	protected Boolean checkAuth(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,ModelMap modelMap){
+		Boolean checkLogin = false;
 		try {
-			this.loginWebUtil.checkAuth(httpServletRequest, httpServletResponse);
+			checkLogin = this.loginWebUtil.checkAuth(httpServletRequest, httpServletResponse);
 			Member member = this.loginWebUtil.getAuth(httpServletRequest, httpServletResponse);
 			modelMap.addAttribute("loginMember", member);
 		} catch (Exception e) {
 			e.getMessage();
 			e.printStackTrace();
 		}
+		return checkLogin;
 	}
 }

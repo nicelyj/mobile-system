@@ -31,9 +31,10 @@ public class MemberContorller extends BaseController {
 	@RequestMapping("/memberList.html")
 	public String memberList(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
-		String ViewTemplete = "member/memberList";
-		// 로그인 체크
-		super.checkAuth(request, response, modelMap);
+		String viewTemplete = "member/memberList";
+
+		if(super.checkAuth(request, response, modelMap) == false)
+			return viewTemplete;
 		
 		MemberCommand memberCommand = new MemberCommand();
 		ArrayList<Member> memberList = this.memberManager
@@ -45,7 +46,7 @@ public class MemberContorller extends BaseController {
 				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
 						+ "<script type=\"text/javascript\" src=\"/js/member/memberList.js\"></script>");
 
-		return ViewTemplete;
+		return viewTemplete;
 	}
 
 	@RequestMapping({ "/memberForm.html", "/memberJoinForm.html", "/memberModifyForm.html" })
@@ -54,10 +55,11 @@ public class MemberContorller extends BaseController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		String ViewTemplete = "member/memberJoinForm";
+		String viewTemplete = "member/memberJoinForm";
 
 		if(!request.getRequestURI().equals("/member/memberJoinForm.html")){
-			super.checkAuth(request, response, modelMap);
+			if(super.checkAuth(request, response, modelMap) == false)
+				return viewTemplete;
 		}
 		
 		if (request.getRequestURI().equals("/member/memberModifyForm.html")
@@ -76,7 +78,7 @@ public class MemberContorller extends BaseController {
 				"javascript",
 				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
 						+ "<script type=\"text/javascript\" src=\"/js/member/memberForm.js\"></script>");
-		return ViewTemplete;
+		return viewTemplete;
 	}
 
 	@RequestMapping(value = "/memberProcess.html", method = {
@@ -134,13 +136,14 @@ public class MemberContorller extends BaseController {
 	}
 
 	@RequestMapping(value = "/memberProcess.html", method = RequestMethod.DELETE)
-	public void memberDelete(
+	public String memberDelete(
 			@RequestParam(value = "memberSeq", defaultValue = "0", required = true) Integer memberSeq,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		// 로그인 체크
-		super.checkAuth(request, response, modelMap);
+		String viewTemplete = null;
+		if(super.checkAuth(request, response, modelMap) == false)
+			return viewTemplete;
 	
 		Member member = new Member();
 		member.setMemberSeq(memberSeq);
@@ -149,5 +152,6 @@ public class MemberContorller extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return viewTemplete;
 	}
 }

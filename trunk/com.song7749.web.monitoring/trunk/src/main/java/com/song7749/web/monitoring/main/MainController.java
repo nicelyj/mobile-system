@@ -26,6 +26,9 @@ public class MainController extends BaseController{
 			HttpServletResponse response, ModelMap modelMap) {
 		
 		String viewTemplete = "main/index";
+		if(super.checkAuth(request, response, modelMap) == false)
+			return viewTemplete;
+	
 		return viewTemplete;
 	}
 }
