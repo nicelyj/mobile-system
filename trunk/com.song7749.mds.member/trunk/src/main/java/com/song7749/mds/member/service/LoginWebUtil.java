@@ -32,104 +32,100 @@ public class LoginWebUtil {
 	@Autowired
 	private LoginManager loginManager;
 
-	public void login(Member member,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws Exception{
+	public void login(Member member, HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) throws Exception {
 		CookieUtil cookieUtil = new CookieUtil(httpServletRequest);
-		
+
 		// 유효기간 내에 다시 로그인 시도를 했는가 검사
-		if(cookieUtil.getValue("authKey") != null){
+		if (cookieUtil.getValue("authKey") != null) {
 			MemberAuth memberAuth = new MemberAuth();
 			memberAuth.setMemberAuthKey(cookieUtil.getValue("authKey"));
-			if(this.loginManager.checkAuth(memberAuth) == true){
-				httpServletResponse.sendRedirect(httpServletRequest.getParameter("returnUrl"));
-			}			
+			if (this.loginManager.checkAuth(memberAuth) == true) {
+				httpServletResponse.sendRedirect(httpServletRequest
+						.getParameter("returnUrl"));
+			}
 		}
-		
+
 		MemberAuth memberAuth = new MemberAuth();
 		memberAuth.setMember(member);
 		// 로그인 성공시에 cookie 기록함.
 		try {
-			if(this.loginManager.login(memberAuth )){
-				httpServletResponse.addCookie(CookieUtil.createCookie("authKey", memberAuth.getMemberAuthKey(), "/", 1*60*60));	
-				System.out.println();
-				httpServletResponse.sendRedirect(httpServletRequest.getParameter("returnUrl"));
+			if (this.loginManager.login(memberAuth)) {
+				httpServletResponse.addCookie(CookieUtil.createCookie(
+						"authKey", memberAuth.getMemberAuthKey(), "/",
+						1 * 60 * 60));
+				httpServletResponse.sendRedirect(httpServletRequest
+						.getParameter("returnUrl"));
 			}
 		} catch (Exception e) {
 			throw e;
 		}
 	}
-	
-	public Boolean checkAuth(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse)
-			throws Exception {
-		
+
+	public Boolean checkAuth(HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) throws Exception {
+
 		Boolean chekLogin = false;
 		CookieUtil cookieUtil = new CookieUtil(httpServletRequest);
-		
-		if(cookieUtil.getValue("authKey") == null){
-			this.redirectLoginForm(httpServletRequest,httpServletResponse);
-		}else{
+
+		if (cookieUtil.getValue("authKey") == null) {
+			return false;
+		} else {
 			MemberAuth memberAuth = new MemberAuth();
 			memberAuth.setMemberAuthKey(cookieUtil.getValue("authKey"));
-			if(this.loginManager.checkAuth(memberAuth) == false){
-				this.redirectLoginForm(httpServletRequest,httpServletResponse);
-			}else{// 로그인 성공시에 쿠키값 갱신
-				httpServletResponse.addCookie(CookieUtil.createCookie("authKey", memberAuth.getMemberAuthKey(), "/", 1*60*60));	
+			if (this.loginManager.checkAuth(memberAuth) == false) {
+				return false;
+			} else {// 로그인 성공시에 쿠키값 갱신
+				httpServletResponse.addCookie(CookieUtil.createCookie(
+						"authKey", memberAuth.getMemberAuthKey(), "/",
+						1 * 60 * 60));
 				chekLogin = true;
 			}
 		}
 		return chekLogin;
 	}
-	
-	public Member getAuth(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws IOException{
+
+	public Member getAuth(HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) throws IOException {
 		CookieUtil cookieUtil = new CookieUtil(httpServletRequest);
-		
-		if(cookieUtil.getValue("authKey") == null){
-			this.redirectLoginForm(httpServletRequest,httpServletResponse);
+
+		if (cookieUtil.getValue("authKey") == null) {
 			return null;
-		}else{
+		} else {
 			MemberAuth memberAuth = new MemberAuth();
 			memberAuth.setMemberAuthKey(cookieUtil.getValue("authKey"));
 			return this.loginManager.getAuth(memberAuth);
 		}
 	}
-	
-	public void logOut(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse) throws IOException{
+
+	public void logOut(HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse) throws IOException {
 		CookieUtil cookieUtil = new CookieUtil(httpServletRequest);
 
-		if(cookieUtil.getValue("authKey") == null){
-			httpServletResponse.sendRedirect(httpServletRequest.getParameter("returnUrl"));
-		}else{
+		if (cookieUtil.getValue("authKey") == null) {
+			httpServletResponse.sendRedirect(httpServletRequest
+					.getParameter("returnUrl"));
+		} else {
 			MemberAuth memberAuth = new MemberAuth();
 			memberAuth.setMemberAuthKey(cookieUtil.getValue("authKey"));
-			if(this.loginManager.checkAuth(memberAuth) == true){
+
+			if (this.loginManager.checkAuth(memberAuth) == true) {
 				this.loginManager.logout(memberAuth);
-				httpServletResponse.addCookie(CookieUtil.createCookie("authKey", "", "/", -1));
+				httpServletResponse.addCookie(CookieUtil.createCookie(
+						"authKey", "", "/", -1));
 				String url = null;
-				if(httpServletRequest.getParameter("returnUrl") == null)
+				if (httpServletRequest.getParameter("returnUrl") == null)
 					url = "/";
 				else
 					url = httpServletRequest.getParameter("returnUrl");
-				
+
 				try {
-					httpServletRequest.getRequestDispatcher(url).forward(httpServletRequest, httpServletResponse);
+					httpServletRequest.getRequestDispatcher(url).forward(
+							httpServletRequest, httpServletResponse);
 				} catch (ServletException e) {
 					e.printStackTrace();
 				}
 			}
-		}
-	}
-	
-	public void redirectLoginForm(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse){
-		try {
-			String url = null;
-			if(httpServletRequest.getParameter("returnUrl") == null){
-				url = "/login/loginForm.html?returnUrl=/";
-			}
-			else{
-				url = "/login/loginForm.html?returnUrl="+httpServletRequest.getParameter("returnUrl");
-			}
-			httpServletRequest.getRequestDispatcher(url).forward(httpServletRequest, httpServletResponse);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 }
