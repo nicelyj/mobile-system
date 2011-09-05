@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp"%>
+<input type="hidden" id="getTopMenu" value="<c:if test="${loginMember.memberSeq>0}">true</c:if>">
 <ul class="jd_menu">
 	<c:choose>
 		<c:when test="${loginMember.memberSeq>0}">

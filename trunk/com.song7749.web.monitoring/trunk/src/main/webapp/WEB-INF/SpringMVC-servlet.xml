@@ -4,6 +4,7 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -18,5 +19,9 @@
 	<mvc:annotation-driven/>
 	<!--<mvc:default-servlet-handler/>-->
 
-	<context:component-scan base-package="com.song7749.web.monitoring.controller" />
+	<context:component-scan base-package="com.song7749.web.monitoring" />
+
+	<!-- 관리자 모드 인증 설정 (AOP) -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
 </beans>

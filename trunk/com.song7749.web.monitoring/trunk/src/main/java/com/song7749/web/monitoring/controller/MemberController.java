@@ -17,25 +17,21 @@ import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.model.MemberDetail;
 import com.song7749.mds.member.model.command.MemberCommand;
 import com.song7749.mds.member.service.MemberManager;
-import com.song7749.web.monitoring.base.BaseController;
 
 @Controller
 @RequestMapping("/member")
-public class MemberContorller extends BaseController {
+public class MemberController {
 	@Autowired
 	private MemberManager memberManager;
 
-	public MemberContorller() {
+	public MemberController() {
 	}
 
 	@RequestMapping("/memberList.html")
-	public String memberList(HttpServletRequest request,
+	public String memberListGeneralMemberHandle(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		String viewTemplete = "member/memberList";
 
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
-		
 		MemberCommand memberCommand = new MemberCommand();
 		ArrayList<Member> memberList = this.memberManager
 				.selectMemberListByMemberSearchCommand(memberCommand);
@@ -49,19 +45,15 @@ public class MemberContorller extends BaseController {
 		return viewTemplete;
 	}
 
-	@RequestMapping({ "/memberForm.html", "/memberJoinForm.html", "/memberModifyForm.html" })
-	public String MemberInputForm(
+	@RequestMapping({ "/memberForm.html", "/memberJoinForm.html",
+			"/memberModifyForm.html" })
+	public String MemberInputFormAnonymousHandle(
 			@RequestParam(value = "memberSeq", defaultValue = "0", required = false) Integer memberSeq,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
 		String viewTemplete = "member/memberJoinForm";
 
-		if(!request.getRequestURI().equals("/member/memberJoinForm.html")){
-			if(super.checkAuth(request, response, modelMap) == false)
-				return viewTemplete;
-		}
-		
 		if (request.getRequestURI().equals("/member/memberModifyForm.html")
 				&& memberSeq > 0) {
 
@@ -83,7 +75,7 @@ public class MemberContorller extends BaseController {
 
 	@RequestMapping(value = "/memberProcess.html", method = {
 			RequestMethod.POST, RequestMethod.PUT })
-	public void memberInsertOrUpdate(
+	public void memberInsertOrUpdateAnonymousHandle(
 			@RequestParam(value = "memberSeq", defaultValue = "", required = false) Integer memberSeq,
 			@RequestParam(value = "memberId", defaultValue = "", required = true) String memberId,
 			@RequestParam(value = "memberName", defaultValue = "", required = true) String memberName,
@@ -100,7 +92,7 @@ public class MemberContorller extends BaseController {
 			@RequestParam(value = "mobilePhoneNumber", defaultValue = "", required = true) String memberMobileNumber,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
-	
+
 		Member member = new Member();
 		member.setMemberName(memberName);
 		member.setMemberNickName(memberNickName);
@@ -136,15 +128,11 @@ public class MemberContorller extends BaseController {
 	}
 
 	@RequestMapping(value = "/memberProcess.html", method = RequestMethod.DELETE)
-	public String memberDelete(
+	public void memberDeleteGeneralMemberHandle(
 			@RequestParam(value = "memberSeq", defaultValue = "0", required = true) Integer memberSeq,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		String viewTemplete = null;
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
-	
 		Member member = new Member();
 		member.setMemberSeq(memberSeq);
 		try {
@@ -152,6 +140,5 @@ public class MemberContorller extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return viewTemplete;
 	}
 }

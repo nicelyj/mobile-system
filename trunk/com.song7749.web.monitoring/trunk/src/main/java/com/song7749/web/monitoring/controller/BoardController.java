@@ -23,50 +23,41 @@ import com.song7749.mds.board.service.BoardManager;
 import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.model.command.MemberCommand;
 import com.song7749.mds.member.service.MemberManager;
-import com.song7749.web.monitoring.base.BaseController;
 
 @Controller
 @RequestMapping("/board")
-public class BoardController extends BaseController {
+public class BoardController {
 	@Autowired
 	private BoardManager boardManager;
-	@Autowired 
+	@Autowired
 	private MemberManager memberManager;
 
 	public BoardController() {
 	}
 
 	@RequestMapping({ "/boards.html", "/boards.xml" })
-	public String BoardList(HttpServletRequest request,
+	public String BoardListGeneralMemberHandle(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		String viewTemplete = "board/boards";
 
 		if (request.getRequestURI().equals("/board/boards.html")) {
-			// 로그인 체크
-			if(super.checkAuth(request, response, modelMap) == false)
-				return viewTemplete;
-
 			modelMap.addAttribute(
 					"javascript",
 					"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
 							+ "<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
 		}
-		
+
 		ArrayList<Board> boards = boardManager.selectBoards(new Board());
 		modelMap.addAttribute("boards", boards);
 		return viewTemplete;
 	}
 
 	@RequestMapping(value = "/boardProcess.html", method = RequestMethod.POST)
-	public String boardInsert(
+	public void boardInsertGeneralMemberHandle(
 			@RequestParam(value = "boardName", defaultValue = "", required = true) String boardName,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		String viewTemplete = null;
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
-		
 		Board board = new Board();
 		board.setBoardName(boardName);
 		try {
@@ -74,20 +65,15 @@ public class BoardController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return viewTemplete;
 	}
 
 	@RequestMapping(value = "/boardProcess.html", method = RequestMethod.PUT)
-	public String boardUpdate(
+	public void boardUpdateGeneralMemberHandle(
 			@RequestParam(value = "boardSeq", defaultValue = "0", required = true) Integer boardSeq,
 			@RequestParam(value = "boardName", defaultValue = "", required = true) String boardName,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		String viewTemplete = null;
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
-		
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		board.setBoardName(boardName);
@@ -96,19 +82,14 @@ public class BoardController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return viewTemplete;
 	}
 
 	@RequestMapping(value = "/boardProcess.html", method = RequestMethod.DELETE)
-	public String boardDelete(
+	public void boardDeleteGeneralMemberHandle(
 			@RequestParam(value = "boardSeq", defaultValue = "0", required = true) Integer boardSeq,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		String viewTemplete = null;
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
-	
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		try {
@@ -116,123 +97,114 @@ public class BoardController extends BaseController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return viewTemplete;
 	}
 
 	@RequestMapping("/boardList.html")
-	public String boardList(
-			@RequestParam(value="boardSeq",defaultValue="1",required=false) Integer boardSeq,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
-		
+	public String boardListGeneralMemberHandle(
+			@RequestParam(value = "boardSeq", defaultValue = "1", required = false) Integer boardSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
 		String viewTemplete = "board/boardList";
-		// 로그인 체크 
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
-		
+
 		// 게시판 조회
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		ArrayList<Board> boards = this.boardManager.selectBoards(board);
 		board.setBoardName(boards.get(0).getBoardName());
-		
+
 		// 게시글 리스트 조회
 		BoardListCommand boardListCommand = new BoardListCommand();
 		boardListCommand.setBoardList(new BoardList());
 		boardListCommand.getBoardList().setBoardSeq(boardSeq);
-		ArrayList<BoardList> boardLists = this.boardManager.selectBoardListsByBoardListCommand(boardListCommand );
+		ArrayList<BoardList> boardLists = this.boardManager
+				.selectBoardListsByBoardListCommand(boardListCommand);
 
 		// 게시판 리스트 내에 멤버 id list 조회
 		ArrayList<Integer> memberSeqList = new ArrayList<Integer>();
-		if(boardLists.size()>0){
-			for(BoardList boardList : boardLists){
+		if (boardLists.size() > 0) {
+			for (BoardList boardList : boardLists) {
 				memberSeqList.add(boardList.getMemberSeq());
 			}
 			MemberCommand memberCommand = new MemberCommand();
 			memberCommand.setMember(new Member());
 			memberCommand.getMember().setMemberSeqList(memberSeqList);
-			ArrayList<Member> memberList = this.memberManager.selectMemberListByMemberSearchCommand(memberCommand);
-			Map<Integer,String> memberIdMap = new HashedMap();
-			for(Member member:memberList){
+			ArrayList<Member> memberList = this.memberManager
+					.selectMemberListByMemberSearchCommand(memberCommand);
+			Map<Integer, String> memberIdMap = new HashedMap();
+			for (Member member : memberList) {
 				memberIdMap.put(member.getMemberSeq(), member.getMemberId());
 			}
 			modelMap.addAttribute("memberIdMap", memberIdMap);
 		}
-		
+
 		modelMap.addAttribute("board", board);
 		modelMap.addAttribute("boardLists", boardLists);
-		
-		modelMap.addAttribute(
-				"javascript","<script type=\"text/javascript\" src=\"/js/board/boardList.js\"></script>");
+
+		modelMap.addAttribute("javascript",
+				"<script type=\"text/javascript\" src=\"/js/board/boardList.js\"></script>");
 		return viewTemplete;
 	}
-	
-	@RequestMapping({"/boardListForm.html","/boardListModifyForm.html"})
-	public String boardListForm(
-			@RequestParam(value="boardSeq",defaultValue="1",required=true) Integer boardSeq,
-			@RequestParam(value="boardListSeq",defaultValue="0",required=false) Integer boardListSeq,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+
+	@RequestMapping({ "/boardListForm.html", "/boardListModifyForm.html" })
+	public String boardListFormGeneralMemberHandle(
+			@RequestParam(value = "boardSeq", defaultValue = "1", required = true) Integer boardSeq,
+			@RequestParam(value = "boardListSeq", defaultValue = "0", required = false) Integer boardListSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
 		String viewTemplete = "board/boardListForm";
 
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
-		
 		// 게시판 조회
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		ArrayList<Board> boards = this.boardManager.selectBoards(board);
-		if(boards.size()>0)
+		if (boards.size() > 0)
 			board.setBoardName(boards.get(0).getBoardName());
-		
+
 		// 수정일 경우에는 기존 게시내용 가져오기.
-		if(request.getRequestURI().equals("/board/boardListModifyForm.html")){
+		if (request.getRequestURI().equals("/board/boardListModifyForm.html")) {
 			// 본인 게시글인가 확인한다.
 			Member loginMember = (Member) modelMap.get("loginMember");
 			ArrayList<BoardList> boardLists = new ArrayList<BoardList>();
 			BoardListCommand boardListCommand = new BoardListCommand();
 			boardListCommand.setBoardList(new BoardList());
 			boardListCommand.getBoardList().setBoardListSeq(boardListSeq);
-			boardListCommand.getBoardList().setMemberSeq(loginMember.getMemberSeq());
-			boardLists = this.boardManager.selectBoardListsByBoardListCommand(boardListCommand );
-			
-			if(boardLists.size()==0){
+			boardListCommand.getBoardList().setMemberSeq(
+					loginMember.getMemberSeq());
+			boardLists = this.boardManager
+					.selectBoardListsByBoardListCommand(boardListCommand);
+
+			if (boardLists.size() == 0) {
 				try {
 					response.sendError(0, "게시물 작성자가 아닙니다.");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			else{
+			} else {
 				modelMap.addAttribute("boardList", boardLists.get(0));
 			}
 			modelMap.addAttribute("_method", "PUT");
-		}
-		else{
+		} else {
 			modelMap.addAttribute("_method", "POST");
 		}
-			
+
 		modelMap.addAttribute("board", board);
 		return viewTemplete;
 	}
-	
-	@RequestMapping(value="/boardListProcess.html",method= RequestMethod.POST)
-	public String boardListProcess(
-			@RequestParam(value="title",defaultValue="",required=true) String boardTitle,
-			@RequestParam(value="contents",defaultValue="",required=true) String contents,
-			@RequestParam(value="memberNickName",defaultValue="",required=true) String memberNickName,
-			@RequestParam(value="boardListPublicReadYN",defaultValue="N",required=true) String boardListPublicReadYN,
-			@RequestParam(value="boardSeq",defaultValue="0",required=true) Integer boardSeq,
-			@RequestParam(value="boardListSeq",defaultValue="0",required=true) Integer boardListSeq,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
 
-		String viewTemplete = null;
-		if(super.checkAuth(request, response, modelMap) == false)
-			return viewTemplete;
+	@RequestMapping(value = "/boardListProcess.html", method = RequestMethod.POST)
+	public void boardListProcessGeneralMemberHandle(
+			@RequestParam(value = "title", defaultValue = "", required = true) String boardTitle,
+			@RequestParam(value = "contents", defaultValue = "", required = true) String contents,
+			@RequestParam(value = "memberNickName", defaultValue = "", required = true) String memberNickName,
+			@RequestParam(value = "boardListPublicReadYN", defaultValue = "N", required = true) String boardListPublicReadYN,
+			@RequestParam(value = "boardSeq", defaultValue = "0", required = true) Integer boardSeq,
+			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
 
 		Member member = (Member) modelMap.get("loginMember");
-		
+
 		BoardList boardList = new BoardList();
 		boardList.setMemberSeq(member.getMemberSeq());
 		boardList.setMemberNickName(memberNickName);
@@ -248,10 +220,9 @@ public class BoardController extends BaseController {
 		boardList.getBoardContents().setContents(contents);
 		try {
 			this.boardManager.insertBoardList(boardList);
-			response.sendRedirect("/board/boardList.html?boardSeq="+boardSeq);
+			response.sendRedirect("/board/boardList.html?boardSeq=" + boardSeq);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return viewTemplete;
 	}
 }

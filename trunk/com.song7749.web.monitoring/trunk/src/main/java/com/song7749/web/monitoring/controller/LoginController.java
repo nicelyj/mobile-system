@@ -18,25 +18,25 @@ import com.song7749.mds.member.service.LoginWebUtil;
 @RequestMapping("/login")
 public class LoginController {
 	@Autowired
-	private LoginWebUtil loginWebUtil; 
-	
+	private LoginWebUtil loginWebUtil;
+
 	@RequestMapping("/loginForm.html")
-	public String loginForm(
-			@RequestParam(value="returnUrl",defaultValue="/",required=false) String returnUrl,
-			HttpServletRequest request,
-			HttpServletResponse httpResponse, ModelMap modelMap) {
-			
+	public String loginFormAnonymousHandle(
+			@RequestParam(value = "returnUrl", defaultValue = "/", required = false) String returnUrl,
+			HttpServletRequest request, HttpServletResponse httpResponse,
+			ModelMap modelMap) {
+
 		String ViewTemplete = "login/loginForm";
 
 		modelMap.addAttribute("returnUrl", returnUrl);
-		modelMap.addAttribute(
-				"javascript","<script type=\"text/javascript\" src=\"/js/login/login.js\"></script>");
-		
+		modelMap.addAttribute("javascript",
+				"<script type=\"text/javascript\" src=\"/js/login/login.js\"></script>");
+
 		return ViewTemplete;
 	}
-	
+
 	@RequestMapping("/logOut.html")
-	public void logOut(	HttpServletRequest request,
+	public void logOutGeneralMemberHandle(HttpServletRequest request,
 			HttpServletResponse httpResponse) {
 		try {
 			this.loginWebUtil.logOut(request, httpResponse);
@@ -44,14 +44,13 @@ public class LoginController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/loginProcess.html")
-	public void loginProcess(
-			@RequestParam(value="memberId",defaultValue="",required=true) String memberId,
-			@RequestParam(value="memberPassword",defaultValue="",required=true) String memberPassword,
-			HttpServletRequest request,
-			HttpServletResponse httpResponse) {
-		
+	public void loginProcessAnonymousHandle(
+			@RequestParam(value = "memberId", defaultValue = "", required = true) String memberId,
+			@RequestParam(value = "memberPassword", defaultValue = "", required = true) String memberPassword,
+			HttpServletRequest request, HttpServletResponse httpResponse) {
+
 		Member member = new Member();
 		member.setMemberId(memberId);
 		member.setMemberPassword(memberPassword);
