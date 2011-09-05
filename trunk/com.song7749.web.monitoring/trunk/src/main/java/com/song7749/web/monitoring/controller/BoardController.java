@@ -1,4 +1,4 @@
-package com.song7749.web.monitoring.board;
+package com.song7749.web.monitoring.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;

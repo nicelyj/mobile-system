@@ -18,7 +18,5 @@
 	<mvc:annotation-driven/>
 	<!--<mvc:default-servlet-handler/>-->
 
-	<context:component-scan base-package="com.song7749.web.monitoring.main" />
-	<context:component-scan base-package="com.song7749.web.monitoring.board" />
-	<context:component-scan base-package="com.song7749.web.monitoring.member" />
+	<context:component-scan base-package="com.song7749.web.monitoring.controller" />
 </beans>

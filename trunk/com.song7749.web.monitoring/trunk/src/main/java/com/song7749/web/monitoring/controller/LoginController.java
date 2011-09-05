@@ -1,4 +1,4 @@
-package com.song7749.web.monitoring.member;
+package com.song7749.web.monitoring.controller;
 
 import java.io.IOException;
 
