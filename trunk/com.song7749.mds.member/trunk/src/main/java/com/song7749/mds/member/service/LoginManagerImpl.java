@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.song7749.exception.MemberLoginException;
 import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.model.MemberAuth;
 import com.song7749.mds.member.model.command.MemberCommand;
@@ -44,8 +43,8 @@ public class LoginManagerImpl implements LoginManager {
 				.selectMemberListByMemberSearchCommand(memberCommand);
 
 		if (selectedMemberList.size() == 0)
-			throw new MemberLoginException();
-		
+			return false;
+
 		Member selectedMember = selectedMemberList.get(0);
 
 		// 마지막 로그인 시간을 웹서버 기분시로 넣는다.
@@ -112,8 +111,8 @@ public class LoginManagerImpl implements LoginManager {
 		}
 		return member;
 	}
-	
-	private String setAuth(Member member){
+
+	private String setAuth(Member member) {
 		String memberAuthKey = null;
 		try {
 			// serialize 한뒤에 암호화하여 저장한다.
@@ -122,7 +121,7 @@ public class LoginManagerImpl implements LoginManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return memberAuthKey;
 	}
 }

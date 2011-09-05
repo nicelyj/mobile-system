@@ -2,7 +2,6 @@ package com.song7749.mds.member.service;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,7 +31,7 @@ public class LoginWebUtil {
 	@Autowired
 	private LoginManager loginManager;
 
-	public void login(Member member, HttpServletRequest httpServletRequest,
+	public Boolean login(Member member, HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) throws Exception {
 		CookieUtil cookieUtil = new CookieUtil(httpServletRequest);
 
@@ -41,8 +40,13 @@ public class LoginWebUtil {
 			MemberAuth memberAuth = new MemberAuth();
 			memberAuth.setMemberAuthKey(cookieUtil.getValue("authKey"));
 			if (this.loginManager.checkAuth(memberAuth) == true) {
-				httpServletResponse.sendRedirect(httpServletRequest
-						.getParameter("returnUrl"));
+				String url = null;
+				if (httpServletRequest.getParameter("returnUrl") == null)
+					url = "/";
+				else
+					url = httpServletRequest.getParameter("returnUrl");
+				httpServletResponse.sendRedirect(url);
+				return true;
 			}
 		}
 
@@ -54,8 +58,16 @@ public class LoginWebUtil {
 				httpServletResponse.addCookie(CookieUtil.createCookie(
 						"authKey", memberAuth.getMemberAuthKey(), "/",
 						1 * 60 * 60));
-				httpServletResponse.sendRedirect(httpServletRequest
-						.getParameter("returnUrl"));
+				String url = null;
+				if (httpServletRequest.getParameter("returnUrl") == null)
+					url = "/";
+				else
+					url = httpServletRequest.getParameter("returnUrl");
+
+				httpServletResponse.sendRedirect(url);
+				return true;
+			} else {
+				return false;
 			}
 		} catch (Exception e) {
 			throw e;
@@ -119,12 +131,7 @@ public class LoginWebUtil {
 				else
 					url = httpServletRequest.getParameter("returnUrl");
 
-				try {
-					httpServletRequest.getRequestDispatcher(url).forward(
-							httpServletRequest, httpServletResponse);
-				} catch (ServletException e) {
-					e.printStackTrace();
-				}
+				httpServletResponse.sendRedirect(url);
 			}
 		}
 	}
