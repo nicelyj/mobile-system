@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp"%>
 ${javascript }
-<form name="frmInsertBoard" action="/board/boardProcess.html">
+<form name="frmInsertBoard" method="post" action="/board/boardProcess.html">
 	<table  class="table-list valid" id="boardListTable">
 		<thead>
 			<tr>

@@ -55,9 +55,10 @@ public class LoginController {
 		member.setMemberId(memberId);
 		member.setMemberPassword(memberPassword);
 		try {
-			this.loginWebUtil.login(member, request, httpResponse);
+			if (this.loginWebUtil.login(member, request, httpResponse) == false) {
+				httpResponse.sendError(500, "아이디 혹은 패스워드가 일치하지 않습니다.");
+			}
 		} catch (Exception e) {
-			// 아이디 패스워드 틀리다는 에러 페이지 보여줘야 함.
 			e.printStackTrace();
 		}
 	}

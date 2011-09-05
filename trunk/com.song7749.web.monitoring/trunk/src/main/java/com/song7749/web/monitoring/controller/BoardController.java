@@ -45,6 +45,8 @@ public class BoardController {
 					"javascript",
 					"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
 							+ "<script type=\"text/javascript\" src=\"/js/board/board.js\"></script>");
+		} else {
+			modelMap.clear();
 		}
 
 		ArrayList<Board> boards = boardManager.selectBoards(new Board());

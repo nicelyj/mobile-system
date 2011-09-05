@@ -63,7 +63,8 @@ public class MonitoringLoginAdvice {
 			checkLogin = this.loginWebUtil.checkAuth(request, response);
 			if (checkLogin == true) {
 				Member member = this.loginWebUtil.getAuth(request, response);
-				request.setAttribute("member", member);
+				request.setAttribute("loginMember", member);
+				model.addAttribute("loginMember", member);
 			}
 		} catch (Exception e) {
 			e.getMessage();
@@ -101,8 +102,8 @@ public class MonitoringLoginAdvice {
 			checkLogin = this.loginWebUtil.checkAuth(request, response);
 			if (checkLogin == true) {
 				Member member = this.loginWebUtil.getAuth(request, response);
-				request.setAttribute("member", member);
-				model.addAttribute("member", member);
+				request.setAttribute("loginMember", member);
+				model.addAttribute("loginMember", member);
 			} else {
 				String returnUrl = null;
 				if (request.getParameter("returnUrl") == null)
