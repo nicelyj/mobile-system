@@ -143,8 +143,10 @@ public class BoardController {
 		modelMap.addAttribute("board", board);
 		modelMap.addAttribute("boardLists", boardLists);
 
-		modelMap.addAttribute("javascript",
-				"<script type=\"text/javascript\" src=\"/js/board/boardList.js\"></script>");
+		modelMap.addAttribute(
+				"javascript",
+				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
+						+ "<script type=\"text/javascript\" src=\"/js/board/boardList.js\"></script>");
 		return viewTemplete;
 	}
 
@@ -194,8 +196,9 @@ public class BoardController {
 		return viewTemplete;
 	}
 
-	@RequestMapping(value = "/boardListProcess.html", method = RequestMethod.POST)
-	public void boardListProcessGeneralMemberHandle(
+	@RequestMapping(value = "/boardListProcess.html", method = {
+			RequestMethod.POST, RequestMethod.PUT })
+	public void boardListInsertUpdateProcessGeneralMemberHandle(
 			@RequestParam(value = "title", defaultValue = "", required = true) String boardTitle,
 			@RequestParam(value = "contents", defaultValue = "", required = true) String contents,
 			@RequestParam(value = "memberNickName", defaultValue = "", required = true) String memberNickName,
@@ -206,25 +209,60 @@ public class BoardController {
 			ModelMap modelMap) {
 
 		Member member = (Member) modelMap.get("loginMember");
-
 		BoardList boardList = new BoardList();
-		boardList.setMemberSeq(member.getMemberSeq());
 		boardList.setMemberNickName(memberNickName);
-		boardList.setBoardCommentCount(0);
-		boardList.setBoardListDisplayYN("Y");
 		boardList.setBoardListPublicReadYN(boardListPublicReadYN);
-		boardList.setBoardListSeq(boardListSeq);
-		boardList.setBoardReadCount(0);
-		boardList.setBoardSeq(boardSeq);
 		boardList.setBoardTitle(boardTitle);
-		boardList.setMemberIp(request.getRemoteAddr());
 		boardList.setBoardContents(new BoardContents());
 		boardList.getBoardContents().setContents(contents);
-		try {
+
+		if (request.getMethod().equals(RequestMethod.POST)) {
+			boardList.setBoardSeq(boardSeq);
+			boardList.setBoardCommentCount(0);
+			boardList.setBoardReadCount(0);
+			boardList.setBoardListDisplayYN("Y");
+			boardList.setMemberSeq(member.getMemberSeq());
+			boardList.setMemberIp(request.getRemoteAddr());
 			this.boardManager.insertBoardList(boardList);
+		} else {
+			boardList.setBoardListSeq(boardListSeq);
+			this.boardManager.updateBoardList(boardList);
+		}
+		try {
+
 			response.sendRedirect("/board/boardList.html?boardSeq=" + boardSeq);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	@RequestMapping(value = "/boardListProcess.html", method = RequestMethod.DELETE)
+	public void boardListDeleteProcessGeneralMemberHandle(
+			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
+		// 본인 게시글인가 확인한다.
+		Member loginMember = (Member) modelMap.get("loginMember");
+		ArrayList<BoardList> boardLists = new ArrayList<BoardList>();
+		BoardListCommand boardListCommand = new BoardListCommand();
+		boardListCommand.setBoardList(new BoardList());
+		boardListCommand.getBoardList().setBoardListSeq(boardListSeq);
+		boardListCommand.getBoardList()
+				.setMemberSeq(loginMember.getMemberSeq());
+		boardLists = this.boardManager
+				.selectBoardListsByBoardListCommand(boardListCommand);
+
+		if (boardLists.size() == 0) {
+			try {
+				response.sendError(0, "게시물 작성자가 아닙니다.");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			BoardList boardList = new BoardList();
+			boardList.setBoardListSeq(boardListSeq);
+			this.boardManager.deleteBoardList(boardList);
 		}
 	}
 }

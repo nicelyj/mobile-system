@@ -9,7 +9,7 @@ ${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기
 		<tr>
 			<th>글번호</th>
 			<th width="500">제목</th>
-			<th>아이디</th>
+			<th width="150">아이디(닉네임)</th>
 			<th width="50">조회수</th>
 			<th width="50">댓글수</th>
 			<th>작성일</th>
