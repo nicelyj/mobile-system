@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.song7749.mds.board.model.Board;
+import com.song7749.mds.board.model.BoardComment;
 import com.song7749.mds.board.model.BoardContents;
 import com.song7749.mds.board.model.BoardList;
 import com.song7749.mds.board.model.command.BoardListCommand;
@@ -150,6 +151,42 @@ public class BoardController {
 		return viewTemplete;
 	}
 
+	@RequestMapping("/boardListDetail.html")
+	public String boardListDetailGeneralMemberHandle(
+			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
+		String viewTemplete = "board/boardListDetail";
+
+		// 게시글 리스트 조회
+		BoardListCommand boardListCommand = new BoardListCommand();
+		boardListCommand.setBoardList(new BoardList());
+		boardListCommand.getBoardList().setBoardListSeq(boardListSeq);
+		ArrayList<BoardList> boardLists = this.boardManager
+				.selectBoardListsByBoardListCommand(boardListCommand);
+		if(boardLists.size()>0){
+			modelMap.addAttribute("boardList", boardLists.get(0));
+		}
+
+		if(boardLists.size()>0){
+			MemberCommand memberCommand = new MemberCommand();
+			memberCommand.setMember(new Member());
+			memberCommand.getMember().setMemberSeq(boardLists.get(0).getMemberSeq());
+			ArrayList<Member> memberList = this.memberManager.selectMemberListByMemberSearchCommand(memberCommand);
+		
+			if(memberList.size()>0)
+				modelMap.addAttribute("member", memberList.get(0));
+		}
+		
+		modelMap.addAttribute(
+				"javascript",
+				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
+						+ "<script type=\"text/javascript\" src=\"/js/board/boardListDetail.js\"></script>");
+		return viewTemplete;
+	}
+
+	
 	@RequestMapping({ "/boardListForm.html", "/boardListModifyForm.html" })
 	public String boardListFormGeneralMemberHandle(
 			@RequestParam(value = "boardSeq", defaultValue = "1", required = true) Integer boardSeq,
@@ -196,46 +233,61 @@ public class BoardController {
 		return viewTemplete;
 	}
 
-	@RequestMapping(value = "/boardListProcess.html", method = {
-			RequestMethod.POST, RequestMethod.PUT })
-	public void boardListInsertUpdateProcessGeneralMemberHandle(
+	@RequestMapping(value = "/boardListProcess.html", method = RequestMethod.POST)
+	public void boardListInsertProcessGeneralMemberHandle(
 			@RequestParam(value = "title", defaultValue = "", required = true) String boardTitle,
 			@RequestParam(value = "contents", defaultValue = "", required = true) String contents,
-			@RequestParam(value = "memberNickName", defaultValue = "", required = true) String memberNickName,
 			@RequestParam(value = "boardListPublicReadYN", defaultValue = "N", required = true) String boardListPublicReadYN,
 			@RequestParam(value = "boardSeq", defaultValue = "0", required = true) Integer boardSeq,
-			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
 		Member member = (Member) modelMap.get("loginMember");
 		BoardList boardList = new BoardList();
-		boardList.setMemberNickName(memberNickName);
+		boardList.setMemberNickName(member.getMemberNickName());
 		boardList.setBoardListPublicReadYN(boardListPublicReadYN);
 		boardList.setBoardTitle(boardTitle);
 		boardList.setBoardContents(new BoardContents());
 		boardList.getBoardContents().setContents(contents);
-
-		if (request.getMethod().equals(RequestMethod.POST)) {
-			boardList.setBoardSeq(boardSeq);
-			boardList.setBoardCommentCount(0);
-			boardList.setBoardReadCount(0);
-			boardList.setBoardListDisplayYN("Y");
-			boardList.setMemberSeq(member.getMemberSeq());
-			boardList.setMemberIp(request.getRemoteAddr());
-			this.boardManager.insertBoardList(boardList);
-		} else {
-			boardList.setBoardListSeq(boardListSeq);
-			this.boardManager.updateBoardList(boardList);
-		}
+		boardList.setBoardSeq(boardSeq);
+		boardList.setBoardCommentCount(0);
+		boardList.setBoardReadCount(0);
+		boardList.setBoardListDisplayYN("Y");
+		boardList.setMemberNickName(member.getMemberNickName());
+		boardList.setMemberSeq(member.getMemberSeq());
+		boardList.setMemberIp(request.getRemoteAddr());
+		this.boardManager.insertBoardList(boardList);
 		try {
-
 			response.sendRedirect("/board/boardList.html?boardSeq=" + boardSeq);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	@RequestMapping(value = "/boardListProcess.html", method = RequestMethod.PUT)
+	public void boardListInsertUpdateProcessGeneralMemberHandle(
+			@RequestParam(value = "title", defaultValue = "", required = true) String boardTitle,
+			@RequestParam(value = "contents", defaultValue = "", required = true) String contents,
+			@RequestParam(value = "boardListPublicReadYN", defaultValue = "N", required = true) String boardListPublicReadYN,
+			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
+			@RequestParam(value = "boardSeq", defaultValue = "0", required = true) Integer boardSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
+		Member member = (Member) modelMap.get("loginMember");
+		BoardList boardList = new BoardList();
+		boardList.setBoardListPublicReadYN(boardListPublicReadYN);
+		boardList.setBoardTitle(boardTitle);
+		boardList.setBoardContents(new BoardContents());
+		boardList.getBoardContents().setContents(contents);
+		boardList.setBoardListSeq(boardListSeq);
+		this.boardManager.updateBoardList(boardList);
+		try {
+			response.sendRedirect("/board/boardList.html?boardSeq=" + boardSeq);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}	
 	@RequestMapping(value = "/boardListProcess.html", method = RequestMethod.DELETE)
 	public void boardListDeleteProcessGeneralMemberHandle(
 			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
@@ -264,5 +316,41 @@ public class BoardController {
 			boardList.setBoardListSeq(boardListSeq);
 			this.boardManager.deleteBoardList(boardList);
 		}
+	}
+	
+	@RequestMapping("/boardCommentList.xml")
+	public String boardCommentList(		
+			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
+			modelMap.clear();
+
+			BoardComment boardComment = new BoardComment();
+			boardComment.setBoardListSeq(boardListSeq);
+			ArrayList<BoardComment> boardComments = this.boardManager.selectBoardCommentsByBoardComment(boardComment );
+			
+			modelMap.addAttribute("boardComments", boardComments);
+		return null;
+		
+	}
+	
+	@RequestMapping(value="boardCommentProcess",method=RequestMethod.POST)
+	public void boardCommentProcessGeneralMemberHandle(
+			@RequestParam(value = "boardSeq", defaultValue = "0", required = true) Integer boardSeq,
+			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
+			@RequestParam(value = "comment", defaultValue = "0", required = true) String comment,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+	
+		Member member = (Member) modelMap.get("loginMember");
+		BoardComment boardComment = new BoardComment();
+		boardComment.setBoardListSeq(boardListSeq);
+		boardComment.setComment(comment);
+		boardComment.setMemberIp(request.getRemoteAddr());
+		boardComment.setMemberNickName(member.getMemberNickName());
+		boardComment.setMemberSeq(member.getMemberSeq());
+
+		this.boardManager.insertBoardCommnet(boardComment );
 	}
 }

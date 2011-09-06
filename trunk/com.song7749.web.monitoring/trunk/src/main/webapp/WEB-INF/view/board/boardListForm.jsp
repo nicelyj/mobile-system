@@ -20,12 +20,7 @@ ${javascript }
 				<td><input type="text" name="title" value="${boardList.boardTitle }" size="80" /></td>
 			</tr>
 			<tr>
-				<th width="100"> 닉네임 </th>
-				<td width="100"><input type="text" name="memberNickName" value="${boardList.memberNickName }" readonly="readonly"/></td>
-			</tr>
-			<tr>
 				<th width="100"> 비밀글 </th>
-				
 				<td width="100">
 					<input type="checkbox" name="boardListPublicReadYN" value="Y" <c:if test="${boardList.boardListPublicReadYN=='Y'}" >checked</c:if> />
 					</td> 

@@ -26,7 +26,7 @@ ${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기
 							${boardList.boardListSeq }
 							<input type="hidden" name="boardListSeq" value="${boardList.boardListSeq }">
 						</td>
-						<td>${boardList.boardTitle }</td>
+						<td><a href="/board/boardListDetail.html?boardListSeq=${boardList.boardListSeq }">${boardList.boardTitle }</a></td>
 						<td>${memberIdMap[boardList.memberSeq] }(${boardList.memberNickName })</td>
 						<td>${boardList.boardReadCount }</td>
 						<td>${boardList.boardCommentCount }</td>

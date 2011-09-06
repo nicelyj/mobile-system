@@ -1,9 +1,10 @@
 $(document).ready(function(){
 	$("#bntInputComment").click(function(){
-		$("#frmInputComment").find("[name=dataMode]").val('insert');
-		$.post('./boardList/boardCommentTran.jsp', $("#frmInputComment").serializeArray(),function(data){
-			$("#replyPrint").html("<font color='red'><strong>댓글 입력 성공</strong></font>");
-			document.location = document.location.href;
-		});
-	});	
+		var params = new Object();
+		params._method 			= 'POST';
+		params.boardSeq			= $("#frmInputComment").find("[name='boardSeq']").val();
+		params.boardListSeq		= $("#frmInputComment").find("[name='boardListSeq']").val();
+		params.comment			= $("#frmInputComment").find("[name='comment']").val();
+		commonAjax("/board/boardCommentProcess.html",params);
+	});
 });
