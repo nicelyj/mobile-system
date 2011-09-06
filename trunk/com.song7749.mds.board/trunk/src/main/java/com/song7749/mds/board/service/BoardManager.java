@@ -34,14 +34,11 @@ public interface BoardManager {
 	public ArrayList<BoardList> selectBoardListsByBoardListCommand(
 			BoardListCommand boardListCommand);
 
-	public Integer insertBoardCommnet(BoardComment boardComment)
-			throws Exception;
+	public Integer insertBoardCommnet(BoardComment boardComment);
 
-	public Integer updateBoardComment(BoardComment boardComment)
-			throws Exception;
+	public Integer updateBoardComment(BoardComment boardComment);
 
-	public Integer deleteBoardComment(BoardComment boardComment)
-			throws Exception;
+	public Integer deleteBoardComment(BoardComment boardComment);
 
 	public Integer selectCountBoardCommentByBoardComment(
 			BoardComment boardComment);

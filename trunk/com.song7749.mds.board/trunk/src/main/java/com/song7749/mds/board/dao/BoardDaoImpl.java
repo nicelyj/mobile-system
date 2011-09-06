@@ -7,6 +7,7 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
 import com.song7749.base.Dao;
 import com.song7749.mds.board.model.Board;
+import com.song7749.mds.board.model.BoardComment;
 import com.song7749.mds.board.model.BoardList;
 import com.song7749.mds.board.model.command.BoardListCommand;
 
@@ -138,5 +139,33 @@ public class BoardDaoImpl implements BoardDao {
 	@Override
 	public Integer deleteBoardList(BoardList boardList) {
 		return (Integer)this.boardmaster.delete("BoardList.deleteBoardList", boardList);
+	}
+
+	@Override
+	public Integer insertBoardComment(BoardComment boardComment) {
+		return (Integer)this.boardmaster.insert("BoardList.insertBoardComment", boardComment);
+	}
+
+	@Override
+	public Integer updateBoardComment(BoardComment boardComment) {
+		return (Integer)this.boardmaster.update("BoardList.updateBoardComment", boardComment);
+	}
+
+	@Override
+	public Integer deleteBoardComment(BoardComment boardComment) {
+		return (Integer)this.boardmaster.delete("BoardList.deleteBoardComment", boardComment);
+	}
+
+	@Override
+	public Integer selectCountBoardCommentByBoardComment(
+			BoardComment boardComment) {
+		return (Integer)this.boardslave.queryForObject("BoardList.selectCountBoardCommentByBoardComment", boardComment);
+	}
+
+	@Override
+	public ArrayList<BoardComment> selectBoardCommentsByBoardComment(
+			BoardComment boardComment) {
+		// TODO Auto-generated method stub
+		return (ArrayList<BoardComment>)this.boardslave.queryForList("BoardList.selectBoardCommentsByBoardComment", boardComment);
 	}
 }

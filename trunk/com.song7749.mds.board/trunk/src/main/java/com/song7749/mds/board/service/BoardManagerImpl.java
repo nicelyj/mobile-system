@@ -64,34 +64,27 @@ public class BoardManagerImpl implements BoardManager {
 		return this.boardDao.selectBoardListsByBoardListCommand(boardListCommand);
 	}
 
-	public Integer insertBoardCommnet(BoardComment boardComment)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer insertBoardCommnet(BoardComment boardComment){
+		return this.boardDao.insertBoardComment(boardComment);
 	}
 
-	public Integer updateBoardComment(BoardComment boardComment)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer updateBoardComment(BoardComment boardComment){
+		return this.boardDao.updateBoardComment(boardComment);
 	}
 
-	public Integer deleteBoardComment(BoardComment boardComment)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public Integer deleteBoardComment(BoardComment boardComment){
+		return this.boardDao.deleteBoardComment(boardComment);
 	}
 
 	public Integer selectCountBoardCommentByBoardComment(
 			BoardComment boardComment) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.boardDao.selectCountBoardCommentByBoardComment(boardComment);
 	}
 
 	public ArrayList<BoardComment> selectBoardCommentsByBoardComment(
 			BoardComment boardComment) {
 		// TODO Auto-generated method stub
-		return null;
+		return this.boardDao.selectBoardCommentsByBoardComment(boardComment);
 	}
 
 }

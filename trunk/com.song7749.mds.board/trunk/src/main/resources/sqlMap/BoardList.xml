@@ -228,4 +228,72 @@
 			LEFT JOIN BoardContents bc ON (bl.boardListSeq=bc.boardListSeq)
 		<include refid="boardListWhere" />
 	</select>
+	
+	<insert id="insertBoardComment" parameterClass="com.song7749.mds.board.model.BoardComment">
+		INSERT INTO BoardComment set
+			boardListSeq = #boardListSeq#,
+			comment = '$comment$', 
+			memberSeq = #memberSeq#, 
+			memberNickName ='$memberNickName$', 
+			memberIp = '$memberIp$', 
+			createDatetime = now(), 
+			updateDatetime = now()
+		<selectKey keyProperty="boardCommentSeq" resultClass="Integer">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<update id="updateBoardComment" parameterClass="com.song7749.mds.board.model.BoardComment">
+		UPDATE BoardComment set
+				updateDatetime = now(),
+				comment = '$comment$'
+		WHERE 
+				boardCommentSeq=#boardCommentSeq#
+			AND	memberSeq = #memberSeq# 
+	</update>
+	
+	<delete id="deleteBoardComment" parameterClass="com.song7749.mds.board.model.BoardComment">
+		DELETE FROM BoardComment WHERE boardCommentSeq=#boardCommentSeq#
+	</delete>
+	
+	<sql id="selectBoardCommentsWhere">
+		WHERE 1=1
+		<isGreaterThan property="boardListSeq" compareValue="0">
+			AND boardListSeq=#boardListSeq#
+		</isGreaterThan>
+	</sql>
+	
+	<resultMap class="com.song7749.mds.board.model.BoardComment" id="selectBoardCommentsByBoardComment-result">
+		<result property="boardCommentSeq" column="boardCommentSeq"/>
+		<result property="boardListSeq" column="boardListSeq"/>
+		<result property="comment" column="comment"/>
+		<result property="memberSeq" column="memberSeq"/>
+		<result property="memberNickName" column="memberNickName"/>
+		<result property="memberIp" column="memberIp"/>
+		<result property="createDatetime" column="createDatetime"/>
+		<result property="updateDatetime" column="updateDatetime"/>
+	</resultMap>
+	
+	<select id="selectBoardCommentsByBoardComment" parameterClass="com.song7749.mds.board.model.BoardComment" resultMap="selectBoardCommentsByBoardComment-result">
+		SELECT 
+			boardCommentSeq,
+			boardListSeq,
+			comment,
+			memberSeq,
+			memberNickName,
+			memberIp,
+			createDatetime,
+			updateDatetime
+		FROM 
+			BoardComment	
+		<include refid="selectBoardCommentsWhere"/>
+	</select>
+	
+	<select id="selectCountBoardCommentByBoardComment" parameterClass="com.song7749.mds.board.model.BoardComment"  resultClass="Integer">
+		SELECT 
+			COUNT(*) AS cnt
+		FROM 
+			BoardComment	
+		<include refid="selectBoardCommentsWhere"/>
+	</select>	
 </sqlMap>

@@ -6,6 +6,7 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
 import com.song7749.base.Dao;
 import com.song7749.mds.board.model.Board;
+import com.song7749.mds.board.model.BoardComment;
 import com.song7749.mds.board.model.BoardList;
 import com.song7749.mds.board.model.command.BoardListCommand;
 
@@ -95,5 +96,17 @@ public interface BoardDao extends Dao{
 	public Integer deleteBoardContents(BoardList boardList);
 
 	public Integer deleteBoardList(BoardList boardList);
+
+	public Integer insertBoardComment(BoardComment boardComment);
+
+	public Integer updateBoardComment(BoardComment boardComment);
+
+	public Integer deleteBoardComment(BoardComment boardComment);
+
+	public Integer selectCountBoardCommentByBoardComment(
+			BoardComment boardComment);
+
+	public ArrayList<BoardComment> selectBoardCommentsByBoardComment(
+			BoardComment boardComment);
 }
 

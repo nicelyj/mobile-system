@@ -13,158 +13,108 @@ public class BoardComment extends BaseObject {
 	private Integer memberSeq;
 	private String memberNickName;
 	private String memberIp;
-	private Date createDate;
-	private Time createTime;
-	private Date updateDate;
-	private Time updateTime;
-
+	private String createDatetime;
+	private String updateDatetime;
 	/**
 	 * @return the boardCommentSeq
 	 */
 	public Integer getBoardCommentSeq() {
 		return boardCommentSeq;
 	}
-
 	/**
-	 * @param boardCommentSeq
-	 *            the boardCommentSeq to set
+	 * @param boardCommentSeq the boardCommentSeq to set
 	 */
 	public void setBoardCommentSeq(Integer boardCommentSeq) {
 		this.boardCommentSeq = boardCommentSeq;
 	}
-
 	/**
 	 * @return the boardListSeq
 	 */
 	public Integer getBoardListSeq() {
 		return boardListSeq;
 	}
-
 	/**
-	 * @param boardListSeq
-	 *            the boardListSeq to set
+	 * @param boardListSeq the boardListSeq to set
 	 */
 	public void setBoardListSeq(Integer boardListSeq) {
 		this.boardListSeq = boardListSeq;
 	}
-
 	/**
 	 * @return the comment
 	 */
 	public String getComment() {
 		return comment;
 	}
-
 	/**
-	 * @param comment
-	 *            the comment to set
+	 * @param comment the comment to set
 	 */
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-
 	/**
 	 * @return the memberSeq
 	 */
 	public Integer getMemberSeq() {
 		return memberSeq;
 	}
-
 	/**
-	 * @param memberSeq
-	 *            the memberSeq to set
+	 * @param memberSeq the memberSeq to set
 	 */
 	public void setMemberSeq(Integer memberSeq) {
 		this.memberSeq = memberSeq;
 	}
-
 	/**
 	 * @return the memberNickName
 	 */
 	public String getMemberNickName() {
 		return memberNickName;
 	}
-
 	/**
-	 * @param memberNickName
-	 *            the memberNickName to set
+	 * @param memberNickName the memberNickName to set
 	 */
 	public void setMemberNickName(String memberNickName) {
 		this.memberNickName = memberNickName;
 	}
-
 	/**
 	 * @return the memberIp
 	 */
 	public String getMemberIp() {
 		return memberIp;
 	}
-
 	/**
-	 * @param memberIp
-	 *            the memberIp to set
+	 * @param memberIp the memberIp to set
 	 */
 	public void setMemberIp(String memberIp) {
 		this.memberIp = memberIp;
 	}
-
 	/**
-	 * @return the createDate
+	 * @return the createDatetime
 	 */
-	public Date getCreateDate() {
-		return createDate;
+	public String getCreateDatetime() {
+		return createDatetime;
 	}
-
 	/**
-	 * @param createDate
-	 *            the createDate to set
+	 * @param createDatetime the createDatetime to set
 	 */
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setCreateDatetime(String createDatetime) {
+		this.createDatetime = createDatetime;
 	}
-
 	/**
-	 * @return the createTime
+	 * @return the updateDatetime
 	 */
-	public Time getCreateTime() {
-		return createTime;
+	public String getUpdateDatetime() {
+		return updateDatetime;
 	}
-
 	/**
-	 * @param createTime
-	 *            the createTime to set
+	 * @param updateDatetime the updateDatetime to set
 	 */
-	public void setCreateTime(Time createTime) {
-		this.createTime = createTime;
+	public void setUpdateDatetime(String updateDatetime) {
+		this.updateDatetime = updateDatetime;
 	}
-
 	/**
-	 * @return the updateDate
+	 * @return the serialversionuid
 	 */
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-
-	/**
-	 * @param updateDate
-	 *            the updateDate to set
-	 */
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-
-	/**
-	 * @return the updateTime
-	 */
-	public Time getUpdateTime() {
-		return updateTime;
-	}
-
-	/**
-	 * @param updateTime
-	 *            the updateTime to set
-	 */
-	public void setUpdateTime(Time updateTime) {
-		this.updateTime = updateTime;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

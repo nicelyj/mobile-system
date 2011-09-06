@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.song7749.mds.board.model.Board;
+import com.song7749.mds.board.model.BoardComment;
 import com.song7749.mds.board.model.BoardContents;
 import com.song7749.mds.board.model.BoardList;
 import com.song7749.mds.board.model.command.BoardListCommand;
@@ -29,6 +30,7 @@ public class BoardManagerTest extends TestCase {
 	private BoardManager boardManager;
 	private static Board staticBoard;
 	private static BoardList staticBoardList;
+	private static BoardComment staticBoardComment;
 
 	/**
 	 * Test method for
@@ -157,6 +159,73 @@ public class BoardManagerTest extends TestCase {
 
 	/**
 	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#insertBoardCommnet(com.song7749.mds.board.model.BoardComment)}
+	 * .
+	 */
+	@Test
+	public void testInsertBoardCommnet() {
+		BoardComment boardComment = new BoardComment();
+		boardComment.setComment("댓글 테스트");
+		boardComment.setBoardListSeq(BoardManagerTest.staticBoardList.getBoardListSeq());
+		boardComment.setMemberSeq(BoardManagerTest.staticBoardList.getMemberSeq());
+		boardComment.setMemberIp(BoardManagerTest.staticBoardList.getMemberIp());
+		boardComment.setMemberNickName(BoardManagerTest.staticBoardList.getMemberNickName());
+		int processVal = this.boardManager.insertBoardCommnet(boardComment);
+		Assert.assertTrue(processVal>0);
+		BoardManagerTest.staticBoardComment =boardComment;
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#updateBoardComment(com.song7749.mds.board.model.BoardComment)}
+	 * .
+	 */
+	@Test
+	public void testUpdateBoardComment() {
+		BoardComment boardComment = new BoardComment();
+		boardComment.setComment("댓글 업데이트 테스트");
+		boardComment.setBoardCommentSeq(BoardManagerTest.staticBoardComment.getBoardCommentSeq());
+		boardComment.setMemberSeq(BoardManagerTest.staticBoardList.getMemberSeq());
+		int processVal = this.boardManager.updateBoardComment(boardComment);
+		Assert.assertTrue(processVal>0);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#selectCountBoardCommentByBoardComment(com.song7749.mds.board.model.BoardComment)}
+	 * .
+	 */
+	@Test
+	public void testSelectCountBoardCommentByBoardComment() {
+		int boardCommentCount = this.boardManager.selectCountBoardCommentByBoardComment(BoardManagerTest.staticBoardComment);
+		Assert.assertTrue(boardCommentCount > 0);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#selectBoardCommentsByBoardComment(com.song7749.mds.board.model.BoardComment)}
+	 * .
+	 */
+	@Test
+	public void testSelectBoardCommentsByBoardComment() {
+		ArrayList<BoardComment> boardComments = this.boardManager.selectBoardCommentsByBoardComment(BoardManagerTest.staticBoardComment);
+		Assert.assertTrue(boardComments.size() > 0);
+	}
+
+	/**
+	 * Test method for
+	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoardComment(com.song7749.mds.board.model.BoardComment)}
+	 * .
+	 */
+	@Test
+	public void testDeleteBoardComment() {
+		int processVal = this.boardManager.deleteBoardComment(BoardManagerTest.staticBoardComment);
+		Assert.assertTrue(processVal > 0);
+	}
+
+
+	/**
+	 * Test method for
 	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoardList(com.song7749.mds.board.model.BoardList)}
 	 * .
 	 */
@@ -167,52 +236,7 @@ public class BoardManagerTest extends TestCase {
 		int processVal = this.boardManager.deleteBoardList(boardList);
 		Assert.assertTrue(processVal>0);		
 	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#insertBoardCommnet(com.song7749.mds.board.model.BoardComment)}
-	 * .
-	 */
-	public void testInsertBoardCommnet() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#updateBoardComment(com.song7749.mds.board.model.BoardComment)}
-	 * .
-	 */
-	public void testUpdateBoardComment() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoardComment(com.song7749.mds.board.model.BoardComment)}
-	 * .
-	 */
-	public void testDeleteBoardComment() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#selectCountBoardCommentByBoardComment(com.song7749.mds.board.model.BoardComment)}
-	 * .
-	 */
-	public void testSelectCountBoardCommentByBoardComment() {
-		fail("Not yet implemented");
-	}
-
-	/**
-	 * Test method for
-	 * {@link com.song7749.mds.board.service.BoardManager#selectBoardCommentsByBoardComment(com.song7749.mds.board.model.BoardComment)}
-	 * .
-	 */
-	public void testSelectBoardCommentsByBoardComment() {
-		fail("Not yet implemented");
-	}
-
+	
 	/**
 	 * Test method for
 	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoard(com.song7749.mds.board.model.Board)}
