@@ -46,6 +46,8 @@ ${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기
 				</tr>
 			</c:otherwise>
 		</c:choose>
+		<tr>
+			<td colspan="7">${pagingNavi }</td>
+		</tr>
 	</tbody>
 </table>
-<input type="button" name="bntBoardWrite" value="글쓰기">

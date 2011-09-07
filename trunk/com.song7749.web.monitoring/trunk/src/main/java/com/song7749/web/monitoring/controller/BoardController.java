@@ -3,11 +3,13 @@ package com.song7749.web.monitoring.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,10 +26,13 @@ import com.song7749.mds.board.service.BoardManager;
 import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.model.command.MemberCommand;
 import com.song7749.mds.member.service.MemberManager;
+import com.song7749.util.PropertiesUtil;
+import com.song7749.web.util.Pagination;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+	private Logger logger = Logger.getLogger(getClass());
 	@Autowired
 	private BoardManager boardManager;
 	@Autowired
@@ -105,10 +110,13 @@ public class BoardController {
 	@RequestMapping("/boardList.html")
 	public String boardListGeneralMemberHandle(
 			@RequestParam(value = "boardSeq", defaultValue = "1", required = false) Integer boardSeq,
+			@RequestParam(value = "page", defaultValue = "1", required = false) Integer page,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
 		String viewTemplete = "board/boardList";
+		Properties boardProperties = PropertiesUtil
+				.getProperties("variable.properties");
 
 		// 게시판 조회
 		Board board = new Board();
@@ -116,12 +124,48 @@ public class BoardController {
 		ArrayList<Board> boards = this.boardManager.selectBoards(board);
 		board.setBoardName(boards.get(0).getBoardName());
 
+		// 페이지 설정 로드
+		Integer listPerPage = Integer.parseInt(boardProperties
+				.getProperty("boardlist_page_list_per_page"));
+		Integer pageSize = Integer.parseInt(boardProperties
+				.getProperty("boardlist_page_size"));
+
+		int limit = listPerPage;
+		int offset = (page - 1) * listPerPage;
+
 		// 게시글 리스트 조회
 		BoardListCommand boardListCommand = new BoardListCommand();
 		boardListCommand.setBoardList(new BoardList());
 		boardListCommand.getBoardList().setBoardSeq(boardSeq);
+		boardListCommand.setLimit(limit);
+		boardListCommand.setOffset(offset);
+
 		ArrayList<BoardList> boardLists = this.boardManager
 				.selectBoardListsByBoardListCommand(boardListCommand);
+
+		Integer totalRows = 0;
+
+		// 페이징 처리
+		if (boardLists.size() == listPerPage) {// 카운트 안함
+			totalRows = pageSize * listPerPage;
+
+		} else if (boardLists.size() > 0) { // 카운트 계산
+			totalRows = (page - 1) * listPerPage + boardLists.size();
+		} else {// 카운트 쿼리 작성
+			totalRows = this.boardManager
+					.selectCountBoardListByBoardListCommand(boardListCommand);
+			int totalPages = (int) Math.ceil((double) totalRows / listPerPage);
+			boardListCommand
+					.setOffset((Integer) (totalPages - 1) * listPerPage);
+
+			boardLists = this.boardManager
+					.selectBoardListsByBoardListCommand(boardListCommand);
+		}
+
+		Pagination pagination = new Pagination(0);
+		pagination.initialize(totalRows, page, request, listPerPage, pageSize,
+				"/board/boardList.html");
+		String pagingNavi = pagination.print();
 
 		// 게시판 리스트 내에 멤버 id list 조회
 		ArrayList<Integer> memberSeqList = new ArrayList<Integer>();
@@ -143,6 +187,7 @@ public class BoardController {
 
 		modelMap.addAttribute("board", board);
 		modelMap.addAttribute("boardLists", boardLists);
+		modelMap.addAttribute("pagingNavi", pagingNavi);
 
 		modelMap.addAttribute(
 				"javascript",
@@ -165,20 +210,26 @@ public class BoardController {
 		boardListCommand.getBoardList().setBoardListSeq(boardListSeq);
 		ArrayList<BoardList> boardLists = this.boardManager
 				.selectBoardListsByBoardListCommand(boardListCommand);
-		if(boardLists.size()>0){
+		if (boardLists.size() > 0) {
 			modelMap.addAttribute("boardList", boardLists.get(0));
 		}
 
-		if(boardLists.size()>0){
+		// 게시글에 해당하는 회원조회
+		if (boardLists.size() > 0) {
 			MemberCommand memberCommand = new MemberCommand();
 			memberCommand.setMember(new Member());
-			memberCommand.getMember().setMemberSeq(boardLists.get(0).getMemberSeq());
-			ArrayList<Member> memberList = this.memberManager.selectMemberListByMemberSearchCommand(memberCommand);
-		
-			if(memberList.size()>0)
+			memberCommand.getMember().setMemberSeq(
+					boardLists.get(0).getMemberSeq());
+			ArrayList<Member> memberList = this.memberManager
+					.selectMemberListByMemberSearchCommand(memberCommand);
+
+			if (memberList.size() > 0)
 				modelMap.addAttribute("member", memberList.get(0));
+
+			// 게시글 조회수 증가
+			this.boardManager.updateBoardListReadCount(boardLists.get(0));
 		}
-		
+
 		modelMap.addAttribute(
 				"javascript",
 				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
@@ -186,7 +237,6 @@ public class BoardController {
 		return viewTemplete;
 	}
 
-	
 	@RequestMapping({ "/boardListForm.html", "/boardListModifyForm.html" })
 	public String boardListFormGeneralMemberHandle(
 			@RequestParam(value = "boardSeq", defaultValue = "1", required = true) Integer boardSeq,
@@ -287,7 +337,8 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}	
+	}
+
 	@RequestMapping(value = "/boardListProcess.html", method = RequestMethod.DELETE)
 	public void boardListDeleteProcessGeneralMemberHandle(
 			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
@@ -317,32 +368,33 @@ public class BoardController {
 			this.boardManager.deleteBoardList(boardList);
 		}
 	}
-	
+
 	@RequestMapping("/boardCommentList.xml")
-	public String boardCommentList(		
+	public String boardCommentList(
 			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-			modelMap.clear();
+		modelMap.clear();
 
-			BoardComment boardComment = new BoardComment();
-			boardComment.setBoardListSeq(boardListSeq);
-			ArrayList<BoardComment> boardComments = this.boardManager.selectBoardCommentsByBoardComment(boardComment );
-			
-			modelMap.addAttribute("boardComments", boardComments);
-		return null;
-		
+		BoardComment boardComment = new BoardComment();
+		boardComment.setBoardListSeq(boardListSeq);
+		ArrayList<BoardComment> boardComments = this.boardManager
+				.selectBoardCommentsByBoardComment(boardComment);
+
+		modelMap.addAttribute("boardComments", boardComments);
+		return "";
+
 	}
-	
-	@RequestMapping(value="boardCommentProcess",method=RequestMethod.POST)
-	public void boardCommentProcessGeneralMemberHandle(
+
+	@RequestMapping(value = "boardCommentProcess.html", method = RequestMethod.POST)
+	public void boardCommentInsertProcessGeneralMemberHandle(
 			@RequestParam(value = "boardSeq", defaultValue = "0", required = true) Integer boardSeq,
 			@RequestParam(value = "boardListSeq", defaultValue = "0", required = true) Integer boardListSeq,
 			@RequestParam(value = "comment", defaultValue = "0", required = true) String comment,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
-	
+
 		Member member = (Member) modelMap.get("loginMember");
 		BoardComment boardComment = new BoardComment();
 		boardComment.setBoardListSeq(boardListSeq);
@@ -350,7 +402,53 @@ public class BoardController {
 		boardComment.setMemberIp(request.getRemoteAddr());
 		boardComment.setMemberNickName(member.getMemberNickName());
 		boardComment.setMemberSeq(member.getMemberSeq());
+		if (this.boardManager.insertBoardCommnet(boardComment) > 0) {
 
-		this.boardManager.insertBoardCommnet(boardComment );
+		}
+	}
+
+	@RequestMapping(value = "boardCommentProcess.xml", method = RequestMethod.DELETE)
+	public String boardCommentDeleteProcessGeneralMemberHandle(
+			@RequestParam(value = "boardCommentSeq", defaultValue = "0", required = true) Integer boardCommentSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
+		// 회원정보 조회
+		Member member = (Member) modelMap.get("loginMember");
+
+		BoardComment boardComment = new BoardComment();
+		boardComment.setBoardCommentSeq(boardCommentSeq);
+		ArrayList<BoardComment> boardComments = this.boardManager
+				.selectBoardCommentsByBoardComment(boardComment);
+
+		modelMap.clear();
+		if (boardComments.size() == 0) {
+			modelMap.addAttribute("respondMessage", "본인 게시 코멘트가 없습니다.");
+		} else {
+			if (boardComments.get(0).getMemberSeq()
+					.equals(member.getMemberSeq())) {
+				if (this.boardManager.deleteBoardComment(boardComment) > 0)
+					boardListComentCountUpdate(boardComments.get(0)
+							.getBoardListSeq());
+
+				modelMap.addAttribute("respondMessage", "삭제되었습니다.");
+			} else {
+				modelMap.addAttribute("respondMessage", "본인 게시글이 아닙니다.");
+			}
+		}
+
+		return "";
+	}
+
+	private void boardListComentCountUpdate(Integer boardListSeq) {
+		BoardComment boardCommentForboardCount = new BoardComment();
+		boardCommentForboardCount.setBoardListSeq(boardListSeq);
+		Integer boardcommentCount = this.boardManager
+				.selectCountBoardCommentByBoardComment(boardCommentForboardCount);
+
+		BoardList boardList = new BoardList();
+		boardList.setBoardListSeq(boardListSeq);
+		boardList.setBoardCommentCount(boardcommentCount);
+		this.boardManager.updateBoardList(boardList);
 	}
 }

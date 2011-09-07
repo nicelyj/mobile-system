@@ -59,6 +59,7 @@
 		 <property name="aliases">
             <props>
                 <prop key="Board">com.song7749.mds.board.model.Board</prop>
+                <prop key="BoardComment">com.song7749.mds.board.model.BoardComment</prop>
             </props>
         </property>
 	</bean>

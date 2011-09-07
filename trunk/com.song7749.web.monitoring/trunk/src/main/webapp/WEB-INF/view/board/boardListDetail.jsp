@@ -2,6 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp"%>
 ${javascript }
 <form name="frmInputComment" id="frmInputComment" method="post">
+<input type="hidden" name="loginMemberSeq" value="${loginMember.memberSeq }">
 <input type="hidden" name="boardSeq" value="${boardList.boardSeq }">
 <input type="hidden" name="boardListSeq" value="${boardList.boardListSeq }">
 <table class="table-list valid">
@@ -19,17 +20,16 @@ ${javascript }
 		 
 	</tr>
 	<tr>
-		<td>조회수</td>
-		<td colspan="3"> ${boardList.boardReadCount }</td>
-	</tr>
-	<tr>
 		<td> 내용 </td>
 		<td colspan="3">
 			${boardList.boardContents.contents}
 		</td>
 	</tr>
 	<tr>
-		<td colspan="4"> 댓글 (${boardList.boardCommentCount }) </td>
+		<td> 댓글수 </td>
+		<td> ${boardList.boardCommentCount } </td>
+		<td> 조회수 </td>
+		<td> ${boardList.boardReadCount } </td>
 	</tr>
 	<tr>
 		<td colspan="4">
@@ -40,7 +40,7 @@ ${javascript }
 	</tr>
 	<tr>
 		<td colspan="4">
-			<table class="table-list valid" cellspacing="1" cellpadding="5">
+			<table class="table-list valid" cellspacing="1" cellpadding="5" id="tblCommentList">
 				<tr>
 					<td>작성자</td>
 					<td>내용</td>
