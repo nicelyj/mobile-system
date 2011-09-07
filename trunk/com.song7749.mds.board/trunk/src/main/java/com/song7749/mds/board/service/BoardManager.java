@@ -23,8 +23,7 @@ public interface BoardManager {
 
 	public Integer updateBoardList(BoardList boardList);
 
-	public Integer updateBoardListReadCount(BoardList boardList)
-			throws Exception;
+	public Integer updateBoardListReadCount(BoardList boardList);
 
 	public Integer deleteBoardList(BoardList boardList);
 

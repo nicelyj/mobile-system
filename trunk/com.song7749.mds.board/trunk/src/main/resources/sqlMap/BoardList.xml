@@ -17,6 +17,12 @@
 	<statement id="dummySql">
 		SELECT 1
 	</statement>
+
+	<sql id="commonLimitOffset">
+		<isGreaterThan property="limit" compareValue="0">						
+			LIMIT #offset# ,#limit#
+		</isGreaterThan>
+	</sql>
 	
 	<!-- 보드입력 -->
 	<insert id="insertBoard" parameterClass="com.song7749.mds.board.model.Board">
@@ -179,7 +185,6 @@
 			<isNotEmpty property="boardList.boardListDisplayYN">
 				AND bl.boardListDisplayYN='$boardList.boardListDisplayYN$'
 			</isNotEmpty>
-		ORDER BY bl.boardListSeq DESC
 		</dynamic>
 	</sql>
 
@@ -218,6 +223,8 @@
 			BoardList bl 
 			LEFT JOIN BoardContents bc ON (bl.boardListSeq=bc.boardListSeq)
 		<include refid="boardListWhere" />
+		ORDER BY bl.boardListSeq DESC
+		<include refid="commonLimitOffset" />
 	</select>
 
 	<select id="selectCountBoardListByBoardListCommand" parameterClass="com.song7749.mds.board.model.command.BoardListCommand" resultClass="Integer">
@@ -260,6 +267,9 @@
 		WHERE 1=1
 		<isGreaterThan property="boardListSeq" compareValue="0">
 			AND boardListSeq=#boardListSeq#
+		</isGreaterThan>
+		<isGreaterThan property="boardCommentSeq" compareValue="0">
+			AND boardCommentSeq=#boardCommentSeq#
 		</isGreaterThan>
 	</sql>
 	

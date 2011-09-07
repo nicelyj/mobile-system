@@ -33,52 +33,54 @@ public class BoardManagerImpl implements BoardManager {
 
 	public Integer insertBoardList(BoardList boardList) {
 		Integer processVal = this.boardDao.insertBoardList(boardList);
-		processVal +=this.boardDao.insertBoardContents(boardList);
+		processVal += this.boardDao.insertBoardContents(boardList);
 		return processVal;
 	}
 
 	public Integer updateBoardList(BoardList boardList) {
 		Integer processVal = this.boardDao.updateBoardList(boardList);
-		processVal +=this.boardDao.updateBoardContents(boardList);
+		processVal += this.boardDao.updateBoardContents(boardList);
 		return processVal;
 	}
 
-	public Integer updateBoardListReadCount(BoardList boardList)
-			throws Exception {
+	public Integer updateBoardListReadCount(BoardList boardList) {
 		return this.boardDao.updateBoardListReadCount(boardList);
 	}
 
 	public Integer deleteBoardList(BoardList boardList) {
 		Integer processVal = this.boardDao.deleteBoardContents(boardList);
-		processVal+= this.boardDao.deleteBoardList(boardList);
+		processVal += this.boardDao.deleteBoardList(boardList);
 		return processVal;
 	}
 
 	public Integer selectCountBoardListByBoardListCommand(
 			BoardListCommand boardListCommand) {
-		return this.boardDao.selectCountBoardListByBoardListCommand(boardListCommand);
+		return this.boardDao
+				.selectCountBoardListByBoardListCommand(boardListCommand);
 	}
 
 	public ArrayList<BoardList> selectBoardListsByBoardListCommand(
 			BoardListCommand boardListCommand) {
-		return this.boardDao.selectBoardListsByBoardListCommand(boardListCommand);
+		return this.boardDao
+				.selectBoardListsByBoardListCommand(boardListCommand);
 	}
 
-	public Integer insertBoardCommnet(BoardComment boardComment){
+	public Integer insertBoardCommnet(BoardComment boardComment) {
 		return this.boardDao.insertBoardComment(boardComment);
 	}
 
-	public Integer updateBoardComment(BoardComment boardComment){
+	public Integer updateBoardComment(BoardComment boardComment) {
 		return this.boardDao.updateBoardComment(boardComment);
 	}
 
-	public Integer deleteBoardComment(BoardComment boardComment){
+	public Integer deleteBoardComment(BoardComment boardComment) {
 		return this.boardDao.deleteBoardComment(boardComment);
 	}
 
 	public Integer selectCountBoardCommentByBoardComment(
 			BoardComment boardComment) {
-		return this.boardDao.selectCountBoardCommentByBoardComment(boardComment);
+		return this.boardDao
+				.selectCountBoardCommentByBoardComment(boardComment);
 	}
 
 	public ArrayList<BoardComment> selectBoardCommentsByBoardComment(
