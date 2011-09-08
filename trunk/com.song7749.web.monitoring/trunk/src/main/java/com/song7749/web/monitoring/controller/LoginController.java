@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.song7749.base.HttpResultCode;
+import com.song7749.exception.WebException;
 import com.song7749.mds.member.model.Member;
 import com.song7749.mds.member.service.LoginWebUtil;
 
@@ -23,7 +25,7 @@ public class LoginController {
 	@RequestMapping("/loginForm.html")
 	public String loginFormAnonymousHandle(
 			@RequestParam(value = "returnUrl", defaultValue = "/", required = false) String returnUrl,
-			HttpServletRequest request, HttpServletResponse httpResponse,
+			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
 		String ViewTemplete = "login/loginForm";
@@ -37,9 +39,9 @@ public class LoginController {
 
 	@RequestMapping("/logOut.html")
 	public void logOutGeneralMemberHandle(HttpServletRequest request,
-			HttpServletResponse httpResponse) {
+			HttpServletResponse response) {
 		try {
-			this.loginWebUtil.logOut(request, httpResponse);
+			this.loginWebUtil.logOut(request, response);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,14 +51,19 @@ public class LoginController {
 	public void loginProcessAnonymousHandle(
 			@RequestParam(value = "memberId", defaultValue = "", required = true) String memberId,
 			@RequestParam(value = "memberPassword", defaultValue = "", required = true) String memberPassword,
-			HttpServletRequest request, HttpServletResponse httpResponse) {
+			HttpServletRequest request, HttpServletResponse response) {
 
 		Member member = new Member();
 		member.setMemberId(memberId);
 		member.setMemberPassword(memberPassword);
 		try {
-			if (this.loginWebUtil.login(member, request, httpResponse) == false) {
-				httpResponse.sendError(500, "아이디 혹은 패스워드가 일치하지 않습니다.");
+			if (memberId.equals("") || memberPassword.equals("")) {
+				throw new WebException(request, response,
+						HttpResultCode.BAD_REQUEST, "아이디 혹은 패스워드가 일치하지 않습니다.");
+
+			} else if (this.loginWebUtil.login(member, request, response) == false) {
+				throw new WebException(request, response,
+						HttpResultCode.BAD_REQUEST, "아이디 혹은 패스워드가 일치하지 않습니다.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
