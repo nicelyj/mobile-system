@@ -1,10 +1,10 @@
 package com.song7749.mds.member.service;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.song7749.mds.member.dao.MemberDao;
 import com.song7749.mds.member.model.Member;
@@ -21,12 +21,14 @@ public class MemberManagerImpl implements MemberManager {
 		this.memberDao = memberDao;
 	}
 
+	@Transactional
 	public Integer insertMember(Member member) {
 		Integer processVal = this.memberDao.insertMember(member);
 		this.memberDao.insertMemberDetail(member);
 		return processVal;
 	}
 
+	@Transactional
 	public Integer updateMember(Member member) {
 		Integer processVal = 0;
 		processVal += this.memberDao.updateMember(member);
@@ -35,6 +37,7 @@ public class MemberManagerImpl implements MemberManager {
 		return processVal;
 	}
 
+	@Transactional
 	public Integer deleteMember(Member member) {
 		Integer processVal = this.memberDao.deleteMember(member);
 		this.memberDao.deleteMemberDetail(member);
@@ -58,5 +61,4 @@ public class MemberManagerImpl implements MemberManager {
 			MemberAuth memberAuth) {
 		return this.memberDao.selectMemberAuthListByMemberAuth(memberAuth);
 	}
-
 }
