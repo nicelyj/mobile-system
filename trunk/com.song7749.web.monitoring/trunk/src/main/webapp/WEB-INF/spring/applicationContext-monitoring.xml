@@ -69,4 +69,6 @@
 		<property name="maxUploadSize" value="16777216" /> <!-- 16 MB -->
 		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
+	
+	<!-- 배치처리 -->
 </beans>
