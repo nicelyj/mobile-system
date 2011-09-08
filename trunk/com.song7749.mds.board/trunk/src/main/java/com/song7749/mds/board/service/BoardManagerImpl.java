@@ -2,6 +2,8 @@ package com.song7749.mds.board.service;
 
 import java.util.ArrayList;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.song7749.mds.board.dao.BoardDao;
 import com.song7749.mds.board.model.Board;
 import com.song7749.mds.board.model.BoardComment;
@@ -31,12 +33,14 @@ public class BoardManagerImpl implements BoardManager {
 		return this.boardDao.selectBoards(board);
 	}
 
+	@Transactional
 	public Integer insertBoardList(BoardList boardList) {
 		Integer processVal = this.boardDao.insertBoardList(boardList);
 		processVal += this.boardDao.insertBoardContents(boardList);
 		return processVal;
 	}
 
+	@Transactional
 	public Integer updateBoardList(BoardList boardList) {
 		Integer processVal = this.boardDao.updateBoardList(boardList);
 		processVal += this.boardDao.updateBoardContents(boardList);
@@ -47,6 +51,7 @@ public class BoardManagerImpl implements BoardManager {
 		return this.boardDao.updateBoardListReadCount(boardList);
 	}
 
+	@Transactional
 	public Integer deleteBoardList(BoardList boardList) {
 		Integer processVal = this.boardDao.deleteBoardContents(boardList);
 		processVal += this.boardDao.deleteBoardList(boardList);
