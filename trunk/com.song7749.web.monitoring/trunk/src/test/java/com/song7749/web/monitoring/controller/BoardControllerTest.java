@@ -3,6 +3,7 @@ package com.song7749.web.monitoring.controller;
 import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,10 @@ public class BoardControllerTest {
 	private MockHttpServletRequest request;
 	private MockHttpServletResponse response;
 	private AnnotationMethodHandlerAdapter adapter;
+	private Logger logger = Logger.getLogger(getClass());
 
+	@Autowired
+	private LoginController loginController;
 	@Autowired
 	private BoardController boardController;
 
@@ -32,31 +36,57 @@ public class BoardControllerTest {
 		request = new MockHttpServletRequest();
 		response = new MockHttpServletResponse();
 		adapter = new AnnotationMethodHandlerAdapter();
-	}
 
-	@Test
-	public void testBoardListGeneralMemberHandle() throws Exception {
-
-		request.setRequestURI("/board/boards.xml");
-		request.setMethod("GET");
-
-		ModelAndView mv = adapter.handle(request, response, boardController);
-		// HTTP 검사
-		Assert.assertEquals(200, response.getStatus());
-		// respondText 검사
-		Assert.assertNotNull(response.getContentAsString());
-		System.out.println(response.getContentAsString());
+		// 로그인 처리
+		request.setRequestURI("/login/loginProcess.html");
+		request.setParameter("memberId", "song7749");
+		request.setParameter("memberPassword", "11111111");
 		try {
-			new AnnotationMethodHandlerAdapter().handle(request, response,
-					boardController);
+			ModelAndView mv = adapter
+					.handle(request, response, loginController);
+			logger.debug("==========================================================");
+			logger.debug("test start : login check");
+			logger.debug(response.getStatus() + " "
+					+ response.getContentAsString());
+			logger.debug("==========================================================");
+			request.setCookies(response.getCookies());
+
+			Assert.assertEquals(200, response.getStatus());
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void testBoardInsertGeneralMemberHandle() {
-		fail("Not yet implemented");
+	public void testBoardListGeneralMemberHandle() throws Exception {
+		request.setRequestURI("/board/boards.html");
+		request.setMethod("GET");
+
+		ModelAndView mv = adapter.handle(request, response, boardController);
+
+		// HTTP 검사
+		Assert.assertEquals(200, response.getStatus());
+		// 로그인 통과 검사
+		Assert.assertTrue(mv.getViewName().equals("board/boards"));
+		// respondText 검사
+		Assert.assertNotNull(response.getContentAsString());
+	}
+
+	@Test
+	public void testBoardInsertGeneralMemberHandle() throws Exception {
+		request.setRequestURI("/board/boards.html");
+		request.setMethod("GET");
+
+		ModelAndView mv = adapter.handle(request, response, boardController);
+
+		// HTTP 검사
+		Assert.assertEquals(200, response.getStatus());
+		// 로그인 통과 검사
+		Assert.assertTrue(mv.getViewName().equals("board/boards"));
+		// respondText 검사
+		Assert.assertNotNull(response.getContentAsString());
+
 	}
 
 	@Test

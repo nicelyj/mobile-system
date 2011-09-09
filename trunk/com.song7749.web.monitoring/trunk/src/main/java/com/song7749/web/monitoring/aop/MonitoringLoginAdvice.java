@@ -53,9 +53,9 @@ public class MonitoringLoginAdvice {
 			}
 		}
 
-		logger.info("====================================================================================================");
-		logger.info("Aspect-checkAnonymousHandle");
-		logger.info(request.getServerName() + ":" + request.getServerPort()
+		logger.debug("====================================================================================================");
+		logger.debug("Aspect-checkAnonymousHandle");
+		logger.debug(request.getServerName() + ":" + request.getServerPort()
 				+ "[" + request.getRequestURI() + "]");
 
 		Boolean checkLogin = false;
@@ -71,7 +71,7 @@ public class MonitoringLoginAdvice {
 			e.printStackTrace();
 		}
 
-		logger.info("====================================================================================================");
+		logger.debug("====================================================================================================");
 		return joinPoint.proceed();
 	}
 
@@ -92,9 +92,9 @@ public class MonitoringLoginAdvice {
 			}
 		}
 
-		logger.info("====================================================================================================");
-		logger.info("Aspect-GeneralMemberHandle");
-		logger.info(request.getServerName() + ":" + request.getServerPort()
+		logger.debug("====================================================================================================");
+		logger.debug("Aspect-GeneralMemberHandle");
+		logger.debug(request.getServerName() + ":" + request.getServerPort()
 				+ "[" + request.getRequestURI() + "]");
 
 		Boolean checkLogin = false;
@@ -117,7 +117,7 @@ public class MonitoringLoginAdvice {
 			e.printStackTrace();
 		}
 
-		logger.info("====================================================================================================");
+		logger.debug("====================================================================================================");
 
 		return joinPoint.proceed();
 	}
