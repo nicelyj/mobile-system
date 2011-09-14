@@ -37,4 +37,5 @@
 		</dataSource>
 	</transactionManager>	
 	<sqlMap resource="sqlMap/BoardList.xml" />
+	<sqlMap resource="sqlMap/Servers.xml" />
 </sqlMapConfig>

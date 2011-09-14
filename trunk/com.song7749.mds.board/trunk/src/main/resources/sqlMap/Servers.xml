@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Servers">
+	<cacheModel id="serversCache" type="LRU" readOnly="true" serialize="false">
+		<property name="size" value="500" />
+		<flushOnExecute statement="BoardList.dummySql"/>
+		<flushInterval hours="1"/>
+	</cacheModel>
+	
+	<statement id="dummySql">
+		SELECT 1
+	</statement>
+
+	<sql id="commonLimitOffset">
+		<isGreaterThan property="limit" compareValue="0">						
+			LIMIT #offset# ,#limit#
+		</isGreaterThan>
+	</sql>
+		
+</sqlMap>
