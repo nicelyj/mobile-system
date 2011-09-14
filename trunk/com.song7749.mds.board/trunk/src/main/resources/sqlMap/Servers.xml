@@ -20,5 +20,25 @@
 			LIMIT #offset# ,#limit#
 		</isGreaterThan>
 	</sql>
+	
+	<insert id="insertServerList" parameterClass="com.song7749.mds.servers.model.ServerList">
+		INSERT INTO SeverList
+		SET
+			serverName='$serverName$',
+			serverIp='$serverIp$'
+		<selectKey resultClass="Integer" keyProperty="serverListSeq">
+			SELECT LAST_INSERT_ID() 
+		</selectKey>
+	</insert>
 		
+	<insert id="insertServerInfo" parameterClass="com.song7749.mds.servers.model.ServerList">
+		INSERT INTO ServerInfo
+		SET
+			serverListSeq=#serverListSeq#,
+			serverDomainName='$serverInfo.serverDomainName$',
+			serverInfoPort='$serverInfo.serverPort$'
+		<selectKey resultClass="Integer" keyProperty="serverInfo.serverInfoSeq">
+			SELECT LAST_INSERT_ID() 
+		</selectKey>
+	</insert>
 </sqlMap>

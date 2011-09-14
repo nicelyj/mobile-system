@@ -51,8 +51,14 @@
 	<bean id="boardDao" class="com.song7749.mds.board.dao.BoardDaoImpl"
 		p:boardmaster-ref="sqlMapClientTemplate.boardmaster" p:boardslave-ref="sqlMapClientTemplate.boardslave" />
 
+	<bean id="serversDao" class="com.song7749.mds.servers.dao.ServersDaoImpl"
+		p:boardmaster-ref="sqlMapClientTemplate.boardmaster" p:boardslave-ref="sqlMapClientTemplate.boardslave" />
+
 	<!-- ================================ Manager 설정 =================================== -->
 	<bean id="boardManager" class="com.song7749.mds.board.service.BoardManagerImpl"
 		p:boardDao-ref="boardDao" />
+
+	<bean id="serversManager" class="com.song7749.mds.servers.service.ServersManagerImpl"
+		p:serversDao-ref="serversDao" />
 
 </beans>
