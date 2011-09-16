@@ -22,7 +22,7 @@
 	</sql>
 	
 	<insert id="insertServerList" parameterClass="com.song7749.mds.servers.model.ServerList">
-		INSERT INTO SeverList
+		INSERT INTO ServerList
 		SET
 			serverName='$serverName$',
 			serverIp='$serverIp$'
@@ -41,4 +41,58 @@
 			SELECT LAST_INSERT_ID() 
 		</selectKey>
 	</insert>
+	
+	<update id="updateServerList" parameterClass="com.song7749.mds.servers.model.ServerList">
+		UPDATE ServerList 
+		SET
+			serverName='$serverName$',
+			serverIp='$serverIp$'
+		WHERE 
+			serverListSeq=#serverListSeq#			
+	</update>
+	
+	<update id="updateServerInfo" parameterClass="com.song7749.mds.servers.model.ServerList">
+		UPDATE ServerInfo
+		SET
+			serverDomainName='$serverInfo.serverDomainName$',
+			serverInfoPort='$serverInfo.serverPort$'
+		WHERE 
+			serverInfoSeq=#serverInfo.serverInfoSeq#
+	</update>
+	
+	<delete id="deleteServerList" parameterClass="com.song7749.mds.servers.model.ServerList">
+		DELETE FROM ServerList WHERE serverListSeq=#serverListSeq#			
+	</delete>
+	
+	<delete id="deleteServerInfo" parameterClass="com.song7749.mds.servers.model.ServerList">
+		DELETE FROM ServerInfo WHERE serverInfoSeq=#serverInfo.serverInfoSeq#
+	</delete>
+	
+	<resultMap class="com.song7749.mds.servers.model.ServerList" id="selectServersByServersCommand-result">
+		<result property="serverListSeq" column="serverListSeq" />
+		<result property="serverName" column="serverName" />
+		<result property="serverIp" column="serverIp" />
+		<result property="serverInfo.serverInfoSeq" column="serverInfoSeq" />
+		<result property="serverInfo.serverDomainName" column="serverDomainName" />
+		<result property="serverInfo.serverPort" column="serverInfoPort" />
+	</resultMap>
+	
+	<select id="selectServersByServersCommand" parameterClass="com.song7749.mds.servers.model.command.ServersCommand" resultMap="selectServersByServersCommand-result">
+		SELECT
+			sl.serverListSeq,
+			sl.serverName,
+			sl.serverIp,
+			si.serverInfoSeq,
+			si.serverDomainName,
+			si.serverInfoPort
+		FROM
+			ServerList sl
+			LEFT JOIN ServerInfo si ON (sl.serverListSeq=si.serverListSeq)
+		WHERE 1=1
+		<dynamic>
+			<isGreaterThan compareProperty="serverList.serverListSeq" compareValue="0">
+				AND sl.serverListSeq=#serverList.serverListSeq#
+			</isGreaterThan>			
+		</dynamic>
+	</select>
 </sqlMap>

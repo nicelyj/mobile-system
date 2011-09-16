@@ -1,6 +1,9 @@
 package com.song7749.mds.servers.service;
 
 import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -11,13 +14,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.song7749.mds.servers.model.ServerInfo;
 import com.song7749.mds.servers.model.ServerList;
+import com.song7749.mds.servers.model.command.ServersCommand;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:META-INF/spring/applicationContext*" })
 public class ServersManagerTest {
 	@Autowired
 	private ServersManager serversManager;
-
+	private static ServerList staticServerList;
+	
+	
 	@Test
 	public void testInsertServers() {
 		ServerList serverList = new ServerList();
@@ -29,21 +35,31 @@ public class ServersManagerTest {
 
 		Integer processVal = this.serversManager.insertServers(serverList);
 		Assert.assertTrue(processVal > 0);
+		ServersManagerTest.staticServerList = serverList;
 	}
 
 	@Test
 	public void testUpdateServers() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testDeleteServers() {
-		fail("Not yet implemented");
+		ServerList serverList = ServersManagerTest.staticServerList;
+		serverList.setServerName("테스트 서버2");
+		serverList.getServerInfo().setServerDomainName("monitoring 2");
+		Integer processVal = this.serversManager.updateServers(serverList);
+		Assert.assertTrue(processVal>0);
+		ServersManagerTest.staticServerList = serverList;
 	}
 
 	@Test
 	public void testSelectServersByServersCommand() {
-		fail("Not yet implemented");
+		ServersCommand serversCommand = new ServersCommand();
+		serversCommand.setServerList(staticServerList);
+		ArrayList<ServerList> serverLists = this.serversManager.selectServersByServersCommand(serversCommand);
+		Assert.assertTrue(serverLists.size()>0);
 	}
 
+	@Test
+	public void testDeleteServers() {
+		ServerList serverList = ServersManagerTest.staticServerList;
+		Integer processVal = this.serversManager.deleteServers(serverList);
+		Assert.assertTrue(processVal>0);
+	}
 }

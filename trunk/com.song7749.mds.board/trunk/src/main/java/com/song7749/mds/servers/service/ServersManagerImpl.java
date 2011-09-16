@@ -27,21 +27,22 @@ public class ServersManagerImpl implements ServersManager {
 
 	@Override
 	public Integer updateServers(ServerList serverList) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer processVal = this.serversDao.updateServerList(serverList);
+		processVal += this.serversDao.updateServerInfo(serverList);
+		return processVal;
 	}
 
 	@Override
 	public Integer deleteServers(ServerList serverList) {
-		// TODO Auto-generated method stub
-		return null;
+		Integer processVal = this.serversDao.deleteServerInfo(serverList);
+		processVal += this.serversDao.deleteServerList(serverList);
+		return processVal;
 	}
 
 	@Override
 	public ArrayList<ServerList> selectServersByServersCommand(
 			ServersCommand serversCommand) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.serversDao.selectServersByServersCommand(serversCommand);
 	}
 
 }
