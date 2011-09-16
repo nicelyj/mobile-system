@@ -41,7 +41,7 @@ public class BoardController {
 	public BoardController() {
 	}
 
-	@RequestMapping({ "/boards.html", "/boards.xml" })
+	@RequestMapping({ "/boards.html", "/boards.xml" ,"/boards.json"})
 	public String BoardListGeneralMemberHandle(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		String viewTemplete = "board/boards";
