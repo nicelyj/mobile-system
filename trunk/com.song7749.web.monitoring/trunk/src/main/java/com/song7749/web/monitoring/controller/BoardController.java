@@ -155,8 +155,15 @@ public class BoardController {
 			totalRows = this.boardManager
 					.selectCountBoardListByBoardListCommand(boardListCommand);
 			int totalPages = (int) Math.ceil((double) totalRows / listPerPage);
+			
+			if(totalPages == 0){
+				offset = 0;
+			}
+			else{
+				offset = (Integer) (totalPages - 1) * listPerPage;
+			}
 			boardListCommand
-					.setOffset((Integer) (totalPages - 1) * listPerPage);
+					.setOffset(offset);
 
 			boardLists = this.boardManager
 					.selectBoardListsByBoardListCommand(boardListCommand);

@@ -60,6 +60,7 @@
             <props>
                 <prop key="Board">com.song7749.mds.board.model.Board</prop>
                 <prop key="BoardComment">com.song7749.mds.board.model.BoardComment</prop>
+				<prop key="ServerList">com.song7749.mds.servers.model.ServerList</prop>
             </props>
         </property>
 	</bean>

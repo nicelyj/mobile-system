@@ -21,6 +21,11 @@
 					<li><a href="/board/boards.html">게시판 관리</a></li>
 				</ul>
 			</li>
+			<li>서버
+				<ul id="serverList">
+					<li><a href="/server/serverList.html">서버관리</a></li>
+				</ul>
+			</li>
 		</c:when>
 		<c:otherwise>
 			<li>로그인
