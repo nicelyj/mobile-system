@@ -101,11 +101,6 @@
 			<name>atomikos repository</name>
 			<url>http://oss.sonatype.org/content/repositories/comatomikos-083/</url>
 		</repository>
-		<repository>
-			<id>danawa-repository</id>
-			<name>danawa repository</name>
-			<url>http://dev.danawa.com:8080/nexus/content/repositories/releases/</url>
-		</repository>
 	</repositories>
 
 	<properties>
