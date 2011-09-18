@@ -1,5 +1,7 @@
 package com.song7749.mds.servers.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.song7749.base.BaseObject;
 
 public class ServerInfo extends BaseObject {
@@ -7,6 +9,8 @@ public class ServerInfo extends BaseObject {
 	private Integer serverListSeq;
 	private String serverDomainName;
 	private Integer serverPort;
+	private Integer serverType;
+
 	/**
 	 * @return the serverInfoSeq
 	 */
@@ -54,6 +58,18 @@ public class ServerInfo extends BaseObject {
 	 */
 	public void setServerPort(Integer serverPort) {
 		this.serverPort = serverPort;
+	}
+	/**
+	 * @return the serverType
+	 */
+	public Integer getServerType() {
+		return serverType;
+	}
+	/**
+	 * @param serverType the serverType to set
+	 */
+	public void setServerType(Integer serverType) {
+		this.serverType = serverType;
 	}
 	
 }

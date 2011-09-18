@@ -32,6 +32,7 @@ public class ServersManagerTest {
 		serverList.setServerInfo(new ServerInfo());
 		serverList.getServerInfo().setServerDomainName("monitoring");
 		serverList.getServerInfo().setServerPort(3306);
+		serverList.getServerInfo().setServerType(1);
 
 		Integer processVal = this.serversManager.insertServers(serverList);
 		Assert.assertTrue(processVal > 0);
@@ -43,6 +44,7 @@ public class ServersManagerTest {
 		ServerList serverList = ServersManagerTest.staticServerList;
 		serverList.setServerName("테스트 서버2");
 		serverList.getServerInfo().setServerDomainName("monitoring 2");
+		serverList.getServerInfo().setServerType(2);
 		Integer processVal = this.serversManager.updateServers(serverList);
 		Assert.assertTrue(processVal>0);
 		ServersManagerTest.staticServerList = serverList;

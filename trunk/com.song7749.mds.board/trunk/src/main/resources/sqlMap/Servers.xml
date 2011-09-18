@@ -36,7 +36,8 @@
 		SET
 			serverListSeq=#serverListSeq#,
 			serverDomainName='$serverInfo.serverDomainName$',
-			serverInfoPort='$serverInfo.serverPort$'
+			serverInfoPort='$serverInfo.serverPort$',
+			serverType=#serverInfo.serverType#
 		<selectKey resultClass="Integer" keyProperty="serverInfo.serverInfoSeq">
 			SELECT LAST_INSERT_ID() 
 		</selectKey>
@@ -55,7 +56,8 @@
 		UPDATE ServerInfo
 		SET
 			serverDomainName='$serverInfo.serverDomainName$',
-			serverInfoPort='$serverInfo.serverPort$'
+			serverInfoPort='$serverInfo.serverPort$',
+			serverType=#serverInfo.serverType#			
 		WHERE 
 			serverInfoSeq=#serverInfo.serverInfoSeq#
 	</update>
@@ -75,6 +77,7 @@
 		<result property="serverInfo.serverInfoSeq" column="serverInfoSeq" />
 		<result property="serverInfo.serverDomainName" column="serverDomainName" />
 		<result property="serverInfo.serverPort" column="serverInfoPort" />
+		<result property="serverInfo.serverType" column="serverType" />		
 	</resultMap>
 	
 	<select id="selectServersByServersCommand" parameterClass="com.song7749.mds.servers.model.command.ServersCommand" resultMap="selectServersByServersCommand-result">
@@ -84,7 +87,8 @@
 			sl.serverIp,
 			si.serverInfoSeq,
 			si.serverDomainName,
-			si.serverInfoPort
+			si.serverInfoPort,
+			si.serverType			
 		FROM
 			ServerList sl
 			LEFT JOIN ServerInfo si ON (sl.serverListSeq=si.serverListSeq)
