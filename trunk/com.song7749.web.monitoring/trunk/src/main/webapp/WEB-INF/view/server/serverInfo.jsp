@@ -8,7 +8,6 @@ ${javascript }
 				<th>SEQ</th>
 				<th>서버명</th>
 				<th>IP</th>
-				<th>Type</th>
 				<th>Domain</th>
 				<th>Port</th>
 				<th>관리</th>
@@ -19,24 +18,21 @@ ${javascript }
 			<c:when test="${fn:length(serverLists)>0}">
 				<c:forEach var="serverList" items="${serverLists }">
 					<tr>
-						<td> 
+						<td width="150"> 
 							${serverList.serverListSeq } 
 							<input type="hidden" name="serverListSeq" value="${serverList.serverListSeq }" />
 							<input type="hidden" name="serverInfoSeq" value="${serverList.serverInfo.serverInfoSeq }" />
 						</td>
-						<td>
+						<td width="150">
 							<input type="text" name="serverName" value="${serverList.serverName }" />
 						</td>
-						<td>
+						<td width="150">
 							<input type="text" name="serverIp" value="${serverList.serverIp }" />
 						</td>
-						<td>
-							<input type="text" name="serverType" value="${serverList.serverInfo.serverType }" />
-						</td>
-						<td>
+						<td width="150">
 							<input type="text" name="serverDomainName" value="${serverList.serverInfo.serverDomainName }" />
 						</td>
-						<td>
+						<td width="150">
 							<input type="text" name="serverPort" value="${serverList.serverInfo.serverPort }" />
 						</td>
 						<td>
@@ -48,12 +44,11 @@ ${javascript }
 			</c:when>
 			<c:otherwise>
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td width="150"></td>
+					<td width="150"></td>
+					<td width="150"></td>
+					<td width="150"></td>
+					<td width="150"></td>
 					<td></td>
 				</tr>
 			</c:otherwise>

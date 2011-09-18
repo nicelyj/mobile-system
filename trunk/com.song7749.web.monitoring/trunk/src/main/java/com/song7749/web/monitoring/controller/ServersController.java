@@ -56,6 +56,7 @@ public class ServersController {
 			@RequestParam(value = "serverIp", defaultValue = "", required = true) String serverIp,
 			@RequestParam(value = "serverDomainName", defaultValue = "", required = true) String serverDomainName,
 			@RequestParam(value = "serverPort", defaultValue = "35001", required = true) Integer serverPort,
+			@RequestParam(value = "serverType", defaultValue = "1", required = true) Integer serverType,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
@@ -65,6 +66,7 @@ public class ServersController {
 		serverList.setServerInfo(new ServerInfo());
 		serverList.getServerInfo().setServerDomainName(serverDomainName);
 		serverList.getServerInfo().setServerPort(serverPort);
+		serverList.getServerInfo().setServerType(serverType);
 		
 		try {
 			this.serversManager.insertServers(serverList);
@@ -80,6 +82,7 @@ public class ServersController {
 			@RequestParam(value = "serverIp", defaultValue = "", required = true) String serverIp,
 			@RequestParam(value = "serverDomainName", defaultValue = "", required = true) String serverDomainName,
 			@RequestParam(value = "serverPort", defaultValue = "35001", required = true) Integer serverPort,
+			@RequestParam(value = "serverType", defaultValue = "1", required = true) Integer serverType,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
@@ -91,6 +94,7 @@ public class ServersController {
 		serverList.getServerInfo().setServerInfoSeq(serverInfoSeq);
 		serverList.getServerInfo().setServerDomainName(serverDomainName);
 		serverList.getServerInfo().setServerPort(serverPort);
+		serverList.getServerInfo().setServerType(serverType);
 		try {
 			this.serversManager.updateServers(serverList);
 		} catch (Exception e) {
@@ -114,5 +118,28 @@ public class ServersController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}	
+	}
+	
+	public String serverInfoGeneralMemberHandle(
+			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
+			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String viewTemplete = "server/serverList";
+
+		ServersCommand serversCommand = new ServersCommand();
+		serversCommand.setServerList(new ServerList());
+		serversCommand.getServerList().setServerListSeq(serverListSeq);
+		serversCommand.setServerInfo(new ServerInfo());
+		serversCommand.getServerInfo().setServerInfoSeq(serverInfoSeq);
+		ArrayList<ServerList> serverLists = this.serversManager.selectServersByServersCommand(serversCommand);
+
+		modelMap.addAttribute("serverLists", serverLists);
+		modelMap.addAttribute(
+				"javascript",
+				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"+
+				"<script type=\"text/javascript\" src=\"/js/server/serverInfo.js\"></script>"
+			);
+		return viewTemplete;
+	}
 }

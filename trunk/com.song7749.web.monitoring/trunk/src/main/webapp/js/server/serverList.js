@@ -1,11 +1,12 @@
 var addRow = function(){
 	var html="";
 	html+='<tr>';
-	html+='<td width="150"></td>';
-	html+='<td width="150"><input type="text" name="serverName" value="" /></td>';
-	html+='<td width="150"><input type="text" name="serverIp" value="" /></td>';
-	html+='<td width="150"><input type="text" name="serverDomainName" value="" /></td>';
-	html+='<td width="150"><input type="text" name="serverPort" value="" /></td>';
+	html+='<td></td>';
+	html+='<td><input type="text" name="serverName" value="" /></td>';
+	html+='<td><input type="text" name="serverIp" value="" /></td>';
+	html+='<td><input type="text" name="serverType" value="" /></td>';
+	html+='<td><input type="text" name="serverDomainName" value="" /></td>';
+	html+='<td><input type="text" name="serverPort" value="" /></td>';
 	html+='<td><input type="button" value="저장" name="insertServer"/></td>';
 	html+='</tr>';
 	$("#serverListTable").append(html);
@@ -40,5 +41,5 @@ $(document).ready(function(){
 		params.serverInfoSeq=$(this).parent().parent().find("[name='serverInfoSeq']").val();
 		commonAjax("/server/serverProcess.html",params);
 	});
-	$("#serverListTable").find("td:last").append('<input type="button" value="서버 추가" onclick="addRow()">');
+	$("#serverListTable").find("td:last").append('<input type="button" value="서버추가" onclick="addRow()">');
 });
