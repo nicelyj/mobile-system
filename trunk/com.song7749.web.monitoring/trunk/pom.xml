@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.1.2</version>
+			<version>1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
@@ -95,12 +95,6 @@
 			</groupId>
 			<artifactId>web-all</artifactId>
 			<version>10.0-build-20080430</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.embedded</groupId>
-			<artifactId>gf-embedded-api</artifactId>
-			<version>1.0-alpha-4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
