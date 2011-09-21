@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp"%>
 ${javascript }
+<span id="selectServerTypeSpan" style="display: none;">
+	<select name="serverType">
+		<c:forEach var="servserTypeMapKey" items="${serverTypeMapList }">
+			<option value="${servserTypeMapKey }">${serverTypeMap[servserTypeMapKey] }</option>
+		</c:forEach>
+	</select>
+</span>
 <form name="frmServerList" method="post" action="/server/serverProcess.html">
 	<table  class="table-list valid" id="serverListTable">
 		<thead>
@@ -31,7 +38,11 @@ ${javascript }
 							<input type="text" name="serverIp" value="${serverList.serverIp }" />
 						</td>
 						<td>
-							<input type="text" name="serverType" value="${serverList.serverInfo.serverType }" />
+							<select name="serverType">
+								<c:forEach var="servserTypeMapKey" items="${serverTypeMapList }">
+									<option value="${servserTypeMapKey }" <c:if test="${serverList.serverInfo.serverType==servserTypeMapKey }">selected</c:if>>${serverTypeMap[servserTypeMapKey] }</option>
+								</c:forEach>
+							</select>
 						</td>
 						<td>
 							<input type="text" name="serverDomainName" value="${serverList.serverInfo.serverDomainName }" />

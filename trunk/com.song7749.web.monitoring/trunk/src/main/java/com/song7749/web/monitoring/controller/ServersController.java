@@ -1,10 +1,12 @@
 package com.song7749.web.monitoring.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,7 @@ import com.song7749.mds.member.service.MemberManager;
 import com.song7749.mds.servers.model.ServerInfo;
 import com.song7749.mds.servers.model.ServerList;
 import com.song7749.mds.servers.model.command.ServersCommand;
+import com.song7749.mds.servers.model.type.ServerType;
 import com.song7749.mds.servers.service.ServersManager;
 
 @Controller
@@ -35,6 +38,13 @@ public class ServersController {
 			HttpServletResponse response, ModelMap modelMap) {
 		String viewTemplete = "server/serverList";
 		if (request.getRequestURI().equals("/server/serverList.html")) {
+			HashedMap serverTypeMap = new HashedMap();
+			for(ServerType serverType : ServerType.values()){
+				serverTypeMap.put(serverType.getServerTypeCode(), serverType.getSeverTypeDescription());
+			}
+			modelMap.addAttribute("serverTypeMapList", serverTypeMap.keySet());
+			modelMap.addAttribute("serverTypeMap", serverTypeMap);
+			
 			modelMap.addAttribute(
 				"javascript",
 				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"+
@@ -120,21 +130,34 @@ public class ServersController {
 		}
 	}
 	
+	@RequestMapping("/serverInfo.html")
 	public String serverInfoGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
 			HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
-		String viewTemplete = "server/serverList";
+		String viewTemplete = "server/serverInfo";
 
 		ServersCommand serversCommand = new ServersCommand();
 		serversCommand.setServerList(new ServerList());
-		serversCommand.getServerList().setServerListSeq(serverListSeq);
-		serversCommand.setServerInfo(new ServerInfo());
-		serversCommand.getServerInfo().setServerInfoSeq(serverInfoSeq);
-		ArrayList<ServerList> serverLists = this.serversManager.selectServersByServersCommand(serversCommand);
 
-		modelMap.addAttribute("serverLists", serverLists);
+		if(serverListSeq >0)
+			serversCommand.getServerList().setServerListSeq(serverListSeq);
+		
+		serversCommand.setServerInfo(new ServerInfo());
+		if(serverInfoSeq>0)
+			serversCommand.getServerInfo().setServerInfoSeq(serverInfoSeq);
+		
+		ArrayList<ServerList> serverLists = this.serversManager.selectServersByServersCommand(serversCommand);
+		
+		ServerList serverList = null;
+		String serverTypeDescript = null;
+		if(serverLists.size()>0){
+			serverList= serverLists.get(0);
+			serverTypeDescript = ServerType.getServerTypeDescriptionFromCode(serverList.getServerInfo().getServerType());
+		}
+		modelMap.addAttribute("serverList", serverList);
+		modelMap.addAttribute("serverTypeDescript", serverTypeDescript);
 		modelMap.addAttribute(
 				"javascript",
 				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"+
