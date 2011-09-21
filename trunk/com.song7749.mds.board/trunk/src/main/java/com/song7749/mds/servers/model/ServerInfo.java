@@ -3,6 +3,7 @@ package com.song7749.mds.servers.model;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.song7749.base.BaseObject;
+import com.song7749.mds.servers.model.type.ServerType;
 
 public class ServerInfo extends BaseObject {
 	private Integer serverInfoSeq;
@@ -71,5 +72,4 @@ public class ServerInfo extends BaseObject {
 	public void setServerType(Integer serverType) {
 		this.serverType = serverType;
 	}
-	
 }

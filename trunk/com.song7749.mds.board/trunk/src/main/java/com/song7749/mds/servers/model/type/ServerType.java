@@ -20,4 +20,22 @@ public enum ServerType {
     public Integer getServerTypeCode() { 
         return this.serverTypeCode; 
     } 
+    
+    public static String getServerTypeDescriptionFromCode(Integer code){
+    	for(ServerType servertype : ServerType.values()){
+    		if(servertype.serverTypeCode.equals(code)){
+    			return servertype.severTypeDescription;
+    		}
+    	}
+    	return null;
+    }
+
+    public static Integer getServerTypeCodeFromName(String Name){
+    	for(ServerType servertype : ServerType.values()){
+    		if(servertype.name().equals(Name)){
+    			return servertype.serverTypeCode;
+    		}
+    	}
+    	return null;
+    }
 }
