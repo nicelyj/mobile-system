@@ -165,4 +165,38 @@ public class ServersController {
 			);
 		return viewTemplete;
 	}
+	
+	
+	@RequestMapping("/serverInfoDatabaseService.xml")
+	public String serverInfoDatabaseServiceGeneralMemberHandle(
+			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
+			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String viewTemplete = "server/serverInfo";
+		
+		return viewTemplete;
+	}
+
+	@RequestMapping("/serverInfoJavaWebSevice.xml")
+	public String serverInfoJavaWebServiceGeneralMemberHandle(
+			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
+			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String viewTemplete = "server/serverInfo";
+		
+		return viewTemplete;
+	}
+
+	@RequestMapping("/serverInfoPhpWebSevice.xml")	
+	public String serverInfoPhpWebServiceGeneralMemberHandle(
+			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
+			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
+		String viewTemplete = "server/serverInfo";
+		
+		return viewTemplete;
+	}
 }
