@@ -12,6 +12,8 @@ import com.song7749.mds.member.model.command.MemberCommand;
 public interface MemberDao extends Dao {
 	public void setMembermaster(SqlMapClientTemplate membermaster);
 
+	public SqlMapClientTemplate getMembermaster();
+
 	public void setMemberslave(SqlMapClientTemplate memberslave);
 
 	public Integer insertMember(Member member);

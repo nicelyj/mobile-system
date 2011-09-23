@@ -199,7 +199,12 @@
   			<isGreaterThan property="memberSeq" compareValue="0">
   				AND memberSeq = #memberSeq# 
   			</isGreaterThan>
+			<isNotEmpty property="startDate">
+  				AND memberAuthDateTime <![CDATA[>=]]> '$startDate$'			
+			</isNotEmpty>  			
+			<isNotEmpty property="endDate">
+  				AND memberAuthDateTime <![CDATA[<=]]> '$endDate$'			
+			</isNotEmpty>  			
   		</dynamic>
 	</select>
-	
 </sqlMap>

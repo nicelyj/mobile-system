@@ -1,5 +1,6 @@
 package com.song7749.mds.member.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,20 @@ public class MemberManagerImpl implements MemberManager {
 	public ArrayList<MemberAuth> selectMemberAuthListByMemberAuth(
 			MemberAuth memberAuth) {
 		return this.memberDao.selectMemberAuthListByMemberAuth(memberAuth);
+	}
+
+	@Transactional
+	public Integer deleteMemberAuthBatch(ArrayList<MemberAuth> memberAuthList)
+			throws SQLException {
+
+		Integer affectedRowCount = 0;
+		memberDao.getMembermaster().getSqlMapClient().startBatch();
+
+		for (MemberAuth memberAuth : memberAuthList) {
+			affectedRowCount += this.memberDao.deleteMemberAuth(memberAuth);
+		}
+
+		memberDao.getMembermaster().getSqlMapClient().executeBatch();
+		return affectedRowCount;
 	}
 }

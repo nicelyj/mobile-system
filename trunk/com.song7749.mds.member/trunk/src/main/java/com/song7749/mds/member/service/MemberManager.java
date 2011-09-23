@@ -1,7 +1,7 @@
 package com.song7749.mds.member.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.song7749.mds.member.dao.MemberDao;
 import com.song7749.mds.member.model.Member;
@@ -23,6 +23,9 @@ public interface MemberManager {
 	public Integer insertMemberAuth(MemberAuth memberAuth);
 
 	public Integer deleteMemberAuth(MemberAuth memberAuth);
+
+	public Integer deleteMemberAuthBatch(ArrayList<MemberAuth> memberAuthList)
+			throws SQLException;
 
 	public ArrayList<MemberAuth> selectMemberAuthListByMemberAuth(
 			MemberAuth memberAuth);

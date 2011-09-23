@@ -24,6 +24,8 @@ public class MemberAuth extends BaseObject {
 	private Integer memberSeq;
 	private String memberAuthKey = "";
 	private String memberAuthDateTime;
+	private String startDate;
+	private String endDate;
 
 	/**
 	 * @return the member
@@ -101,4 +103,33 @@ public class MemberAuth extends BaseObject {
 		this.memberAuthDateTime = memberAuthDateTime;
 	}
 
+	/**
+	 * @return the startDate
+	 */
+	public String getStartDate() {
+		return startDate;
+	}
+
+	/**
+	 * @param startDate
+	 *            the startDate to set
+	 */
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	/**
+	 * @return the endDate
+	 */
+	public String getEndDate() {
+		return endDate;
+	}
+
+	/**
+	 * @param endDate
+	 *            the endDate to set
+	 */
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
 }

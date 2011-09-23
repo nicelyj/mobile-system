@@ -18,6 +18,11 @@ public class MemberDaoImpl implements MemberDao {
 		this.membermaster = membermaster;
 	}
 
+	@Override
+	public SqlMapClientTemplate getMembermaster() {
+		return this.membermaster;
+	}
+
 	public void setMemberslave(SqlMapClientTemplate memberslave) {
 		this.memberslave = memberslave;
 	}
@@ -85,4 +90,5 @@ public class MemberDaoImpl implements MemberDao {
 		return (ArrayList<MemberAuth>) membermaster.queryForList(
 				"Member.selectMemberAuthListByMemberAuth", memberAuth);
 	}
+
 }
