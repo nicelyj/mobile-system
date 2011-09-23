@@ -41,7 +41,7 @@ public class BoardController {
 	public BoardController() {
 	}
 
-	@RequestMapping({ "/boards.html", "/boards.xml" ,"/boards.json"})
+	@RequestMapping({ "/boards.html", "/boards.xml", "/boards.json" })
 	public String BoardListGeneralMemberHandle(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		String viewTemplete = "board/boards";
@@ -155,15 +155,13 @@ public class BoardController {
 			totalRows = this.boardManager
 					.selectCountBoardListByBoardListCommand(boardListCommand);
 			int totalPages = (int) Math.ceil((double) totalRows / listPerPage);
-			
-			if(totalPages == 0){
+
+			if (totalPages == 0) {
 				offset = 0;
-			}
-			else{
+			} else {
 				offset = (Integer) (totalPages - 1) * listPerPage;
 			}
-			boardListCommand
-					.setOffset(offset);
+			boardListCommand.setOffset(offset);
 
 			boardLists = this.boardManager
 					.selectBoardListsByBoardListCommand(boardListCommand);
@@ -172,6 +170,10 @@ public class BoardController {
 		Pagination pagination = new Pagination(0);
 		pagination.initialize(totalRows, page, request, listPerPage, pageSize,
 				"/board/boardList.html");
+		pagination.setPageListOnlinkCssClass("num_on");
+		pagination.setPageButtonlinkCssClass("numBtn");
+		pagination.setPageListlinkCssClass("num_dis");
+
 		String pagingNavi = pagination.print();
 
 		// 게시판 리스트 내에 멤버 id list 조회

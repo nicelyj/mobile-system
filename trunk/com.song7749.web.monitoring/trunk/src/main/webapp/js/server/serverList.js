@@ -17,6 +17,7 @@ var addRow = function(){
 		params.serverName=$(this).parent().parent().find("[name='serverName']").val();
 		params.serverIp=$(this).parent().parent().find("[name='serverIp']").val();
 		params.serverDomainName=$(this).parent().parent().find("[name='serverDomainName']").val();
+		params.serverType=$(this).parent().parent().find("[name='serverType']").val();		
 		params.serverPort=$(this).parent().parent().find("[name='serverPort']").val();
 		commonAjax("/server/serverProcess.html",params);
 	});

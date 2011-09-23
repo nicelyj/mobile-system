@@ -22,6 +22,7 @@ ${javascript }
 			</tr>
 		</thead>
 	</table>
+	<!-- Database 메뉴출력 -->
 	<table  class="table-list valid" id="serverListTable">
 		<thead>
 			<tr>

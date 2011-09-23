@@ -23,8 +23,8 @@ ${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기
 				<c:forEach var="boardList" items="${boardLists }">
 					<tr>
 						<td>
-							${boardList.boardListSeq }
 							<input type="hidden" name="boardListSeq" value="${boardList.boardListSeq }">
+							${boardList.boardListSeq }
 						</td>
 						<td><a href="/board/boardListDetail.html?boardListSeq=${boardList.boardListSeq }">${boardList.boardTitle }</a></td>
 						<td>${memberIdMap[boardList.memberSeq] }(${boardList.memberNickName })</td>
@@ -46,8 +46,8 @@ ${board.boardName } : <input type="button" name="bntBoardWrite" value="글쓰기
 				</tr>
 			</c:otherwise>
 		</c:choose>
-		<tr>
-			<td colspan="7">${pagingNavi }</td>
-		</tr>
 	</tbody>
 </table>
+<div class="numSt">
+	<p>${pagingNavi }</p>
+</div>

@@ -1,7 +1,6 @@
 package com.song7749.web.monitoring.controller;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.song7749.mds.board.model.Board;
-import com.song7749.mds.board.service.BoardManager;
 import com.song7749.mds.member.service.MemberManager;
 import com.song7749.mds.servers.model.ServerInfo;
 import com.song7749.mds.servers.model.ServerList;
@@ -32,30 +29,31 @@ public class ServersController {
 	private ServersManager serversManager;
 	@Autowired
 	private MemberManager memberManager;
-	
-	@RequestMapping({ "/serverList.html", "/serverList.xml"})
+
+	@RequestMapping({ "/serverList.html", "/serverList.xml" })
 	public String serverListGeneralMemberHandle(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		String viewTemplete = "server/serverList";
 		if (request.getRequestURI().equals("/server/serverList.html")) {
 			HashedMap serverTypeMap = new HashedMap();
-			for(ServerType serverType : ServerType.values()){
-				serverTypeMap.put(serverType.getServerTypeCode(), serverType.getSeverTypeDescription());
+			for (ServerType serverType : ServerType.values()) {
+				serverTypeMap.put(serverType.getServerTypeCode(),
+						serverType.getSeverTypeDescription());
 			}
 			modelMap.addAttribute("serverTypeMapList", serverTypeMap.keySet());
 			modelMap.addAttribute("serverTypeMap", serverTypeMap);
-			
+
 			modelMap.addAttribute(
-				"javascript",
-				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"+
-				"<script type=\"text/javascript\" src=\"/js/server/serverList.js\"></script>"
-			);
+					"javascript",
+					"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
+							+ "<script type=\"text/javascript\" src=\"/js/server/serverList.js\"></script>");
 		} else {
 			modelMap.clear();
 		}
 
 		ServersCommand serversCommand = new ServersCommand();
-		ArrayList<ServerList> serverLists = this.serversManager.selectServersByServersCommand(serversCommand);
+		ArrayList<ServerList> serverLists = this.serversManager
+				.selectServersByServersCommand(serversCommand);
 		modelMap.addAttribute("serverLists", serverLists);
 		return viewTemplete;
 	}
@@ -77,13 +75,14 @@ public class ServersController {
 		serverList.getServerInfo().setServerDomainName(serverDomainName);
 		serverList.getServerInfo().setServerPort(serverPort);
 		serverList.getServerInfo().setServerType(serverType);
-		
+
 		try {
 			this.serversManager.insertServers(serverList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	@RequestMapping(value = "/serverProcess.html", method = RequestMethod.PUT)
 	public void serverUpdateGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
@@ -111,7 +110,7 @@ public class ServersController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping(value = "/serverProcess.html", method = RequestMethod.DELETE)
 	public void serverDeleteGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
@@ -129,52 +128,64 @@ public class ServersController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@RequestMapping("/serverInfo.html")
 	public String serverInfoGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
 
 		ServersCommand serversCommand = new ServersCommand();
 		serversCommand.setServerList(new ServerList());
 
-		if(serverListSeq >0)
+		if (serverListSeq > 0)
 			serversCommand.getServerList().setServerListSeq(serverListSeq);
-		
+
 		serversCommand.setServerInfo(new ServerInfo());
-		if(serverInfoSeq>0)
+		if (serverInfoSeq > 0)
 			serversCommand.getServerInfo().setServerInfoSeq(serverInfoSeq);
-		
-		ArrayList<ServerList> serverLists = this.serversManager.selectServersByServersCommand(serversCommand);
-		
+
+		ArrayList<ServerList> serverLists = this.serversManager
+				.selectServersByServersCommand(serversCommand);
+
 		ServerList serverList = null;
 		String serverTypeDescript = null;
-		if(serverLists.size()>0){
-			serverList= serverLists.get(0);
-			serverTypeDescript = ServerType.getServerTypeDescriptionFromCode(serverList.getServerInfo().getServerType());
+		if (serverLists.size() > 0) {
+			serverList = serverLists.get(0);
+			serverTypeDescript = ServerType
+					.getServerTypeDescriptionFromCode(serverList
+							.getServerInfo().getServerType());
 		}
 		modelMap.addAttribute("serverList", serverList);
 		modelMap.addAttribute("serverTypeDescript", serverTypeDescript);
 		modelMap.addAttribute(
 				"javascript",
-				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"+
-				"<script type=\"text/javascript\" src=\"/js/server/serverInfo.js\"></script>"
-			);
+				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
+						+ "<script type=\"text/javascript\" src=\"/js/server/serverInfo.js\"></script>");
 		return viewTemplete;
 	}
-	
-	
+
+	@RequestMapping("/serviceInfoProcessList.xml")
+	public String serviceInfoProcessListGeneralMemberHandle(
+			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
+			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+		String viewTemplete = "server/serverInfo";
+
+		return viewTemplete;
+	}
+
 	@RequestMapping("/serverInfoDatabaseService.xml")
 	public String serverInfoDatabaseServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
-		
+
 		return viewTemplete;
 	}
 
@@ -182,21 +193,21 @@ public class ServersController {
 	public String serverInfoJavaWebServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
-		
+
 		return viewTemplete;
 	}
 
-	@RequestMapping("/serverInfoPhpWebSevice.xml")	
+	@RequestMapping("/serverInfoPhpWebSevice.xml")
 	public String serverInfoPhpWebServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
-		
+
 		return viewTemplete;
 	}
 }
