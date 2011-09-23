@@ -10,14 +10,16 @@ import com.song7749.mds.board.model.BoardComment;
 import com.song7749.mds.board.model.BoardList;
 import com.song7749.mds.board.model.command.BoardListCommand;
 
-public interface BoardDao extends Dao{
+public interface BoardDao extends Dao {
 
 	/**
 	 * @param boardmaster
 	 *            the boardmaster to set
 	 */
 	public void setBoardmaster(SqlMapClientTemplate boardmaster);
-	
+
+	public SqlMapClientTemplate getBoardmaster();
+
 	/**
 	 * @param boardslave
 	 *            the boardslave to set
@@ -31,7 +33,7 @@ public interface BoardDao extends Dao{
 	 * @return
 	 */
 	public Integer insertBoard(Board board);
-	
+
 	/**
 	 * 보드 삭제<br>
 	 * 
@@ -39,7 +41,7 @@ public interface BoardDao extends Dao{
 	 * @return
 	 */
 	public Integer deleteBoard(Board board);
-	
+
 	/**
 	 * 보드 수정
 	 * 
@@ -47,7 +49,7 @@ public interface BoardDao extends Dao{
 	 * @return
 	 */
 	public Integer updateBoard(Board board);
-	
+
 	/**
 	 * 보드 목록 .<br>
 	 * 
@@ -58,11 +60,12 @@ public interface BoardDao extends Dao{
 
 	/**
 	 * 보드 리스트 목록 .<br>
+	 * 
 	 * @param boardList
 	 * @return
 	 */
 	public Integer insertBoardList(BoardList boardList);
-	
+
 	/**
 	 * 보드 컨텐츠 등록.<br>
 	 * 
@@ -109,4 +112,3 @@ public interface BoardDao extends Dao{
 	public ArrayList<BoardComment> selectBoardCommentsByBoardComment(
 			BoardComment boardComment);
 }
-

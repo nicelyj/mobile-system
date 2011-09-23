@@ -15,6 +15,8 @@ public interface ServersDao extends Dao {
 	 */
 	public void setBoardmaster(SqlMapClientTemplate boardmaster);
 
+	public SqlMapClientTemplate getBoardmaster();
+
 	/**
 	 * @param boardslave
 	 *            the boardslave to set

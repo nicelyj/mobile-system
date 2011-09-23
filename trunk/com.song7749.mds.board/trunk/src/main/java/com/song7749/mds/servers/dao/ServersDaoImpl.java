@@ -19,6 +19,10 @@ public class ServersDaoImpl implements ServersDao {
 		this.boardmaster = boardmaster;
 	}
 
+	public SqlMapClientTemplate getBoardmaster() {
+		return this.boardmaster;
+	}
+
 	/**
 	 * @param boardslave
 	 *            the boardslave to set
@@ -84,7 +88,8 @@ public class ServersDaoImpl implements ServersDao {
 	@Override
 	public ArrayList<ServerList> selectServersByServersCommand(
 			ServersCommand serversCommand) {
-		return (ArrayList<ServerList>) this.boardslave.queryForList("Servers.selectServersByServersCommand", serversCommand);
+		return (ArrayList<ServerList>) this.boardslave.queryForList(
+				"Servers.selectServersByServersCommand", serversCommand);
 	}
 
 }

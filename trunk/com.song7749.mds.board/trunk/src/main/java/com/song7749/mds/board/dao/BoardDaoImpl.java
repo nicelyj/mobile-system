@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
-import com.song7749.base.Dao;
 import com.song7749.mds.board.model.Board;
 import com.song7749.mds.board.model.BoardComment;
 import com.song7749.mds.board.model.BoardList;
@@ -21,6 +20,11 @@ public class BoardDaoImpl implements BoardDao {
 	 */
 	public void setBoardmaster(SqlMapClientTemplate boardmaster) {
 		this.boardmaster = boardmaster;
+	}
+
+	@Override
+	public SqlMapClientTemplate getBoardmaster() {
+		return this.boardmaster;
 	}
 
 	/**
@@ -56,8 +60,8 @@ public class BoardDaoImpl implements BoardDao {
 				&& board.getBoardName().isEmpty())
 			throw new InvalidParameterException();
 
-		Integer processVal = (Integer) this.boardmaster.update("BoardList.deleteBoard",
-				board);
+		Integer processVal = (Integer) this.boardmaster.update(
+				"BoardList.deleteBoard", board);
 		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
 		return processVal;
 	}
@@ -72,8 +76,8 @@ public class BoardDaoImpl implements BoardDao {
 		if (board.getBoardSeq() == null || board.getBoardSeq() == 0)
 			throw new InvalidParameterException();
 
-		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoard",
-				board);
+		Integer processVal = (Integer) this.boardmaster.update(
+				"BoardList.updateBoard", board);
 		boardslave.queryForObject("BoardList.dummySql"); // cache flushed
 		return processVal;
 	}
@@ -92,80 +96,99 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public Integer insertBoardList(BoardList boardList) {
-		Integer processVal = (Integer) this.boardmaster.insert("BoardList.insertBoardList", boardList);
+		Integer processVal = (Integer) this.boardmaster.insert(
+				"BoardList.insertBoardList", boardList);
 		return processVal;
 	}
-	
-	public Integer insertBoardContents(BoardList boardList){
-		Integer processVal = (Integer) this.boardmaster.insert("BoardList.insertBoardContents", boardList);	
+
+	public Integer insertBoardContents(BoardList boardList) {
+		Integer processVal = (Integer) this.boardmaster.insert(
+				"BoardList.insertBoardContents", boardList);
 		return processVal;
 	}
 
 	@Override
 	public Integer updateBoardList(BoardList boardList) {
-		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoardList", boardList);
+		Integer processVal = (Integer) this.boardmaster.update(
+				"BoardList.updateBoardList", boardList);
 		return processVal;
 	}
 
 	@Override
 	public Integer updateBoardContents(BoardList boardList) {
-		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoardContents", boardList);
+		Integer processVal = (Integer) this.boardmaster.update(
+				"BoardList.updateBoardContents", boardList);
 		return processVal;
 	}
 
 	@Override
 	public Integer updateBoardListReadCount(BoardList boardList) {
-		Integer processVal = (Integer) this.boardmaster.update("BoardList.updateBoardListReadCount", boardList);
+		Integer processVal = (Integer) this.boardmaster.update(
+				"BoardList.updateBoardListReadCount", boardList);
 		return processVal;
 	}
 
 	@Override
 	public Integer selectCountBoardListByBoardListCommand(
 			BoardListCommand boardListCommand) {
-		return  (Integer) this.boardslave.queryForObject("BoardList.selectCountBoardListByBoardListCommand", boardListCommand);
+		return (Integer) this.boardslave.queryForObject(
+				"BoardList.selectCountBoardListByBoardListCommand",
+				boardListCommand);
 	}
 
 	@Override
 	public ArrayList<BoardList> selectBoardListsByBoardListCommand(
 			BoardListCommand boardListCommand) {
-		return (ArrayList<BoardList>)this.boardslave.queryForList("BoardList.selectBoardListsByBoardListCommand", boardListCommand);
+		return (ArrayList<BoardList>) this.boardslave.queryForList(
+				"BoardList.selectBoardListsByBoardListCommand",
+				boardListCommand);
 	}
 
 	@Override
 	public Integer deleteBoardContents(BoardList boardList) {
-		return (Integer)this.boardmaster.delete("BoardList.deleteBoardContents", boardList);
+		return (Integer) this.boardmaster.delete(
+				"BoardList.deleteBoardContents", boardList);
 	}
 
 	@Override
 	public Integer deleteBoardList(BoardList boardList) {
-		return (Integer)this.boardmaster.delete("BoardList.deleteBoardList", boardList);
+		return (Integer) this.boardmaster.delete("BoardList.deleteBoardList",
+				boardList);
 	}
 
 	@Override
 	public Integer insertBoardComment(BoardComment boardComment) {
-		return (Integer)this.boardmaster.insert("BoardList.insertBoardComment", boardComment);
+		return (Integer) this.boardmaster.insert(
+				"BoardList.insertBoardComment", boardComment);
 	}
 
 	@Override
 	public Integer updateBoardComment(BoardComment boardComment) {
-		return (Integer)this.boardmaster.update("BoardList.updateBoardComment", boardComment);
+		return (Integer) this.boardmaster.update(
+				"BoardList.updateBoardComment", boardComment);
 	}
 
 	@Override
 	public Integer deleteBoardComment(BoardComment boardComment) {
-		return (Integer)this.boardmaster.delete("BoardList.deleteBoardComment", boardComment);
+		return (Integer) this.boardmaster.delete(
+				"BoardList.deleteBoardComment", boardComment);
 	}
 
 	@Override
 	public Integer selectCountBoardCommentByBoardComment(
 			BoardComment boardComment) {
-		return (Integer)this.boardslave.queryForObject("BoardList.selectCountBoardCommentByBoardComment", boardComment);
+		return (Integer) this.boardslave
+				.queryForObject(
+						"BoardList.selectCountBoardCommentByBoardComment",
+						boardComment);
 	}
 
 	@Override
 	public ArrayList<BoardComment> selectBoardCommentsByBoardComment(
 			BoardComment boardComment) {
 		// TODO Auto-generated method stub
-		return (ArrayList<BoardComment>)this.boardslave.queryForList("BoardList.selectBoardCommentsByBoardComment", boardComment);
+		return (ArrayList<BoardComment>) this.boardslave.queryForList(
+				"BoardList.selectBoardCommentsByBoardComment", boardComment);
 	}
+
 }
