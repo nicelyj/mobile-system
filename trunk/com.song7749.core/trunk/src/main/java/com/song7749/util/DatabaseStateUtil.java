@@ -14,10 +14,11 @@ public class DatabaseStateUtil {
 	public static ArrayList<DatabaseStateForMysql> getMysqlDatabaseState(
 			SqlMapClientTemplate dataSource) throws SQLException {
 		String sql = "show status";
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
-			java.sql.PreparedStatement statement = dataSource.getDataSource()
-					.getConnection().prepareStatement(sql);
-			ResultSet rs = statement.executeQuery();
+			statement = dataSource.getSqlMapClient().getDataSource().getConnection().prepareStatement(sql);
+			rs = statement.executeQuery();
 			ArrayList<DatabaseStateForMysql> stateList = new ArrayList<DatabaseStateForMysql>();
 			while (rs.next()) {
 				DatabaseStateForMysql databaseStateForMysql = new DatabaseStateForMysql();
@@ -28,16 +29,21 @@ public class DatabaseStateUtil {
 			return stateList;
 		} catch (SQLException e) {
 			throw e;
+		} finally{
+			rs.close();
+			statement.close();
+			dataSource.getSqlMapClient().getDataSource().getConnection().close();
 		}
 	}
 
 	public static ArrayList<DatabaseProcessForMysql> getMysqlDatebaseProcess(
 			SqlMapClientTemplate dataSource) throws SQLException {
 		String sql = "show processlist";
+		PreparedStatement statement = null;
+		ResultSet rs = null;
 		try {
-			PreparedStatement statement = dataSource.getDataSource()
-					.getConnection().prepareStatement(sql);
-			ResultSet rs = statement.executeQuery();
+			statement = dataSource.getSqlMapClient().getDataSource().getConnection().prepareStatement(sql);
+			rs = statement.executeQuery();
 			ArrayList<DatabaseProcessForMysql> stateList = new ArrayList<DatabaseProcessForMysql>();
 			while (rs.next()) {
 				DatabaseProcessForMysql databaseProcessForMysql = new DatabaseProcessForMysql();
@@ -56,6 +62,10 @@ public class DatabaseStateUtil {
 			return stateList;
 		} catch (SQLException e) {
 			throw e;
+		} finally{
+			rs.close();
+			statement.close();
+			dataSource.getSqlMapClient().getDataSource().getConnection().close();			
 		}
 	}
 }

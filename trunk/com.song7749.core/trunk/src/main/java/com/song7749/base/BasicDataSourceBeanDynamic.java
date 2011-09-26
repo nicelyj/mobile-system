@@ -30,9 +30,9 @@ public class BasicDataSourceBeanDynamic extends BasicDataSource {
 		super.setUsername(config.getString("username"));
 		super.setPassword(config.getString("password"));
 
-		super.setMaxActive(100);
-		super.setInitialSize(3);
-		super.setMaxIdle(100);
+		super.setMaxActive(30);
+		super.setInitialSize(2);
+		super.setMaxIdle(30);
 		super.setMaxWait(60000);
 		super.setValidationQuery("select 1");
 		super.setTestWhileIdle(true);
