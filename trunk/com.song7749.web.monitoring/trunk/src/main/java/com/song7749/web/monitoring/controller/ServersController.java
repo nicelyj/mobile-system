@@ -1,14 +1,17 @@
 package com.song7749.web.monitoring.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +24,7 @@ import com.song7749.mds.servers.model.ServerList;
 import com.song7749.mds.servers.model.command.ServersCommand;
 import com.song7749.mds.servers.model.type.ServerType;
 import com.song7749.mds.servers.service.ServersManager;
-import com.sun.enterprise.config.serverbeans.Application;
-import com.sun.grizzly.Context;
+import com.song7749.util.DatabaseStateUtil;
 
 @Controller
 @RequestMapping("/server")
@@ -170,7 +172,8 @@ public class ServersController {
 		return viewTemplete;
 	}
 
-	@RequestMapping("/serviceInfoProcessList.xml")
+	@RequestMapping({ "/serviceInfoProcessList.xml",
+			"/serviceInfoProcessList.html" })
 	public String serviceInfoProcessListGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
@@ -181,19 +184,26 @@ public class ServersController {
 		return viewTemplete;
 	}
 
-	@RequestMapping("/serverInfoDatabaseService.xml")
+	@RequestMapping({ "/serverInfoDatabaseService.xml",
+			"/serverInfoDatabaseService.html" })
 	public String serverInfoDatabaseServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
-			@RequestParam(value = "dateType", defaultValue = "state", required = true) String dateType,
-			HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap) {
+			@RequestParam(value = "dataType", defaultValue = "state", required = true) String dataType,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
 		String viewTemplete = "server/serverInfo";
+
+		// xml 일 경우 modelmap 을 clear 한다.
+		if (request.getRequestURI().indexOf("xml") > 0) {
+			modelMap.clear();
+		}
 
 		// 서버 정보를 획득함
 		ServersCommand serversCommand = new ServersCommand();
 		if (serverListSeq > 0)
-			serversCommand .getServerList().setServerListSeq(serverListSeq);
+			serversCommand.getServerList().setServerListSeq(serverListSeq);
 
 		serversCommand.setServerInfo(new ServerInfo());
 		if (serverInfoSeq > 0)
@@ -206,26 +216,41 @@ public class ServersController {
 
 		if (serverLists.size() > 0) {
 			serverList = serverLists.get(0);
-		}		
-		else{
+		} else {
 			return viewTemplete;
 		}
-		
-		//serverList.getServerInfo().getServerDomainName();
-		
+
+		// db 연결 가져온다.
+		ApplicationContext context = getApplicationContext();
+		SqlMapClientTemplate dataSource = (SqlMapClientTemplate) context
+				.getBean("sqlMapClientTemplate."
+						+ serverList.getServerInfo().getServerDomainName());
+
 		// db state
-		if(dateType == "state"){
-			
+		if (dataType.equals("state")) {
+			try {
+				modelMap.addAttribute("list",
+						DatabaseStateUtil.getMysqlDatabaseState(dataSource));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		// db process
 		else {
-			
+			try {
+				modelMap.addAttribute("list",
+						DatabaseStateUtil.getMysqlDatebaseProcess(dataSource));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
 		return viewTemplete;
 	}
 
-	@RequestMapping("/serverInfoJavaWebSevice.xml")
+	@RequestMapping({ "/serverInfoJavaWebSevice.xml",
+			"/serverInfoJavaWebSevice.html" })
 	public String serverInfoJavaWebServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
@@ -236,7 +261,8 @@ public class ServersController {
 		return viewTemplete;
 	}
 
-	@RequestMapping("/serverInfoPhpWebSevice.xml")
+	@RequestMapping({ "/serverInfoPhpWebSevice.xml",
+			"/serverInfoPhpWebSevice.html" })
 	public String serverInfoPhpWebServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
@@ -245,5 +271,16 @@ public class ServersController {
 		String viewTemplete = "server/serverInfo";
 
 		return viewTemplete;
+	}
+
+	/**
+	 * bean 설정 가져오기
+	 * 
+	 * @return ApplicationContext
+	 */
+	private ApplicationContext getApplicationContext() {
+		String[] paths = { "classpath*:META-INF/spring/applicationContext*" };
+
+		return new ClassPathXmlApplicationContext(paths);
 	}
 }

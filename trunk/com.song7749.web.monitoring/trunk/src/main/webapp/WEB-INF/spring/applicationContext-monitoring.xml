@@ -61,6 +61,8 @@
                 <prop key="Board">com.song7749.mds.board.model.Board</prop>
                 <prop key="BoardComment">com.song7749.mds.board.model.BoardComment</prop>
 				<prop key="ServerList">com.song7749.mds.servers.model.ServerList</prop>
+				<prop key="DatabaseState">com.song7749.util.database.model.DatabaseStateForMysql</prop>				
+				<prop key="DatabaseProcess">com.song7749.util.database.model.DatabaseProcessForMysql</prop>
             </props>
         </property>
 	</bean>

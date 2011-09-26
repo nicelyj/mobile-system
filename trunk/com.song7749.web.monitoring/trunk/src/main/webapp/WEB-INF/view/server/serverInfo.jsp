@@ -22,17 +22,12 @@ ${javascript }
 			</tr>
 		</thead>
 	</table>
-	<!-- Database 메뉴출력 -->
-	<table  class="table-list valid" id="serverListTable">
-		<thead>
-			<tr>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td></td>
-			</tr>
-		</tbody>
-	</table>
 </form>
+<table  class="table-list valid" id="serverListTable">
+	<tbody>
+		<tr>
+			<td valign="top"><div id="viewState"></div></td>
+			<td valign="top"><div id="viewProcess"></div></td>
+		</tr>
+	</tbody>
+</table>
