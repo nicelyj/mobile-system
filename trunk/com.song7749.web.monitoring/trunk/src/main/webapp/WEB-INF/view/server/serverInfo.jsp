@@ -23,11 +23,18 @@ ${javascript }
 		</thead>
 	</table>
 </form>
-<table  class="table-list valid" id="serverListTable">
+<table  class="table-list valid" id="serverStateTable">
 	<tbody>
 		<tr>
-			<td valign="top"><div id="viewState"></div></td>
-			<td valign="top"><div id="viewProcess"></div></td>
+			<td valign="top" id="viewState"></td>
+			<td valign="top" id="viewProcess"></td>
+		</tr>
+	</tbody>
+</table>
+<table  class="table-list valid" id="serverProcessTable">
+	<tbody>
+		<tr>
+			<td valign="top" id="viewProcess"></td>
 		</tr>
 	</tbody>
 </table>

@@ -3,6 +3,9 @@ package com.song7749.web.monitoring.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +20,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.song7749.mds.member.service.MemberManager;
 import com.song7749.mds.servers.model.ServerInfo;
@@ -68,7 +73,7 @@ public class ServersController {
 			@RequestParam(value = "serverName", defaultValue = "", required = true) String serverName,
 			@RequestParam(value = "serverIp", defaultValue = "", required = true) String serverIp,
 			@RequestParam(value = "serverDomainName", defaultValue = "", required = true) String serverDomainName,
-			@RequestParam(value = "serverPort", defaultValue = "35001", required = true) Integer serverPort,
+			@RequestParam(value = "serverPort", defaultValue = "0", required = true) Integer serverPort,
 			@RequestParam(value = "serverType", defaultValue = "1", required = true) Integer serverType,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
@@ -220,8 +225,8 @@ public class ServersController {
 			return viewTemplete;
 		}
 
-		// db 연결 가져온다.
-		ApplicationContext context = getApplicationContext();
+ 		// db 연결 가져온다.
+		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
 		SqlMapClientTemplate dataSource = (SqlMapClientTemplate) context
 				.getBean("sqlMapClientTemplate."
 						+ serverList.getServerInfo().getServerDomainName());
@@ -246,6 +251,7 @@ public class ServersController {
 				e.printStackTrace();
 			}
 		}
+
 		return viewTemplete;
 	}
 
@@ -271,16 +277,5 @@ public class ServersController {
 		String viewTemplete = "server/serverInfo";
 
 		return viewTemplete;
-	}
-
-	/**
-	 * bean 설정 가져오기
-	 * 
-	 * @return ApplicationContext
-	 */
-	private ApplicationContext getApplicationContext() {
-		String[] paths = { "classpath*:META-INF/spring/applicationContext*" };
-
-		return new ClassPathXmlApplicationContext(paths);
 	}
 }
