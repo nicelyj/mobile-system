@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import com.song7749.mds.servers.model.ServerList;
 import com.song7749.mds.servers.model.command.ServersCommand;
 import com.song7749.mds.servers.model.type.ServerType;
 import com.song7749.mds.servers.service.ServersManager;
+import com.sun.enterprise.config.serverbeans.Application;
+import com.sun.grizzly.Context;
 
 @Controller
 @RequestMapping("/server")
@@ -182,10 +185,43 @@ public class ServersController {
 	public String serverInfoDatabaseServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
-			HttpServletRequest request, HttpServletResponse response,
-			ModelMap modelMap) {
+			@RequestParam(value = "dateType", defaultValue = "state", required = true) String dateType,
+			HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
 
+		// ¼­¹ö Á¤º¸¸¦ È¹µæÇÔ
+		ServersCommand serversCommand = new ServersCommand();
+		if (serverListSeq > 0)
+			serversCommand .getServerList().setServerListSeq(serverListSeq);
+
+		serversCommand.setServerInfo(new ServerInfo());
+		if (serverInfoSeq > 0)
+			serversCommand.getServerInfo().setServerInfoSeq(serverInfoSeq);
+
+		ArrayList<ServerList> serverLists = this.serversManager
+				.selectServersByServersCommand(serversCommand);
+
+		ServerList serverList = null;
+
+		if (serverLists.size() > 0) {
+			serverList = serverLists.get(0);
+		}		
+		else{
+			return viewTemplete;
+		}
+		
+		//serverList.getServerInfo().getServerDomainName();
+		
+		// db state
+		if(dateType == "state"){
+			
+		}
+		// db process
+		else {
+			
+		}
+		
 		return viewTemplete;
 	}
 
