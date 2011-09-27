@@ -3,9 +3,6 @@ package com.song7749.web.monitoring.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,14 +10,12 @@ import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.song7749.mds.member.service.MemberManager;
@@ -143,6 +138,7 @@ public class ServersController {
 	public String serverInfoGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
 			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			@RequestParam(value = "dataType", defaultValue = "state", required = true) String dataType,
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
@@ -170,6 +166,9 @@ public class ServersController {
 		}
 		modelMap.addAttribute("serverList", serverList);
 		modelMap.addAttribute("serverTypeDescript", serverTypeDescript);
+		modelMap.addAttribute("dataType", dataType);
+		modelMap.addAttribute("serverListSeq", serverListSeq);
+		modelMap.addAttribute("serverInfoSeq", serverInfoSeq);
 		modelMap.addAttribute(
 				"javascript",
 				"<script type=\"text/javascript\" src=\"/js/common/commonAjax.js\"></script>"
@@ -185,6 +184,11 @@ public class ServersController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
+
+		// xml 일 경우 modelmap 을 clear 한다.
+		if (request.getRequestURI().indexOf("xml") > 0) {
+			modelMap.clear();
+		}
 
 		return viewTemplete;
 	}
@@ -225,8 +229,10 @@ public class ServersController {
 			return viewTemplete;
 		}
 
- 		// db 연결 가져온다.
-		ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
+		// db 연결 가져온다.
+		ApplicationContext context = WebApplicationContextUtils
+				.getWebApplicationContext(request.getSession()
+						.getServletContext());
 		SqlMapClientTemplate dataSource = (SqlMapClientTemplate) context
 				.getBean("sqlMapClientTemplate."
 						+ serverList.getServerInfo().getServerDomainName());

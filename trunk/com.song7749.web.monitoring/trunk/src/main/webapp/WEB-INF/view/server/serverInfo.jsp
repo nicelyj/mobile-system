@@ -2,6 +2,10 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp"%>
 ${javascript }
 <form name="frmServerList" method="post" action="/server/serverProcess.html">
+	<input type="hidden" id="serverListSeq" value="${serverListSeq }">
+	<input type="hidden" id="serverInfoSeq" value="${serverInfoSeq }">
+	<input type="hidden" id="serverType" value="${serverList.serverInfo.serverType }">
+	<input type="hidden" id="dataType" value="${dataType }">
 	<table  class="table-list valid" id="serverListTable">
 		<thead>
 			<tr>
@@ -23,18 +27,38 @@ ${javascript }
 		</thead>
 	</table>
 </form>
-<table  class="table-list valid" id="serverStateTable">
-	<tbody>
-		<tr>
-			<td valign="top" id="viewState"></td>
-			<td valign="top" id="viewProcess"></td>
-		</tr>
-	</tbody>
-</table>
-<table  class="table-list valid" id="serverProcessTable">
-	<tbody>
-		<tr>
-			<td valign="top" id="viewProcess"></td>
-		</tr>
-	</tbody>
-</table>
+<c:if test="${serverList.serverInfo.serverType == 1}">
+	<!-- javawebServer Database -->
+	<table  class="table-list valid" id="serverStateTable">
+		<thead>
+			<tr>
+				<td>
+					<a href="javascript:selectView(${serverList.serverInfo.serverType},'process')">WEB 프로세스 조회</a> 
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td valign="top" id="view"></td>
+			</tr>
+		</tbody>
+	</table>
+</c:if>
+<c:if test="${serverList.serverInfo.serverType == 3}">
+	<!-- mysql Database -->
+	<table  class="table-list valid" id="serverStateTable">
+		<thead>
+			<tr>
+				<td>
+					<a href="javascript:selectView(${serverList.serverInfo.serverType},'state')">DB 상태 조회</a> | 
+					<a href="javascript:selectView(${serverList.serverInfo.serverType},'process')">DB 프로세스 조회</a>
+			</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td valign="top" id="view"></td>
+			</tr>
+		</tbody>
+	</table>
+</c:if>

@@ -1,27 +1,33 @@
+var selectView = function(serverType,dataType){
+	var base = "";
+	if(serverType==1){
+		base='/server/serverInfo.html';
+	}
+	else if(serverType==3){
+		base='/server/serverInfo.html';
+	}
+	var url = base+'?serverListSeq='+$("#serverListSeq").val()+'&serverInfoSeq='+$("#serverInfoSeq").val()+'&dataType='+dataType;
+	document.location = url;
+};
+
 $(document).ready(function(){
 	var viewState = function(){
 		$.post('/server/serverInfoDatabaseService.xml','dataType=state',function(xml){
-			var html='<table class="table-list valid"><tr><td>Attribute</td><td>value</td></tr>';
+			var html='<table class="table-list valid"><tr><th>Attribute</th><th>value</th></tr>';
 			$(xml).find("list").find("DatabaseState").each(function(){
 				html+='<tr><td>'+ $(this).find("name").text() +'</td><td>'+ $(this).find("value").text() +'</td>';
 			});
 			html+='</table>';
-			$("#viewState").html(html);
-		});
-		$.post('/server/serverInfoDatabaseService.xml','dataType=innoDbState',function(xml){
-			var html='<table class="table-list valid"><tr><td>Attribute</td><td>value</td></tr>';
-			$(xml).find("list").find("DatabaseState").each(function(){
-				html+='<tr><td>'+ $(this).find("name").text() +'</td><td>'+ $(this).find("value").text() +'</td>';
-			});
-			html+='</table>';
-			$("#viewState").html(html);
+			$("#view").html(html);
 		});
 	};
+
 	
 
 	var viewDatabaseProcessList = function(){
 		$.post('/server/serverInfoDatabaseService.xml','dataType=process',function(xml){
-			var html='<table class="table-list valid"><tr><td>id</td><td>user</td><td>host</td><td>db</td><td>command</td><td>time</td><td>state</td></tr>';
+			var html ='<table class="table-list valid"><tr><th colspan="7"><input type="button" value="process stop"></th></tr>';
+				html+='<tr><td>id</td><td>user</td><td>host</td><td>db</td><td>command</td><td>time</td><td>state</td></tr>';
 			$(xml).find("list").find("DatabaseProcess").each(function(){
 				html+='<tr>';
 				html+='<td>'+ $(this).find("id").text() +'</td>';
@@ -34,10 +40,18 @@ $(document).ready(function(){
 				html+='</tr>';
 			});
 			html+='</table>';
-			$("#viewProcess").html(html);
-		});	
+			$("#view").html(html);
+		});
 	};
 	
-	var processTime = setInterval(viewDatabaseProcessList, 2*1000);
-	viewDatabaseProcessList();
+	// mysql database
+	if($("#serverType").val()==3){
+		if($("#dataType").val()=='state'){
+			viewState();
+		}
+		else{
+			viewDatabaseProcessList();
+			var timeControll= setInterval(viewDatabaseProcessList, 1000);	
+		}
+	}
 });
