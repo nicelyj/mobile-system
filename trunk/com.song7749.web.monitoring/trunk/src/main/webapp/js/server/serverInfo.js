@@ -22,8 +22,6 @@ $(document).ready(function(){
 		});
 	};
 
-	
-
 	var viewDatabaseProcessList = function(){
 		$.post('/server/serverInfoDatabaseService.xml','dataType=process',function(xml){
 			var html ='<table class="table-list valid"><tr><th colspan="7"><input type="button" value="process stop"></th></tr>';
@@ -43,6 +41,25 @@ $(document).ready(function(){
 			$("#view").html(html);
 		});
 	};
+
+
+	var viewWindowsSystemProcessList = function(){
+		$.post('/server/serviceInfoProcessList.xml','',function(xml){
+			var html ='<table class="table-list valid"><tr><th colspan="5"><input type="button" value="process stop"></th></tr>';
+			$(xml).find("list").find("WindowsProcess").each(function(){
+				html+='<tr>';
+				html+='<td>'+ $(this).find("processName").text() +'</td>';
+				html+='<td>'+ $(this).find("pid").text() +'</td>';
+				html+='<td>'+ $(this).find("sessionName").text() +'</td>';
+				html+='<td>'+ $(this).find("sessionCode").text() +'</td>';
+				html+='<td>'+ $(this).find("useMemory").text() +'</td>';
+				html+='</tr>';
+			});
+			html+='</table>';
+			$("#view").html(html);
+		});
+	};
+	
 	
 	// mysql database
 	if($("#serverType").val()==3){
@@ -52,6 +69,16 @@ $(document).ready(function(){
 		else{
 			viewDatabaseProcessList();
 			var timeControll= setInterval(viewDatabaseProcessList, 1000);	
+		}
+	}
+	// process
+	if($("#serverType").val()==1){
+		if($("#dataType").val()=='systemProcess'){
+			viewWindowsSystemProcessList();
+			var timeControll= setInterval(viewWindowsSystemProcessList, 1000);	
+		}
+		else{
+
 		}
 	}
 });

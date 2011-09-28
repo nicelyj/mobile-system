@@ -33,7 +33,8 @@ ${javascript }
 		<thead>
 			<tr>
 				<td>
-					<a href="javascript:selectView(${serverList.serverInfo.serverType},'process')">WEB 프로세스 조회</a> 
+					<a href="javascript:selectView(${serverList.serverInfo.serverType},'systemProcess')">SYSTEM 프로세스 조회</a> |  
+					<!-- <a href="javascript:selectView(${serverList.serverInfo.serverType},'webProcess')">WEB 프로세스 조회</a>  -->
 				</td>
 			</tr>
 		</thead>

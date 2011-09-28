@@ -1,5 +1,8 @@
 package com.song7749.web.monitoring.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ import com.song7749.mds.servers.model.command.ServersCommand;
 import com.song7749.mds.servers.model.type.ServerType;
 import com.song7749.mds.servers.service.ServersManager;
 import com.song7749.util.DatabaseStateUtil;
+import com.song7749.util.process.model.ProcessWindows;
 
 @Controller
 @RequestMapping("/server")
@@ -190,6 +194,52 @@ public class ServersController {
 			modelMap.clear();
 		}
 
+		Runtime rt = Runtime.getRuntime();
+		Process p = null;
+		String processText = null;
+		ArrayList<ProcessWindows> processList = new ArrayList<ProcessWindows>();
+
+		// window system 인가 linux 시스템인가 분기한다.
+		if (System.getProperties().getProperty("os.name").indexOf("Windows") > -1) {
+			try {
+				p = rt.exec("tasklist /FO CSV");
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						p.getInputStream()));
+
+				while ((processText = in.readLine()) != null) {
+					if (processText.indexOf("=") < 0) {
+						String processPart[] = processText.replace("\"", "")
+								.split(",");
+
+						ProcessWindows processWindows = new ProcessWindows();
+						processWindows.setProcessName(processPart[0]);
+						processWindows.setPid(processPart[1]);
+						processWindows.setSessionName(processPart[2]);
+						processWindows.setSessionCode(processPart[3]);
+
+						String useMemory = null;
+						if (processPart.length == 6) {
+							useMemory = processPart[4] + "," + processPart[5];
+						} else if (processPart.length == 7) {
+							useMemory = processPart[4] + "," + processPart[5]
+									+ "," + processPart[6];
+						} else {
+							useMemory = processPart[4];
+						}
+						processWindows.setUseMemory(useMemory);
+						processList.add(processWindows);
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		// linux system
+		else {
+
+		}
+
+		modelMap.addAttribute("processlist", processList);
 		return viewTemplete;
 	}
 
@@ -229,10 +279,12 @@ public class ServersController {
 			return viewTemplete;
 		}
 
-		// db 연결 가져온다.
+		// ApplicationContext를 가져온다.
 		ApplicationContext context = WebApplicationContextUtils
 				.getWebApplicationContext(request.getSession()
 						.getServletContext());
+
+		// db 연결 가져온다.
 		SqlMapClientTemplate dataSource = (SqlMapClientTemplate) context
 				.getBean("sqlMapClientTemplate."
 						+ serverList.getServerInfo().getServerDomainName());
@@ -243,7 +295,6 @@ public class ServersController {
 				modelMap.addAttribute("list",
 						DatabaseStateUtil.getMysqlDatabaseState(dataSource));
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -253,7 +304,6 @@ public class ServersController {
 				modelMap.addAttribute("list",
 						DatabaseStateUtil.getMysqlDatebaseProcess(dataSource));
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
