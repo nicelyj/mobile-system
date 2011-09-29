@@ -45,7 +45,9 @@ $(document).ready(function(){
 
 	var viewWindowsSystemProcessList = function(){
 		$.post('/server/serviceInfoProcessList.xml','',function(xml){
-			var html ='<table class="table-list valid"><tr><th colspan="5"><input type="button" value="process stop"></th></tr>';
+			var html ='<table class="table-list valid"><tr><th colspan="5">';
+				html+='<input type="button" value="process stop">';
+				html+='</th></tr>';
 			$(xml).find("list").find("WindowsProcess").each(function(){
 				html+='<tr>';
 				html+='<td>'+ $(this).find("processName").text() +'</td>';
