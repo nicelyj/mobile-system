@@ -243,6 +243,33 @@ public class ServersController {
 		return viewTemplete;
 	}
 
+	@RequestMapping("/killProcessSystemService.html")
+	public void killProcessSystemServiceGeneralMemberHandle(
+			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
+			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			@RequestParam(value = "id", defaultValue = "0", required = true) Integer id,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
+		Runtime rt = Runtime.getRuntime();
+		Process p = null;
+		String processText = null;
+		ArrayList<ProcessWindows> processList = new ArrayList<ProcessWindows>();
+
+		// window system 인가 linux 시스템인가 분기한다.
+		if (System.getProperties().getProperty("os.name").indexOf("Windows") > -1) {
+			try {
+				p = rt.exec("taskkill /PID " + id);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		// linux system
+		else {
+
+		}
+	}		
+	
 	@RequestMapping({ "/serverInfoDatabaseService.xml",
 			"/serverInfoDatabaseService.html" })
 	public String serverInfoDatabaseServiceGeneralMemberHandle(
@@ -261,6 +288,7 @@ public class ServersController {
 
 		// 서버 정보를 획득함
 		ServersCommand serversCommand = new ServersCommand();
+		serversCommand.setServerList(new ServerList());
 		if (serverListSeq > 0)
 			serversCommand.getServerList().setServerListSeq(serverListSeq);
 
@@ -311,6 +339,54 @@ public class ServersController {
 		return viewTemplete;
 	}
 
+	
+	@RequestMapping("/killProcessFromDatabaseService.html")
+	public void killProcessFromDatabaseServiceGeneralMemberHandle(
+			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
+			@RequestParam(value = "serverInfoSeq", defaultValue = "0", required = true) Integer serverInfoSeq,
+			@RequestParam(value = "id", defaultValue = "0", required = true) Integer id,
+			HttpServletRequest request, HttpServletResponse response,
+			ModelMap modelMap) {
+
+		// 서버 정보를 획득함
+		ServersCommand serversCommand = new ServersCommand();
+		serversCommand.setServerList(new ServerList());		
+		if (serverListSeq > 0)
+			serversCommand.getServerList().setServerListSeq(serverListSeq);
+
+		serversCommand.setServerInfo(new ServerInfo());
+		if (serverInfoSeq > 0)
+			serversCommand.getServerInfo().setServerInfoSeq(serverInfoSeq);
+
+		ArrayList<ServerList> serverLists = this.serversManager
+				.selectServersByServersCommand(serversCommand);
+
+		ServerList serverList = null;
+
+		if (serverLists.size() > 0) {
+			serverList = serverLists.get(0);
+		} else {
+			return;
+		}
+
+		// ApplicationContext를 가져온다.
+		ApplicationContext context = WebApplicationContextUtils
+				.getWebApplicationContext(request.getSession()
+						.getServletContext());
+
+		// db 연결 가져온다.
+		SqlMapClientTemplate dataSource = (SqlMapClientTemplate) context
+				.getBean("sqlMapClientTemplate."
+						+ serverList.getServerInfo().getServerDomainName());
+
+		try {
+			modelMap.addAttribute("list",
+					DatabaseStateUtil.killMysqlDatebaseProcess(id, dataSource));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}	
+	
 	@RequestMapping({ "/serverInfoJavaWebSevice.xml",
 			"/serverInfoJavaWebSevice.html" })
 	public String serverInfoJavaWebServiceGeneralMemberHandle(

@@ -27,6 +27,7 @@ ${javascript }
 		</thead>
 	</table>
 </form>
+<span id="monitorMessage"> <font color="red"></font></span>
 <c:if test="${serverList.serverInfo.serverType == 1}">
 	<!-- javawebServer Database -->
 	<table  class="table-list valid" id="serverStateTable">
@@ -63,3 +64,4 @@ ${javascript }
 		</tbody>
 	</table>
 </c:if>
+<div id="time"></div>
