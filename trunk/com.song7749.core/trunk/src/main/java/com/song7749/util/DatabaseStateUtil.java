@@ -51,8 +51,7 @@ public class DatabaseStateUtil {
 		ResultSet rs = null;
 		SqlMapSession session = dataSource.getSqlMapClient().openSession();
 		try {
-			statement = session.getDataSource().getConnection()
-					.prepareStatement(sql);
+			statement = session.getDataSource().getConnection().prepareStatement(sql);
 			rs = statement.executeQuery();
 			ArrayList<DatabaseProcessForMysql> stateList = new ArrayList<DatabaseProcessForMysql>();
 			while (rs.next()) {
@@ -73,6 +72,25 @@ public class DatabaseStateUtil {
 			throw e;
 		} finally {
 			rs.close();
+			statement.getConnection().close();
+			statement.close();
+			session.close();
+		}
+	}
+
+	public static Integer killMysqlDatebaseProcess(
+			Integer id,
+			SqlMapClientTemplate dataSource) throws SQLException {
+		String sql = "kill "+ id;
+		PreparedStatement statement = null;
+		SqlMapSession session = dataSource.getSqlMapClient().openSession();
+		try {
+			statement = session.getDataSource().getConnection().prepareStatement(sql);
+			statement.executeQuery();
+			return id;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
 			statement.getConnection().close();
 			statement.close();
 			session.close();
