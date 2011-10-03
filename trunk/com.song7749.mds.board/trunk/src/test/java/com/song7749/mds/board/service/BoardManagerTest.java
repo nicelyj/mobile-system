@@ -250,4 +250,28 @@ public class BoardManagerTest extends TestCase {
 		int processVal = this.boardManager.deleteBoard(board);
 		Assert.assertTrue("보드삭제 실패", processVal > 0);
 	}
+	
+
+	/**
+	 * batch 를 이용하여 insert test
+	 * transactionManagerTemplete 을 이용 함.
+	 */
+	//@Test
+	public void testInsertBoardListFacade() {
+		BoardList boardList = new BoardList();
+		boardList.setBoardCommentCount(0);
+		boardList.setBoardListDisplayYN("Y");
+		boardList.setBoardListPublicReadYN("Y");
+		boardList.setBoardReadCount(0);
+		boardList.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
+		boardList.setBoardTitle("테스트게시물");
+		boardList.setMemberIp("127.0.0.1");
+		boardList.setMemberNickName("닉네임이다");
+		boardList.setMemberSeq(1);
+		boardList.setBoardContents(new BoardContents());
+		boardList.getBoardContents().setContents("게시판내용입니다");
+		int processVal = this.boardManager.insertBoardList(boardList);
+		Assert.assertTrue(processVal>0);
+		BoardManagerTest.staticBoardList = boardList;
+	}
 }
