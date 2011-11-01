@@ -6,9 +6,9 @@ package com.song7749.util.process.model;
  * Description : windows process model
  * 
  *  Modification Information
- *  Modify Date 	Modifier			Comment
+ *  Modify Date 	Modifier		Comment
  * -----------------------------------------------
- *  2011. 9. 28.	song7749		    重鋭 持失
+ *  2011. 9. 28.	song7749		 重鋭 持失
  * 
  * </pre>
  * 

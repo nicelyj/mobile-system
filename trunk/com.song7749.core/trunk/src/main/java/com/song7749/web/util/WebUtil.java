@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * web과 관련된 일반적인 유틸리티.
+ * web과 관련된 일반적인 유틸리티. 
  * 
  */
 public class WebUtil {
