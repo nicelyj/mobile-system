@@ -3,12 +3,12 @@ package com.song7749.util.database.model;
 /**
  * <pre>
  * Class Name : DatabaseStateForMysql.java
- * Description : mysql database ÀÇ »óÅÂ¸¦ À§ÇÑ model
+ * Description : mysql database ì˜ ìƒíƒœë¥¼ ìœ„í•œ model
  * 
  *  Modification Information
  *  Modify Date 	Modifier			Comment
  * -----------------------------------------------
- *  2011. 9. 26.	song7749	 	   ½Å±Ô »ı¼º
+ *  2011. 9. 26.	song7749	 	   ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 

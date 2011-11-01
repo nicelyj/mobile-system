@@ -64,7 +64,6 @@ public class WebException extends RuntimeException {
 	}
 
 	public void sendMessage() {
-		// 로그기록
 		logger.info("[" + code + "]" + httpResultCode.getMessage(code)
 				+ message + "," + "IP:" + request.getRemoteAddr() + ","
 				+ "METHOD:" + request.getMethod() + "," + "URI:"

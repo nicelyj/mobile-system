@@ -6,12 +6,12 @@ import javax.crypto.spec.SecretKeySpec;
 /**
  * <pre>
  * Class Name : SecurityUtil.java
- * Description : AES ¾ÏÈ£È­ À¯Æ¿
+ * Description : AES ì•”í˜¸í™” ìœ í‹¸
  * 
  *  Modification Information
  *  Modify Date 	Modifier		Comment
  * -----------------------------------------------
- *  2011. 9. 1.	song7749		½Å±Ô »ı¼º
+ *  2011. 9. 1.	song7749		ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 
@@ -22,7 +22,7 @@ public class SecurityUtil {
 	public static String key = "asfjbkljez54bdxi";
 
 	/**
-	 * hex to byte[] : 16Áø¼ö ¹®ÀÚ¿­À» ¹ÙÀÌÆ® ¹è¿­·Î º¯È¯ÇÑ´Ù.
+	 * hex to byte[] : 16ì§„ìˆ˜ ë¬¸ìì—´ì„ ë°”ì´íŠ¸ ë°°ì—´ë¡œ ë³€í™˜í•œë‹¤.
 	 * 
 	 * @param hex
 	 *            hex string
@@ -42,7 +42,7 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * byte[] to hex : unsigned byte(¹ÙÀÌÆ®) ¹è¿­À» 16Áø¼ö ¹®ÀÚ¿­·Î ¹Ù²Û´Ù.
+	 * byte[] to hex : unsigned byte(ë°”ì´íŠ¸) ë°°ì—´ì„ 16ì§„ìˆ˜ ë¬¸ìì—´ë¡œ ë°”ê¾¼ë‹¤.
 	 * 
 	 * @param ba
 	 *            byte[]
@@ -64,7 +64,7 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * AES ¹æ½ÄÀÇ ¾ÏÈ£È­
+	 * AES ë°©ì‹ì˜ ì•”í˜¸í™”
 	 * 
 	 * @param message
 	 * @return
@@ -84,7 +84,7 @@ public class SecurityUtil {
 	}
 
 	/**
-	 * AES ¹æ½ÄÀÇ º¹È£È­
+	 * AES ë°©ì‹ì˜ ë³µí˜¸í™”
 	 * 
 	 * @param message
 	 * @return

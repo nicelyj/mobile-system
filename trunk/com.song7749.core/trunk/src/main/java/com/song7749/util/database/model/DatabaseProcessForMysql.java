@@ -3,12 +3,12 @@ package com.song7749.util.database.model;
 /**
  * <pre>
  * Class Name : DatabaseProcessForMysql.java
- * Description : mysql database process ¸ğµ¨
+ * Description : mysql database process ëª¨ë¸
  * 
  *  Modification Information
  *  Modify Date 	Modifier			Comment
  * -----------------------------------------------
- *  2011. 9. 26.	song7749	   		½Å±Ô »ı¼º
+ *  2011. 9. 26.	song7749	   		ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 

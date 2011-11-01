@@ -13,8 +13,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Log4jConfigurer;
 
 /**
- * ehcacheÀÇ ºĞ»êÄ³½Ã ¼³Á¤¿¡¼­ local address¸¦ Á¦°Å. ¼­¹ö¹ú·Î °¢°¢ ehcache.xml ¼³Á¤ÆÄÀÏÀ» ÂüÁ¶ÇÏ±â ¾î·Æ±â ¶§¹®¿¡
- * »ç¿ëÇÔ.
+ * ehcacheì˜ ë¶„ì‚°ìºì‹œ ì„¤ì •ì—ì„œ local addressë¥¼ ì œê±°. ì„œë²„ë²Œë¡œ ê°ê° ehcache.xml ì„¤ì •íŒŒì¼ì„ ì°¸ì¡°í•˜ê¸° ì–´ë µê¸° ë•Œë¬¸ì—
+ * ì‚¬ìš©í•¨.
  * 
  * @author throat
  * 
