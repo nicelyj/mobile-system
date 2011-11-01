@@ -8,7 +8,7 @@ package com.song7749.util.process.model;
  *  Modification Information
  *  Modify Date 	Modifier		Comment
  * -----------------------------------------------
- *  2011. 9. 28.	song7749		 Ω≈±‘ ª˝º∫
+ *  2011. 9. 28.	song7749		 Ïã†Í∑ú ÏÉùÏÑ±
  * 
  * </pre>
  * 

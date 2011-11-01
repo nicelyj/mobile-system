@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * web°ú °ü·ÃµÈ ÀÏ¹İÀûÀÎ À¯Æ¿¸®Æ¼. 
+ * webê³¼ ê´€ë ¨ëœ ì¼ë°˜ì ì¸ ìœ í‹¸ë¦¬í‹°. 
  * 
  */
 public class WebUtil {
 
 	/**
-	 * javascriptÀÇ messagebox·Î ¸Ş¼¼Áö¸¦ Ãâ·Â ÈÄ ÁöÁ¤µÈ ÆäÀÌÁö·Î ¸®µğ·º¼Ç.
+	 * javascriptì˜ messageboxë¡œ ë©”ì„¸ì§€ë¥¼ ì¶œë ¥ í›„ ì§€ì •ëœ í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜.
 	 * 
 	 * @param response
-	 *            ÀÀ´äÇÒ HttpServletResponse °´Ã¼.
+	 *            ì‘ë‹µí•  HttpServletResponse ê°ì²´.
 	 * @param message
-	 *            Ãâ·ÂÇÒ ¸Ş¼¼Áö.
+	 *            ì¶œë ¥í•  ë©”ì„¸ì§€.
 	 * @param redirectUrl
-	 *            ¸Ş½ÃÁö Ç¥½Ã ÈÄ ÀÌµ¿ÇÒ ÆäÀÌÁö.
+	 *            ë©”ì‹œì§€ í‘œì‹œ í›„ ì´ë™í•  í˜ì´ì§€.
 	 */
 	public static void messageAndRedirectUrl(HttpServletResponse response,
 			String message, String redirectUrl) {
@@ -38,14 +38,14 @@ public class WebUtil {
 	}
 
 	/**
-	 * javascriptÀÇ messagebox·Î ¸Ş¼¼Áö¸¦ Ãâ·Â ÈÄ ÀÌÀü ÆäÀÌÁö·Î º¹±Í.
+	 * javascriptì˜ messageboxë¡œ ë©”ì„¸ì§€ë¥¼ ì¶œë ¥ í›„ ì´ì „ í˜ì´ì§€ë¡œ ë³µê·€.
 	 * 
 	 * @param response
-	 *            ÀÀ´äÇÒ HttpServletResponse °´Ã¼.
+	 *            ì‘ë‹µí•  HttpServletResponse ê°ì²´.
 	 * @param message
-	 *            Ãâ·ÂÇÒ ¸Ş¼¼Áö.
+	 *            ì¶œë ¥í•  ë©”ì„¸ì§€.
 	 * @param back
-	 *            µÇµ¹¾Æ°¥ ´Ü°è.
+	 *            ë˜ëŒì•„ê°ˆ ë‹¨ê³„.
 	 */
 	public static void messageAndBack(HttpServletResponse response,
 			String message, int back) {
@@ -60,12 +60,12 @@ public class WebUtil {
 	}
 
 	/**
-	 * javascriptÀÇ messagebox·Î ¸Ş¼¼Áö¸¦ Ãâ·Â.
+	 * javascriptì˜ messageboxë¡œ ë©”ì„¸ì§€ë¥¼ ì¶œë ¥.
 	 * 
 	 * @param response
-	 *            ÀÀ´äÇÒ HttpServletResponse °´Ã¼.
+	 *            ì‘ë‹µí•  HttpServletResponse ê°ì²´.
 	 * @param message
-	 *            Ãâ·ÂÇÒ ¸Ş¼¼Áö.
+	 *            ì¶œë ¥í•  ë©”ì„¸ì§€.
 	 */
 	public static void message(HttpServletResponse response, String message) {
 		response.setContentType("text/html; charset=EUC-KR");
@@ -78,15 +78,15 @@ public class WebUtil {
 	}
 
 	/**
-	 * spring-MVC¿¡¼­ Æ¯Á¤ view ÆÄÀÏÀ» ÀÌ¿ëÇÏ¿© javascript·Î ¸Ş¼¼Áö Ãâ·Â ÈÄ ÁöÁ¤µÈ ÆäÀÌÁö·Î ¸®µğ·º¼ÇÇÏ´Â
-	 * ModelAndView °´Ã¼ ¹İÈ¯.
+	 * spring-MVCì—ì„œ íŠ¹ì • view íŒŒì¼ì„ ì´ìš©í•˜ì—¬ javascriptë¡œ ë©”ì„¸ì§€ ì¶œë ¥ í›„ ì§€ì •ëœ í˜ì´ì§€ë¡œ ë¦¬ë””ë ‰ì…˜í•˜ëŠ”
+	 * ModelAndView ê°ì²´ ë°˜í™˜.
 	 * 
 	 * @param response
-	 *            ÀÀ´äÇÒ HttpServletResponse °´Ã¼.
+	 *            ì‘ë‹µí•  HttpServletResponse ê°ì²´.
 	 * @param message
-	 *            Ãâ·ÂÇÒ ¸Ş¼¼Áö.
+	 *            ì¶œë ¥í•  ë©”ì„¸ì§€.
 	 * @param redirectUrl
-	 *            ¸Ş½ÃÁö Ç¥½Ã ÈÄ ÀÌµ¿ÇÒ ÆäÀÌÁö.
+	 *            ë©”ì‹œì§€ í‘œì‹œ í›„ ì´ë™í•  í˜ì´ì§€.
 	 */
 	public static ModelAndView messageAndRedirectUrl(ModelAndView mav,
 			String message, String redirect) {
@@ -97,12 +97,12 @@ public class WebUtil {
 	}
 
 	/**
-	 * request.getQueryString º¯Çü
+	 * request.getQueryString ë³€í˜•
 	 * 
 	 * @param request
-	 *            HttpServletRequest °´Ã¼
+	 *            HttpServletRequest ê°ì²´
 	 * @param queryString
-	 *            Á¦¿ÜµÉ Äõ¸®½ºÆ®¸µ (ex. "nSiteCode,sTab") ÄŞ¸¶·Î ±¸ºĞ
+	 *            ì œì™¸ë  ì¿¼ë¦¬ìŠ¤íŠ¸ë§ (ex. "nSiteCode,sTab") ì½¤ë§ˆë¡œ êµ¬ë¶„
 	 * @return
 	 */
 	public static String getQueryString(HttpServletRequest request,
@@ -148,7 +148,7 @@ public class WebUtil {
 	}
 
 	/**
-	 * ¿ÂÅ¬¸¯ Çß´ÂÁö È®ÀÎ ÇÑÈÄ ¸®ÅÏ °ª Âü°í : ÆÄ¶ó¹ÌÅÍ °ª ºñ±³ÈÄ °ªÀÌ °°À¸¸é °ªÀ» ¸®ÅÏ
+	 * ì˜¨í´ë¦­ í–ˆëŠ”ì§€ í™•ì¸ í•œí›„ ë¦¬í„´ ê°’ ì°¸ê³  : íŒŒë¼ë¯¸í„° ê°’ ë¹„êµí›„ ê°’ì´ ê°™ìœ¼ë©´ ê°’ì„ ë¦¬í„´
 	 * 
 	 * @param paramValue
 	 * @param compareValue
