@@ -33,19 +33,6 @@ public class SqlMapClientFactoryBeanDynamic extends SqlMapClientFactoryBean {
 	public SqlMapClientFactoryBeanDynamic(String developer, String testServer,
 			String realServer) {
 		Log logger = LogFactory.getLog(Log4jConfigurer.class);
-		if (System.getenv("DEV_ADOPTED_ENV") == null) {
-			System.out
-					.println("***********************************************");
-			System.out
-					.println("***********************************************");
-			System.out
-					.println("cannot determind server environment. check your system parameter - 'DEV_ADOPTED_ENV' ");
-			System.out
-					.println("***********************************************");
-			System.out
-					.println("***********************************************");
-			System.exit(0);
-		}
 
 		Properties properties = new Properties();
 		properties.setProperty("SetAutoCommitAllowed", "false");
@@ -56,7 +43,7 @@ public class SqlMapClientFactoryBeanDynamic extends SqlMapClientFactoryBean {
 		if (System.getenv("DEV_ADOPTED_ENV").equals("DEVELOPER_PC")) {
 			configFile = developer;
 			message = "developer PC    ";
-		} else if (System.getenv("DEV_ADOPTED_ENV").equals("DEVELOPING_SERVER")) {
+		} else if (System.getenv("DEV_ADOPTED_ENV").equals("DEVELOPING_SERVER") || System.getenv("DEV_ADOPTED_ENV") == null) {
 			configFile = testServer;
 			message = "test server     ";
 		} else if (System.getenv("DEV_ADOPTED_ENV").equals("OPERATING_SERVER")) {
