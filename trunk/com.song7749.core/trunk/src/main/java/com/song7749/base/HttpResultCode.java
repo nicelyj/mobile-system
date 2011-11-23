@@ -7,13 +7,13 @@ public class HttpResultCode {
 	private HashMap<Integer, String> errorMap = new HashMap<Integer, String>();
 
 	private HttpResultCode() {
-		errorMap.put(OK, "Á¤»óÃ³¸® µÇ¾ú½À´Ï´Ù.");
-		errorMap.put(INTERNAL_SERVER_ERROR, "³»ºÎ ¼­¹ö ¿À·ù°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
-		errorMap.put(BAD_REQUEST, "¿äÃ» Çü½ÄÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.");
-		errorMap.put(FORBIDDEN, "ÀÚ¿øÀÇ Á¢±ÙÀÌ Á¦ÇÑµÇ¾ú½À´Ï´Ù.");
-		errorMap.put(REQUEST_TIMEOUT, "¿äÃ» ´ë±â½Ã°£ÀÌ ÃÊ°úµÇ¾ú½À´Ï´Ù.");
-		errorMap.put(NOT_FOUND, "Á¸ÀçÇÏÁö ¾Ê´Â ÀÚ¿øÀÔ´Ï´Ù.");
-		errorMap.put(SERVICE_UNAVAILABLE, "¼­¹öÀÇ ÀÚ¿øÀÌ ºÎÁ·ÇÕ´Ï´Ù.");
+		errorMap.put(OK, "ì •ìƒì²˜ë¦¬ ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		errorMap.put(INTERNAL_SERVER_ERROR, "ë‚´ë¶€ ì„œë²„ ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
+		errorMap.put(BAD_REQUEST, "ìš”ì²­ í˜•ì‹ì´ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		errorMap.put(FORBIDDEN, "ìì›ì˜ ì ‘ê·¼ì´ ì œí•œë˜ì—ˆìŠµë‹ˆë‹¤.");
+		errorMap.put(REQUEST_TIMEOUT, "ìš”ì²­ ëŒ€ê¸°ì‹œê°„ì´ ì´ˆê³¼ë˜ì—ˆìŠµë‹ˆë‹¤.");
+		errorMap.put(NOT_FOUND, "ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ìì›ì…ë‹ˆë‹¤.");
+		errorMap.put(SERVICE_UNAVAILABLE, "ì„œë²„ì˜ ìì›ì´ ë¶€ì¡±í•©ë‹ˆë‹¤.");
 	}
 
 	public static synchronized HttpResultCode getInstance() {
@@ -27,24 +27,24 @@ public class HttpResultCode {
 		return errorMap.get(errorCode);
 	}
 
-	/** Á¤»óÃ³¸® */
+	/** ì •ìƒì²˜ë¦¬ */
 	public static final Integer OK = 200;
 
-	/** ³»ºÎ ¼­¹ö ¿À·ù */
+	/** ë‚´ë¶€ ì„œë²„ ì˜¤ë¥˜ */
 	public static final Integer INTERNAL_SERVER_ERROR = 500;
 
-	/** Àß¸øµÈ ¿äÃ» Çü½Ä */
+	/** ì˜ëª»ëœ ìš”ì²­ í˜•ì‹ */
 	public static final Integer BAD_REQUEST = 400;
 
-	/** Á¢±ÙÀÌ Á¦ÇÑµÊ */
+	/** ì ‘ê·¼ì´ ì œí•œë¨ */
 	public static final Integer FORBIDDEN = 403;
 
-	/** ¿äÃ» ´ë±â½Ã°£ ÃÊ°ú */
+	/** ìš”ì²­ ëŒ€ê¸°ì‹œê°„ ì´ˆê³¼ */
 	public static final Integer REQUEST_TIMEOUT = 408;
 
-	/** Á¸ÀçÇÏÁö ¾Ê´Â ÀÚ¿ø */
+	/** ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ìì› */
 	public static final Integer NOT_FOUND = 404;
 
-	/** ¼­¹ö ¸®¼Ò½º ºÎÁ· */
+	/** ì„œë²„ ë¦¬ì†ŒìŠ¤ ë¶€ì¡± */
 	public static final Integer SERVICE_UNAVAILABLE = 503;
 }
