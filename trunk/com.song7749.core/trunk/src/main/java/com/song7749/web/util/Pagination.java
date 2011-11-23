@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 목록 여러 페이지로 나누기.
  * 
- * @author song7749
+ * @author song7749@danawa.com
  */
 
 public class Pagination {
