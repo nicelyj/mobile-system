@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * ¸ñ·Ï ¿©·¯ ÆäÀÌÁö·Î ³ª´©±â.
+ * ëª©ë¡ ì—¬ëŸ¬ í˜ì´ì§€ë¡œ ë‚˜ëˆ„ê¸°.
  * 
  * @author song7749
  */
@@ -14,112 +14,112 @@ import javax.servlet.http.HttpServletRequest;
 public class Pagination {
 
 	/**
-	 * pagingType ÆäÀÌÂ¡ Å¸ÀÔ ( 0: Total Ä«¿îÆ®°¡ ÀÖ´Â ÀÏ¹İÆäÀÌÂ¡, 1: ´ñ±ÛÇü ¿ª¼ø ÆäÀÌÂ¡, 2: Ä«¿îÆ® ¾ø´Â ÀÏ¹İ
-	 * ÆäÀÌÂ¡)
+	 * pagingType í˜ì´ì§• íƒ€ì… ( 0: Total ì¹´ìš´íŠ¸ê°€ ìˆëŠ” ì¼ë°˜í˜ì´ì§•, 1: ëŒ“ê¸€í˜• ì—­ìˆœ í˜ì´ì§•, 2: ì¹´ìš´íŠ¸ ì—†ëŠ” ì¼ë°˜
+	 * í˜ì´ì§•)
 	 */
 	private int pagingType;
 
 	/**
-	 * ÃÑ Ä«¿îÆ®
+	 * ì´ ì¹´ìš´íŠ¸
 	 */
 	private int totalRows = 0;
 
 	/**
-	 * °Ô½Ã¹° row ¼ö
+	 * ê²Œì‹œë¬¼ row ìˆ˜
 	 */
 	private int listRows = 0;
 
 	/**
-	 * ÇöÀç ÆäÀÌÁö
+	 * í˜„ì¬ í˜ì´ì§€
 	 */
 	private int currentPage = 1;
 
 	/**
-	 * ÆäÀÌÁö »çÀÌÁî
+	 * í˜ì´ì§€ ì‚¬ì´ì¦ˆ
 	 */
 	private int pageSize = 0;
 
 	/**
-	 * ÆäÀÌÁö ºí·° »çÀÌÁî
+	 * í˜ì´ì§€ ë¸”ëŸ­ ì‚¬ì´ì¦ˆ
 	 */
 	private int blockSize = 0;
 
 	/**
-	 * ÃÑ ÆäÀÌÁö¼ö
+	 * ì´ í˜ì´ì§€ìˆ˜
 	 */
 	private int totalPages;
 
 	/**
-	 * ÃÑ ÆäÀÌÁö ºí·°¼ö
+	 * ì´ í˜ì´ì§€ ë¸”ëŸ­ìˆ˜
 	 */
 	private int totalBlocks;
 
 	/**
-	 * Ã¹ÆäÀÌÁö
+	 * ì²«í˜ì´ì§€
 	 */
 	private int startPageNum;
 
 	/**
-	 * ¸¶Áö¸· ÆäÀÌÁö
+	 * ë§ˆì§€ë§‰ í˜ì´ì§€
 	 */
 	private int endPageNum;
 
 	/**
-	 * ÇöÀç ÆäÀÌÁö ºí·°
+	 * í˜„ì¬ í˜ì´ì§€ ë¸”ëŸ­
 	 */
 	private int currentBlock;
 
 	/**
-	 * Ã¹¹øÂ°,ÀÌÀü,´ÙÀ½,¸¶Áö¸· ÀÌ¹ÌÁö
+	 * ì²«ë²ˆì§¸,ì´ì „,ë‹¤ìŒ,ë§ˆì§€ë§‰ ì´ë¯¸ì§€
 	 */
 	private Map buttonImage = new HashMap();
 
 	/**
-	 * ÆäÀÌÂ¡ ¸®½ºÆ® ±âº» ½ºÅ¸ÀÏ
+	 * í˜ì´ì§• ë¦¬ìŠ¤íŠ¸ ê¸°ë³¸ ìŠ¤íƒ€ì¼
 	 */
 	private String pageListlinkCssStyle = "";
 
 	/**
-	 * ÆäÀÌÂ¡ ¸®½ºÆ® ±âº» ½ºÅ¸ÀÏ Å¬·¡½º ÀÌ¸§
+	 * í˜ì´ì§• ë¦¬ìŠ¤íŠ¸ ê¸°ë³¸ ìŠ¤íƒ€ì¼ í´ë˜ìŠ¤ ì´ë¦„
 	 */
 	private String pageListlinkCssClass = "";
 
 	/**
-	 * ÆäÀÌÂ¡ ¸®½ºÆ® ON ±âº» ½ºÅ¸ÀÏ
+	 * í˜ì´ì§• ë¦¬ìŠ¤íŠ¸ ON ê¸°ë³¸ ìŠ¤íƒ€ì¼
 	 */
 	private String pageListOnlinkCssStyle = "";
 
 	/**
-	 * ÆäÀÌÂ¡ ¸®½ºÆ® ON ±âº» ½ºÅ¸ÀÏ Å¬·¡½º ÀÌ¸§
+	 * í˜ì´ì§• ë¦¬ìŠ¤íŠ¸ ON ê¸°ë³¸ ìŠ¤íƒ€ì¼ í´ë˜ìŠ¤ ì´ë¦„
 	 */
 	private String pageListOnlinkCssClass = "";
 
 	/**
-	 * ÆäÀÌÁö ¹öÆ° (ÀÌÀü, ´ÙÀ½) ½ºÅ¸ÀÏ
+	 * í˜ì´ì§€ ë²„íŠ¼ (ì´ì „, ë‹¤ìŒ) ìŠ¤íƒ€ì¼
 	 */
 	private String pageButtonlinkCssStyle = "";
 
 	/**
-	 * ÆäÀÌÁö ¹öÆ° (ÀÌÀü, ´ÙÀ½) ½ºÅ¸ÀÏ Å¬·¡½º ÀÌ¸§
+	 * í˜ì´ì§€ ë²„íŠ¼ (ì´ì „, ë‹¤ìŒ) ìŠ¤íƒ€ì¼ í´ë˜ìŠ¤ ì´ë¦„
 	 */
 	private String pageButtonlinkCssClass = "";
 
 	/**
-	 * Äõ¸® ½ºÆ®¸µ
+	 * ì¿¼ë¦¬ ìŠ¤íŠ¸ë§
 	 */
 	private String queryString = "";
 	private String linkSrc = "";
 	private String amp = "";
 
 	/**
-	 * ÆäÀÌÁö ÆÄ¶ó¹ÌÅÍ ÀÌ¸§
+	 * í˜ì´ì§€ íŒŒë¼ë¯¸í„° ì´ë¦„
 	 */
 	private String pageParamName = "page";
 
 	public StringBuffer pageString = new StringBuffer();
 
 	/*
-	 * »ı¼ºÀÚ
+	 * ìƒì„±ì
 	 * 
 	 * @param pagingType
 	 */
@@ -259,7 +259,7 @@ public class Pagination {
 	}
 
 	/**
-	 * ÆäÀÌÂ¡ ÃÊ±âÈ­
+	 * í˜ì´ì§• ì´ˆê¸°í™”
 	 * 
 	 * @param totalRows
 	 * @param currentPage
@@ -301,7 +301,7 @@ public class Pagination {
 	}
 
 	/**
-	 * listRows°¡ ÀÖ´Â ÆäÀÌÂ¡ ÃÊ±âÈ­
+	 * listRowsê°€ ìˆëŠ” í˜ì´ì§• ì´ˆê¸°í™”
 	 * 
 	 * @param totalRows
 	 * @param currentPage
@@ -348,7 +348,7 @@ public class Pagination {
 	}
 
 	/**
-	 * ÀÌÀü ¹öÆ° Ãâ·Â
+	 * ì´ì „ ë²„íŠ¼ ì¶œë ¥
 	 */
 	public void prePrint() {
 		// set first block link
@@ -391,7 +391,7 @@ public class Pagination {
 	}
 
 	/**
-	 * ´ÙÀ½ ¹öÆ° Ãâ·Â
+	 * ë‹¤ìŒ ë²„íŠ¼ ì¶œë ¥
 	 */
 	public void nextPrint() {
 		// set next page link
@@ -449,7 +449,7 @@ public class Pagination {
 	}
 
 	/**
-	 * ÆäÀÌÂ¡ ¸®½ºÆ® Ãâ·Â
+	 * í˜ì´ì§• ë¦¬ìŠ¤íŠ¸ ì¶œë ¥
 	 */
 	public void printList() {
 		for (int i = startPageNum; i <= endPageNum; i++) {
@@ -497,7 +497,7 @@ public class Pagination {
 	}
 
 	/**
-	 * Äõ¸® ½ºÆ®¸µ ÀúÀå
+	 * ì¿¼ë¦¬ ìŠ¤íŠ¸ë§ ì €ì¥
 	 * 
 	 * @param queryString
 	 */
@@ -511,7 +511,7 @@ public class Pagination {
 	}
 
 	/**
-	 * ÆäÀÌÂ¡ °ü·Ã ÀüÃ¼ Ãâ·Â
+	 * í˜ì´ì§• ê´€ë ¨ ì „ì²´ ì¶œë ¥
 	 * 
 	 * @return
 	 */
