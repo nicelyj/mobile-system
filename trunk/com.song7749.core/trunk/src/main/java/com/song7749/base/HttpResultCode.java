@@ -2,6 +2,22 @@ package com.song7749.base;
 
 import java.util.HashMap;
 
+/**
+ * <pre>
+ * Class Name : HttpResultCode.java
+ * Description : http ResultCode
+ * 
+ *  Modification Information
+ *  Modify Date 		Modifier			Comment
+ * -----------------------------------------------
+ *  2011. 11. 23.	song7749    	    신규 생성
+ * 
+ * </pre>
+ * 
+ * @author song7749
+ * @since 2011. 11. 23.
+ */
+
 public class HttpResultCode {
 	private static HttpResultCode httpResultCode;
 	private HashMap<Integer, String> errorMap = new HashMap<Integer, String>();
