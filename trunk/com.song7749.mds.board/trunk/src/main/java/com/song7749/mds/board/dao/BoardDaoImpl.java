@@ -36,7 +36,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	/**
-	 * º¸µå Ãß°¡.<br>
+	 * ë³´ë“œ ì¶”ê°€.<br>
 	 * 
 	 * @param board
 	 * @return
@@ -50,7 +50,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	/**
-	 * º¸µå »èÁ¦<br>
+	 * ë³´ë“œ ì‚­ì œ<br>
 	 * 
 	 * @param board
 	 * @return
@@ -67,7 +67,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	/**
-	 * º¸µå ¼öÁ¤
+	 * ë³´ë“œ ìˆ˜ì •
 	 * 
 	 * @param board
 	 * @return
@@ -83,7 +83,7 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	/**
-	 * º¸µå ¸ñ·Ï .<br>
+	 * ë³´ë“œ ëª©ë¡ .<br>
 	 * 
 	 * @param board
 	 * @return

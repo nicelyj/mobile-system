@@ -86,14 +86,14 @@ public class BoardManagerTest extends TestCase {
 		boardList.setBoardListPublicReadYN("Y");
 		boardList.setBoardReadCount(0);
 		boardList.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
-		boardList.setBoardTitle("Å×½ºÆ®°Ô½Ã¹°");
+		boardList.setBoardTitle("í…ŒìŠ¤íŠ¸ê²Œì‹œë¬¼");
 		boardList.setMemberIp("127.0.0.1");
-		boardList.setMemberNickName("´Ð³×ÀÓÀÌ´Ù");
+		boardList.setMemberNickName("ë‹‰ë„¤ìž„ì´ë‹¤");
 		boardList.setMemberSeq(1);
 		boardList.setBoardContents(new BoardContents());
-		boardList.getBoardContents().setContents("°Ô½ÃÆÇ³»¿ëÀÔ´Ï´Ù");
+		boardList.getBoardContents().setContents("ê²Œì‹œíŒë‚´ìš©ìž…ë‹ˆë‹¤");
 		int processVal = this.boardManager.insertBoardList(boardList);
-		Assert.assertTrue(processVal>0);
+		Assert.assertTrue(processVal > 0);
 		BoardManagerTest.staticBoardList = boardList;
 	}
 
@@ -110,14 +110,14 @@ public class BoardManagerTest extends TestCase {
 		boardList.setBoardListPublicReadYN("N");
 		boardList.setBoardReadCount(1);
 		boardList.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
-		boardList.setBoardTitle("Å×½ºÆ®°Ô½Ã¹°2");
+		boardList.setBoardTitle("í…ŒìŠ¤íŠ¸ê²Œì‹œë¬¼2");
 		boardList.setMemberIp("127.0.0.19");
-		boardList.setMemberNickName("ÀÌ»óÇÑ ´Ð³×ÀÓ");
+		boardList.setMemberNickName("ì´ìƒí•œ ë‹‰ë„¤ìž„");
 		boardList.setMemberSeq(1);
 		boardList.setBoardContents(new BoardContents());
-		boardList.getBoardContents().setContents("°Ô½ÃÆÇ³»¿ëÀÔ´Ï´Ù. °Ô½ÃÆÇ³»¿ë ¼öÁ¤ÀÔ´Ï´Ù.");
+		boardList.getBoardContents().setContents("ê²Œì‹œíŒë‚´ìš©ìž…ë‹ˆë‹¤. ê²Œì‹œíŒë‚´ìš© ìˆ˜ì •ìž…ë‹ˆë‹¤.");
 		int processVal = this.boardManager.updateBoardList(boardList);
-		Assert.assertTrue(processVal>0);
+		Assert.assertTrue(processVal > 0);
 	}
 
 	/**
@@ -127,8 +127,9 @@ public class BoardManagerTest extends TestCase {
 	 */
 	@Test
 	public void testUpdateBoardListReadCount() {
-		int processVal = this.boardManager.updateBoardList(BoardManagerTest.staticBoardList);
-		Assert.assertTrue(processVal>0);		
+		int processVal = this.boardManager
+				.updateBoardList(BoardManagerTest.staticBoardList);
+		Assert.assertTrue(processVal > 0);
 	}
 
 	/**
@@ -140,8 +141,9 @@ public class BoardManagerTest extends TestCase {
 	public void testSelectCountBoardListByBoardListCommand() {
 		BoardListCommand boardListCommand = new BoardListCommand();
 		boardListCommand.setBoardList(BoardManagerTest.staticBoardList);
-		int processVal = this.boardManager.selectCountBoardListByBoardListCommand(boardListCommand );
-		Assert.assertTrue(processVal>0);		
+		int processVal = this.boardManager
+				.selectCountBoardListByBoardListCommand(boardListCommand);
+		Assert.assertTrue(processVal > 0);
 	}
 
 	/**
@@ -153,8 +155,9 @@ public class BoardManagerTest extends TestCase {
 	public void testSelectBoardListsByBoardListCommand() {
 		BoardListCommand boardListCommand = new BoardListCommand();
 		boardListCommand.setBoardList(BoardManagerTest.staticBoardList);
-		ArrayList<BoardList> boardLists = this.boardManager.selectBoardListsByBoardListCommand(boardListCommand);
-		Assert.assertTrue(boardLists.size()>0);
+		ArrayList<BoardList> boardLists = this.boardManager
+				.selectBoardListsByBoardListCommand(boardListCommand);
+		Assert.assertTrue(boardLists.size() > 0);
 	}
 
 	/**
@@ -165,14 +168,18 @@ public class BoardManagerTest extends TestCase {
 	@Test
 	public void testInsertBoardCommnet() {
 		BoardComment boardComment = new BoardComment();
-		boardComment.setComment("´ñ±Û Å×½ºÆ®");
-		boardComment.setBoardListSeq(BoardManagerTest.staticBoardList.getBoardListSeq());
-		boardComment.setMemberSeq(BoardManagerTest.staticBoardList.getMemberSeq());
-		boardComment.setMemberIp(BoardManagerTest.staticBoardList.getMemberIp());
-		boardComment.setMemberNickName(BoardManagerTest.staticBoardList.getMemberNickName());
+		boardComment.setComment("ëŒ“ê¸€ í…ŒìŠ¤íŠ¸");
+		boardComment.setBoardListSeq(BoardManagerTest.staticBoardList
+				.getBoardListSeq());
+		boardComment.setMemberSeq(BoardManagerTest.staticBoardList
+				.getMemberSeq());
+		boardComment
+				.setMemberIp(BoardManagerTest.staticBoardList.getMemberIp());
+		boardComment.setMemberNickName(BoardManagerTest.staticBoardList
+				.getMemberNickName());
 		int processVal = this.boardManager.insertBoardCommnet(boardComment);
-		Assert.assertTrue(processVal>0);
-		BoardManagerTest.staticBoardComment =boardComment;
+		Assert.assertTrue(processVal > 0);
+		BoardManagerTest.staticBoardComment = boardComment;
 	}
 
 	/**
@@ -183,11 +190,13 @@ public class BoardManagerTest extends TestCase {
 	@Test
 	public void testUpdateBoardComment() {
 		BoardComment boardComment = new BoardComment();
-		boardComment.setComment("´ñ±Û ¾÷µ¥ÀÌÆ® Å×½ºÆ®");
-		boardComment.setBoardCommentSeq(BoardManagerTest.staticBoardComment.getBoardCommentSeq());
-		boardComment.setMemberSeq(BoardManagerTest.staticBoardList.getMemberSeq());
+		boardComment.setComment("ëŒ“ê¸€ ì—…ë°ì´íŠ¸ í…ŒìŠ¤íŠ¸");
+		boardComment.setBoardCommentSeq(BoardManagerTest.staticBoardComment
+				.getBoardCommentSeq());
+		boardComment.setMemberSeq(BoardManagerTest.staticBoardList
+				.getMemberSeq());
 		int processVal = this.boardManager.updateBoardComment(boardComment);
-		Assert.assertTrue(processVal>0);
+		Assert.assertTrue(processVal > 0);
 	}
 
 	/**
@@ -197,7 +206,8 @@ public class BoardManagerTest extends TestCase {
 	 */
 	@Test
 	public void testSelectCountBoardCommentByBoardComment() {
-		int boardCommentCount = this.boardManager.selectCountBoardCommentByBoardComment(BoardManagerTest.staticBoardComment);
+		int boardCommentCount = this.boardManager
+				.selectCountBoardCommentByBoardComment(BoardManagerTest.staticBoardComment);
 		Assert.assertTrue(boardCommentCount > 0);
 	}
 
@@ -208,7 +218,8 @@ public class BoardManagerTest extends TestCase {
 	 */
 	@Test
 	public void testSelectBoardCommentsByBoardComment() {
-		ArrayList<BoardComment> boardComments = this.boardManager.selectBoardCommentsByBoardComment(BoardManagerTest.staticBoardComment);
+		ArrayList<BoardComment> boardComments = this.boardManager
+				.selectBoardCommentsByBoardComment(BoardManagerTest.staticBoardComment);
 		Assert.assertTrue(boardComments.size() > 0);
 	}
 
@@ -219,10 +230,10 @@ public class BoardManagerTest extends TestCase {
 	 */
 	@Test
 	public void testDeleteBoardComment() {
-		int processVal = this.boardManager.deleteBoardComment(BoardManagerTest.staticBoardComment);
+		int processVal = this.boardManager
+				.deleteBoardComment(BoardManagerTest.staticBoardComment);
 		Assert.assertTrue(processVal > 0);
 	}
-
 
 	/**
 	 * Test method for
@@ -232,11 +243,12 @@ public class BoardManagerTest extends TestCase {
 	@Test
 	public void testDeleteBoardList() {
 		BoardList boardList = new BoardList();
-		boardList.setBoardListSeq(BoardManagerTest.staticBoardList.getBoardListSeq());
+		boardList.setBoardListSeq(BoardManagerTest.staticBoardList
+				.getBoardListSeq());
 		int processVal = this.boardManager.deleteBoardList(boardList);
-		Assert.assertTrue(processVal>0);		
+		Assert.assertTrue(processVal > 0);
 	}
-	
+
 	/**
 	 * Test method for
 	 * {@link com.song7749.mds.board.service.BoardManager#deleteBoard(com.song7749.mds.board.model.Board)}
@@ -248,15 +260,13 @@ public class BoardManagerTest extends TestCase {
 		// board.setBoardName("test");
 		board.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
 		int processVal = this.boardManager.deleteBoard(board);
-		Assert.assertTrue("º¸µå»èÁ¦ ½ÇÆÐ", processVal > 0);
+		Assert.assertTrue("ë³´ë“œì‚­ì œ ì‹¤íŒ¨", processVal > 0);
 	}
-	
 
 	/**
-	 * batch ¸¦ ÀÌ¿ëÇÏ¿© insert test
-	 * transactionManagerTemplete À» ÀÌ¿ë ÇÔ.
+	 * batch ë¥¼ ì´ìš©í•˜ì—¬ insert test transactionManagerTemplete ì„ ì´ìš© í•¨.
 	 */
-	//@Test
+	// @Test
 	public void testInsertBoardListFacade() {
 		BoardList boardList = new BoardList();
 		boardList.setBoardCommentCount(0);
@@ -264,14 +274,14 @@ public class BoardManagerTest extends TestCase {
 		boardList.setBoardListPublicReadYN("Y");
 		boardList.setBoardReadCount(0);
 		boardList.setBoardSeq(BoardManagerTest.staticBoard.getBoardSeq());
-		boardList.setBoardTitle("Å×½ºÆ®°Ô½Ã¹°");
+		boardList.setBoardTitle("í…ŒìŠ¤íŠ¸ê²Œì‹œë¬¼");
 		boardList.setMemberIp("127.0.0.1");
-		boardList.setMemberNickName("´Ð³×ÀÓÀÌ´Ù");
+		boardList.setMemberNickName("ë‹‰ë„¤ìž„ì´ë‹¤");
 		boardList.setMemberSeq(1);
 		boardList.setBoardContents(new BoardContents());
-		boardList.getBoardContents().setContents("°Ô½ÃÆÇ³»¿ëÀÔ´Ï´Ù");
+		boardList.getBoardContents().setContents("ê²Œì‹œíŒë‚´ìš©ìž…ë‹ˆë‹¤");
 		int processVal = this.boardManager.insertBoardList(boardList);
-		Assert.assertTrue(processVal>0);
+		Assert.assertTrue(processVal > 0);
 		BoardManagerTest.staticBoardList = boardList;
 	}
 }

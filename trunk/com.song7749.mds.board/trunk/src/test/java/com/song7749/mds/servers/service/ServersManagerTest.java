@@ -1,7 +1,5 @@
 package com.song7749.mds.servers.service;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 
 import junit.framework.Assert;
@@ -22,12 +20,11 @@ public class ServersManagerTest {
 	@Autowired
 	private ServersManager serversManager;
 	private static ServerList staticServerList;
-	
-	
+
 	@Test
 	public void testInsertServers() {
 		ServerList serverList = new ServerList();
-		serverList.setServerName("Å×½ºÆ® ¼­¹ö");
+		serverList.setServerName("í…ŒìŠ¤íŠ¸ ì„œë²„");
 		serverList.setServerIp("111.111.111");
 		serverList.setServerInfo(new ServerInfo());
 		serverList.getServerInfo().setServerDomainName("monitoring");
@@ -42,11 +39,11 @@ public class ServersManagerTest {
 	@Test
 	public void testUpdateServers() {
 		ServerList serverList = ServersManagerTest.staticServerList;
-		serverList.setServerName("Å×½ºÆ® ¼­¹ö2");
+		serverList.setServerName("í…ŒìŠ¤íŠ¸ ì„œë²„2");
 		serverList.getServerInfo().setServerDomainName("monitoring 2");
 		serverList.getServerInfo().setServerType(2);
 		Integer processVal = this.serversManager.updateServers(serverList);
-		Assert.assertTrue(processVal>0);
+		Assert.assertTrue(processVal > 0);
 		ServersManagerTest.staticServerList = serverList;
 	}
 
@@ -54,14 +51,15 @@ public class ServersManagerTest {
 	public void testSelectServersByServersCommand() {
 		ServersCommand serversCommand = new ServersCommand();
 		serversCommand.setServerList(staticServerList);
-		ArrayList<ServerList> serverLists = this.serversManager.selectServersByServersCommand(serversCommand);
-		Assert.assertTrue(serverLists.size()>0);
+		ArrayList<ServerList> serverLists = this.serversManager
+				.selectServersByServersCommand(serversCommand);
+		Assert.assertTrue(serverLists.size() > 0);
 	}
 
 	@Test
 	public void testDeleteServers() {
 		ServerList serverList = ServersManagerTest.staticServerList;
 		Integer processVal = this.serversManager.deleteServers(serverList);
-		Assert.assertTrue(processVal>0);
+		Assert.assertTrue(processVal > 0);
 	}
 }

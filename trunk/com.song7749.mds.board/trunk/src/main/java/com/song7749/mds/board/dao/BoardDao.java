@@ -27,7 +27,7 @@ public interface BoardDao extends Dao {
 	public void setBoardslave(SqlMapClientTemplate boardslave);
 
 	/**
-	 * º¸µå Ãß°¡.<br>
+	 * ë³´ë“œ ì¶”ê°€.<br>
 	 * 
 	 * @param board
 	 * @return
@@ -35,7 +35,7 @@ public interface BoardDao extends Dao {
 	public Integer insertBoard(Board board);
 
 	/**
-	 * º¸µå »èÁ¦<br>
+	 * ë³´ë“œ ì‚­ì œ<br>
 	 * 
 	 * @param board
 	 * @return
@@ -43,7 +43,7 @@ public interface BoardDao extends Dao {
 	public Integer deleteBoard(Board board);
 
 	/**
-	 * º¸µå ¼öÁ¤
+	 * ë³´ë“œ ìˆ˜ì •
 	 * 
 	 * @param board
 	 * @return
@@ -51,7 +51,7 @@ public interface BoardDao extends Dao {
 	public Integer updateBoard(Board board);
 
 	/**
-	 * º¸µå ¸ñ·Ï .<br>
+	 * ë³´ë“œ ëª©ë¡ .<br>
 	 * 
 	 * @param board
 	 * @return
@@ -59,7 +59,7 @@ public interface BoardDao extends Dao {
 	public ArrayList<Board> selectBoards(Board board);
 
 	/**
-	 * º¸µå ¸®½ºÆ® ¸ñ·Ï .<br>
+	 * ë³´ë“œ ë¦¬ìŠ¤íŠ¸ ëª©ë¡ .<br>
 	 * 
 	 * @param boardList
 	 * @return
@@ -67,7 +67,7 @@ public interface BoardDao extends Dao {
 	public Integer insertBoardList(BoardList boardList);
 
 	/**
-	 * º¸µå ÄÁÅÙÃ÷ µî·Ï.<br>
+	 * ë³´ë“œ ì»¨í…ì¸  ë“±ë¡.<br>
 	 * 
 	 * @param boardList
 	 * @return
