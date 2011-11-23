@@ -27,18 +27,18 @@ public class MemberManagerTest {
 	public void testInsertMember() {
 		Member member = new Member();
 		member.setMemberId("song77492");
-		member.setMemberName("¼Û¹Î¼ö2");
-		member.setMemberNickName("º¸¾Æ¹ì2");
+		member.setMemberName("ì†¡ë¯¼ìˆ˜2");
+		member.setMemberNickName("ë³´ì•„ë±€2");
 		member.setMemberPassword("1111111111");
-		member.setMemberPasswordA("¾î¸Ó´Ï ¼ºÇÔ");
-		member.setMemberPasswordQ("¾î¸Ó´Ï ¼ºÇÔÀº?");
+		member.setMemberPasswordA("ì–´ë¨¸ë‹ˆ ì„±í•¨");
+		member.setMemberPasswordQ("ì–´ë¨¸ë‹ˆ ì„±í•¨ì€?");
 		member.setMemberEmail("song7749@gmail.com");
 
 		MemberDetail memberDetail = new MemberDetail();
 
 		memberDetail.setMemberZipcode("173-062");
-		memberDetail.setMemberAddressBase("¼­¿ï");
-		memberDetail.setMemberAddressDetail("¾çÆòµ¿");
+		memberDetail.setMemberAddressBase("ì„œìš¸");
+		memberDetail.setMemberAddressDetail("ì–‘í‰ë™");
 		memberDetail.setMemberMobileNumber("000-0000-0000");
 		memberDetail.setMemberPhoneNumber("000-0000-0000");
 		memberDetail.setMemberResistNumber("780000-000000");
@@ -54,18 +54,18 @@ public class MemberManagerTest {
 
 		Member member = new Member();
 		member.setMemberSeq(MemberManagerTest.staticMember.getMemberSeq());
-		member.setMemberName("¼Û¹Î¼ö");
-		member.setMemberNickName("º¸¾Æ¹ì");
+		member.setMemberName("ì†¡ë¯¼ìˆ˜");
+		member.setMemberNickName("ë³´ì•„ë±€");
 		member.setMemberPassword("11111111");
-		member.setMemberPasswordA("¾î¸Ó´Ï ¼ºÇÔ2");
-		member.setMemberPasswordQ("¾î¸Ó´Ï ¼ºÇÔÀº2?");
+		member.setMemberPasswordA("ì–´ë¨¸ë‹ˆ ì„±í•¨2");
+		member.setMemberPasswordQ("ì–´ë¨¸ë‹ˆ ì„±í•¨ì€2?");
 		member.setMemberEmail("song7749@gmail.com2");
 
 		MemberDetail memberDetail = new MemberDetail();
 
 		memberDetail.setMemberZipcode("173-022");
-		memberDetail.setMemberAddressBase("¼­¿ï2");
-		memberDetail.setMemberAddressDetail("¾çÆòµ¿2");
+		memberDetail.setMemberAddressBase("ì„œìš¸2");
+		memberDetail.setMemberAddressDetail("ì–‘í‰ë™2");
 		memberDetail.setMemberMobileNumber("000-0000-00002");
 		memberDetail.setMemberPhoneNumber("000-0000-00002");
 		memberDetail.setMemberResistNumber("780000-0000002");
