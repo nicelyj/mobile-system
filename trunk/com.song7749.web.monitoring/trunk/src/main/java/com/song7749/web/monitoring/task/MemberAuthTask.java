@@ -15,13 +15,13 @@ import com.song7749.mds.member.service.MemberManager;
 /**
  * <pre>
  * Class Name : MemberAuthTask.java
- * Description : È¸¿ø ÀÎÁõ°ü·Ã ¹èÄ¡Ã³¸®
- * ÇÑ½Ã°£¿¡ ÇÑ¹ø¾¿ È¸¿ø ·Î±×ÀÎ ÀÎÁõ Á¤º¸¸¦ »èÁ¦ÇÑ´Ù.
+ * Description : íšŒì› ì¸ì¦ê´€ë ¨ ë°°ì¹˜ì²˜ë¦¬
+ * í•œì‹œê°„ì— í•œë²ˆì”© íšŒì› ë¡œê·¸ì¸ ì¸ì¦ ì •ë³´ë¥¼ ì‚­ì œí•œë‹¤.
  * 
  *  Modification Information
  *  Modify Date 	Modifier		Comment
  * -----------------------------------------------
- *  2011. 9. 8.	song7749		    ½Å±Ô »ı¼º
+ *  2011. 9. 8.	song7749		    ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 
@@ -33,12 +33,12 @@ public class MemberAuthTask {
 	@Autowired
 	private MemberManager memberManager;
 
-	// ¸Å½Ã Á¤°¢¿¡ ÇÑ¹ø ½ÇÇà ÇÔ
+	// ë§¤ì‹œ ì •ê°ì— í•œë²ˆ ì‹¤í–‰ í•¨
 	@Scheduled(fixedRate = 60 * 60 * 1000)
 	public void deleteMemberAuth() {
 		MemberAuth memberAuth = new MemberAuth();
 
-		// 1½Ã°£Àü µ¥ÀÌÅÍ select
+		// 1ì‹œê°„ì „ ë°ì´í„° select
 		Calendar cal = Calendar.getInstance();
 		cal.add(cal.HOUR, -1);
 		SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd h:m:s");

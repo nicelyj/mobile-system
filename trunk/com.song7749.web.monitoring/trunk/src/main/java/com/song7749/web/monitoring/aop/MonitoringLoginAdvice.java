@@ -17,12 +17,12 @@ import com.song7749.mds.member.service.LoginWebUtil;
 /**
  * <pre>
  * Class Name : MonitoringLoginAdvice.java
- * Description : ·Î±×ÀÎ Ã¼Å©¸¦ À§ÇÑ advice
+ * Description : ë¡œê·¸ì¸ ì²´í¬ë¥¼ ìœ„í•œ advice
  * 
  *  Modification Information
  *  Modify Date 	Modifier			Comment
  * -----------------------------------------------
- *  2011. 9. 5.		song7749		    ½Å±Ô »ı¼º
+ *  2011. 9. 5.		song7749		    ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 

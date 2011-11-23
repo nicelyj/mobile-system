@@ -59,11 +59,11 @@ public class LoginController {
 		try {
 			if (memberId.equals("") || memberPassword.equals("")) {
 				throw new WebException(request, response,
-						HttpResultCode.BAD_REQUEST, "¾ÆÀÌµğ È¤Àº ÆĞ½º¿öµå°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+						HttpResultCode.BAD_REQUEST, "ì•„ì´ë”” í˜¹ì€ íŒ¨ìŠ¤ì›Œë“œê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 
 			} else if (this.loginWebUtil.login(member, request, response) == false) {
 				throw new WebException(request, response,
-						HttpResultCode.BAD_REQUEST, "¾ÆÀÌµğ È¤Àº ÆĞ½º¿öµå°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+						HttpResultCode.BAD_REQUEST, "ì•„ì´ë”” í˜¹ì€ íŒ¨ìŠ¤ì›Œë“œê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

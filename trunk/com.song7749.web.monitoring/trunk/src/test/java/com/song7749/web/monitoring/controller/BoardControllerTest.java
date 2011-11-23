@@ -37,7 +37,7 @@ public class BoardControllerTest {
 		response = new MockHttpServletResponse();
 		adapter = new AnnotationMethodHandlerAdapter();
 
-		// ·Î±×ÀÎ Ã³¸®
+		// ë¡œê·¸ì¸ ì²˜ë¦¬
 		request.setRequestURI("/login/loginProcess.html");
 		request.setParameter("memberId", "song7749");
 		request.setParameter("memberPassword", "11111111");
@@ -65,11 +65,11 @@ public class BoardControllerTest {
 
 		ModelAndView mv = adapter.handle(request, response, boardController);
 
-		// HTTP °Ë»ç
+		// HTTP ê²€ì‚¬
 		Assert.assertEquals(200, response.getStatus());
-		// ·Î±×ÀÎ Åë°ú °Ë»ç
+		// ë¡œê·¸ì¸ í†µê³¼ ê²€ì‚¬
 		Assert.assertTrue(mv.getViewName().equals("board/boards"));
-		// respondText °Ë»ç
+		// respondText ê²€ì‚¬
 		Assert.assertNotNull(response.getContentAsString());
 	}
 
@@ -80,11 +80,11 @@ public class BoardControllerTest {
 
 		ModelAndView mv = adapter.handle(request, response, boardController);
 
-		// HTTP °Ë»ç
+		// HTTP ê²€ì‚¬
 		Assert.assertEquals(200, response.getStatus());
-		// ·Î±×ÀÎ Åë°ú °Ë»ç
+		// ë¡œê·¸ì¸ í†µê³¼ ê²€ì‚¬
 		Assert.assertTrue(mv.getViewName().equals("board/boards"));
-		// respondText °Ë»ç
+		// respondText ê²€ì‚¬
 		Assert.assertNotNull(response.getContentAsString());
 
 	}

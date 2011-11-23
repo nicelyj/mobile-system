@@ -118,13 +118,13 @@ public class BoardController {
 		Properties boardProperties = PropertiesUtil
 				.getProperties("variable.properties");
 
-		// °Ô½ÃÆÇ Á¶È¸
+		// ê²Œì‹œíŒ ì¡°íšŒ
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		ArrayList<Board> boards = this.boardManager.selectBoards(board);
 		board.setBoardName(boards.get(0).getBoardName());
 
-		// ÆäÀÌÁö ¼³Á¤ ·Îµå
+		// í˜ì´ì§€ ì„¤ì • ë¡œë“œ
 		Integer listPerPage = Integer.parseInt(boardProperties
 				.getProperty("boardlist_page_list_per_page"));
 		Integer pageSize = Integer.parseInt(boardProperties
@@ -133,7 +133,7 @@ public class BoardController {
 		int limit = listPerPage;
 		int offset = (page - 1) * listPerPage;
 
-		// °Ô½Ã±Û ¸®½ºÆ® Á¶È¸
+		// ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ
 		BoardListCommand boardListCommand = new BoardListCommand();
 		boardListCommand.setBoardList(new BoardList());
 		boardListCommand.getBoardList().setBoardSeq(boardSeq);
@@ -145,13 +145,13 @@ public class BoardController {
 
 		Integer totalRows = 0;
 
-		// ÆäÀÌÂ¡ Ã³¸®
-		if (boardLists.size() == listPerPage) {// Ä«¿îÆ® ¾ÈÇÔ
+		// í˜ì´ì§• ì²˜ë¦¬
+		if (boardLists.size() == listPerPage) {// ì¹´ìš´íŠ¸ ì•ˆí•¨
 			totalRows = pageSize * listPerPage;
 
-		} else if (boardLists.size() > 0) { // Ä«¿îÆ® °è»ê
+		} else if (boardLists.size() > 0) { // ì¹´ìš´íŠ¸ ê³„ì‚°
 			totalRows = (page - 1) * listPerPage + boardLists.size();
-		} else {// Ä«¿îÆ® Äõ¸® ÀÛ¼º
+		} else {// ì¹´ìš´íŠ¸ ì¿¼ë¦¬ ì‘ì„±
 			totalRows = this.boardManager
 					.selectCountBoardListByBoardListCommand(boardListCommand);
 			int totalPages = (int) Math.ceil((double) totalRows / listPerPage);
@@ -176,7 +176,7 @@ public class BoardController {
 
 		String pagingNavi = pagination.print();
 
-		// °Ô½ÃÆÇ ¸®½ºÆ® ³»¿¡ ¸â¹ö id list Á¶È¸
+		// ê²Œì‹œíŒ ë¦¬ìŠ¤íŠ¸ ë‚´ì— ë©¤ë²„ id list ì¡°íšŒ
 		ArrayList<Integer> memberSeqList = new ArrayList<Integer>();
 		if (boardLists.size() > 0) {
 			for (BoardList boardList : boardLists) {
@@ -213,7 +213,7 @@ public class BoardController {
 
 		String viewTemplete = "board/boardListDetail";
 
-		// °Ô½Ã±Û ¸®½ºÆ® Á¶È¸
+		// ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸ ì¡°íšŒ
 		BoardListCommand boardListCommand = new BoardListCommand();
 		boardListCommand.setBoardList(new BoardList());
 		boardListCommand.getBoardList().setBoardListSeq(boardListSeq);
@@ -223,7 +223,7 @@ public class BoardController {
 			modelMap.addAttribute("boardList", boardLists.get(0));
 		}
 
-		// °Ô½Ã±Û¿¡ ÇØ´çÇÏ´Â È¸¿øÁ¶È¸
+		// ê²Œì‹œê¸€ì— í•´ë‹¹í•˜ëŠ” íšŒì›ì¡°íšŒ
 		if (boardLists.size() > 0) {
 			MemberCommand memberCommand = new MemberCommand();
 			memberCommand.setMember(new Member());
@@ -235,7 +235,7 @@ public class BoardController {
 			if (memberList.size() > 0)
 				modelMap.addAttribute("member", memberList.get(0));
 
-			// °Ô½Ã±Û Á¶È¸¼ö Áõ°¡
+			// ê²Œì‹œê¸€ ì¡°íšŒìˆ˜ ì¦ê°€
 			this.boardManager.updateBoardListReadCount(boardLists.get(0));
 		}
 
@@ -254,16 +254,16 @@ public class BoardController {
 			ModelMap modelMap) {
 		String viewTemplete = "board/boardListForm";
 
-		// °Ô½ÃÆÇ Á¶È¸
+		// ê²Œì‹œíŒ ì¡°íšŒ
 		Board board = new Board();
 		board.setBoardSeq(boardSeq);
 		ArrayList<Board> boards = this.boardManager.selectBoards(board);
 		if (boards.size() > 0)
 			board.setBoardName(boards.get(0).getBoardName());
 
-		// ¼öÁ¤ÀÏ °æ¿ì¿¡´Â ±âÁ¸ °Ô½Ã³»¿ë °¡Á®¿À±â.
+		// ìˆ˜ì •ì¼ ê²½ìš°ì—ëŠ” ê¸°ì¡´ ê²Œì‹œë‚´ìš© ê°€ì ¸ì˜¤ê¸°.
 		if (request.getRequestURI().equals("/board/boardListModifyForm.html")) {
-			// º»ÀÎ °Ô½Ã±ÛÀÎ°¡ È®ÀÎÇÑ´Ù.
+			// ë³¸ì¸ ê²Œì‹œê¸€ì¸ê°€ í™•ì¸í•œë‹¤.
 			Member loginMember = (Member) modelMap.get("loginMember");
 			ArrayList<BoardList> boardLists = new ArrayList<BoardList>();
 			BoardListCommand boardListCommand = new BoardListCommand();
@@ -276,7 +276,7 @@ public class BoardController {
 
 			if (boardLists.size() == 0) {
 				try {
-					response.sendError(0, "°Ô½Ã¹° ÀÛ¼ºÀÚ°¡ ¾Æ´Õ´Ï´Ù.");
+					response.sendError(0, "ê²Œì‹œë¬¼ ì‘ì„±ìê°€ ì•„ë‹™ë‹ˆë‹¤.");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -354,7 +354,7 @@ public class BoardController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		// º»ÀÎ °Ô½Ã±ÛÀÎ°¡ È®ÀÎÇÑ´Ù.
+		// ë³¸ì¸ ê²Œì‹œê¸€ì¸ê°€ í™•ì¸í•œë‹¤.
 		Member loginMember = (Member) modelMap.get("loginMember");
 		ArrayList<BoardList> boardLists = new ArrayList<BoardList>();
 		BoardListCommand boardListCommand = new BoardListCommand();
@@ -367,7 +367,7 @@ public class BoardController {
 
 		if (boardLists.size() == 0) {
 			try {
-				response.sendError(0, "°Ô½Ã¹° ÀÛ¼ºÀÚ°¡ ¾Æ´Õ´Ï´Ù.");
+				response.sendError(0, "ê²Œì‹œë¬¼ ì‘ì„±ìê°€ ì•„ë‹™ë‹ˆë‹¤.");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -422,7 +422,7 @@ public class BoardController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		// È¸¿øÁ¤º¸ Á¶È¸
+		// íšŒì›ì •ë³´ ì¡°íšŒ
 		Member member = (Member) modelMap.get("loginMember");
 
 		BoardComment boardComment = new BoardComment();
@@ -432,7 +432,7 @@ public class BoardController {
 
 		modelMap.clear();
 		if (boardComments.size() == 0) {
-			modelMap.addAttribute("respondMessage", "º»ÀÎ °Ô½Ã ÄÚ¸àÆ®°¡ ¾ø½À´Ï´Ù.");
+			modelMap.addAttribute("respondMessage", "ë³¸ì¸ ê²Œì‹œ ì½”ë©˜íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
 		} else {
 			if (boardComments.get(0).getMemberSeq()
 					.equals(member.getMemberSeq())) {
@@ -440,9 +440,9 @@ public class BoardController {
 					boardListComentCountUpdate(boardComments.get(0)
 							.getBoardListSeq());
 
-				modelMap.addAttribute("respondMessage", "»èÁ¦µÇ¾ú½À´Ï´Ù.");
+				modelMap.addAttribute("respondMessage", "ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
 			} else {
-				modelMap.addAttribute("respondMessage", "º»ÀÎ °Ô½Ã±ÛÀÌ ¾Æ´Õ´Ï´Ù.");
+				modelMap.addAttribute("respondMessage", "ë³¸ì¸ ê²Œì‹œê¸€ì´ ì•„ë‹™ë‹ˆë‹¤.");
 			}
 		}
 

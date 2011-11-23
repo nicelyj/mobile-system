@@ -189,7 +189,7 @@ public class ServersController {
 			ModelMap modelMap) {
 		String viewTemplete = "server/serverInfo";
 
-		// xml ÀÏ °æ¿ì modelmap À» clear ÇÑ´Ù.
+		// xml ì¼ ê²½ìš° modelmap ì„ clear í•œë‹¤.
 		if (request.getRequestURI().indexOf("xml") > 0) {
 			modelMap.clear();
 		}
@@ -199,7 +199,7 @@ public class ServersController {
 		String processText = null;
 		ArrayList<ProcessWindows> processList = new ArrayList<ProcessWindows>();
 
-		// window system ÀÎ°¡ linux ½Ã½ºÅÛÀÎ°¡ ºÐ±âÇÑ´Ù.
+		// window system ì¸ê°€ linux ì‹œìŠ¤í…œì¸ê°€ ë¶„ê¸°í•œë‹¤.
 		if (System.getProperties().getProperty("os.name").indexOf("Windows") > -1) {
 			try {
 				p = rt.exec("tasklist /FO CSV");
@@ -256,7 +256,7 @@ public class ServersController {
 		String processText = null;
 		ArrayList<ProcessWindows> processList = new ArrayList<ProcessWindows>();
 
-		// window system ÀÎ°¡ linux ½Ã½ºÅÛÀÎ°¡ ºÐ±âÇÑ´Ù.
+		// window system ì¸ê°€ linux ì‹œìŠ¤í…œì¸ê°€ ë¶„ê¸°í•œë‹¤.
 		if (System.getProperties().getProperty("os.name").indexOf("Windows") > -1) {
 			try {
 				p = rt.exec("taskkill /PID " + id);
@@ -268,8 +268,8 @@ public class ServersController {
 		else {
 
 		}
-	}		
-	
+	}
+
 	@RequestMapping({ "/serverInfoDatabaseService.xml",
 			"/serverInfoDatabaseService.html" })
 	public String serverInfoDatabaseServiceGeneralMemberHandle(
@@ -281,12 +281,12 @@ public class ServersController {
 
 		String viewTemplete = "server/serverInfo";
 
-		// xml ÀÏ °æ¿ì modelmap À» clear ÇÑ´Ù.
+		// xml ì¼ ê²½ìš° modelmap ì„ clear í•œë‹¤.
 		if (request.getRequestURI().indexOf("xml") > 0) {
 			modelMap.clear();
 		}
 
-		// ¼­¹ö Á¤º¸¸¦ È¹µæÇÔ
+		// ì„œë²„ ì •ë³´ë¥¼ íšë“í•¨
 		ServersCommand serversCommand = new ServersCommand();
 		serversCommand.setServerList(new ServerList());
 		if (serverListSeq > 0)
@@ -307,12 +307,12 @@ public class ServersController {
 			return viewTemplete;
 		}
 
-		// ApplicationContext¸¦ °¡Á®¿Â´Ù.
+		// ApplicationContextë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 		ApplicationContext context = WebApplicationContextUtils
 				.getWebApplicationContext(request.getSession()
 						.getServletContext());
 
-		// db ¿¬°á °¡Á®¿Â´Ù.
+		// db ì—°ê²° ê°€ì ¸ì˜¨ë‹¤.
 		SqlMapClientTemplate dataSource = (SqlMapClientTemplate) context
 				.getBean("sqlMapClientTemplate."
 						+ serverList.getServerInfo().getServerDomainName());
@@ -339,7 +339,6 @@ public class ServersController {
 		return viewTemplete;
 	}
 
-	
 	@RequestMapping("/killProcessFromDatabaseService.html")
 	public void killProcessFromDatabaseServiceGeneralMemberHandle(
 			@RequestParam(value = "serverListSeq", defaultValue = "0", required = true) Integer serverListSeq,
@@ -348,9 +347,9 @@ public class ServersController {
 			HttpServletRequest request, HttpServletResponse response,
 			ModelMap modelMap) {
 
-		// ¼­¹ö Á¤º¸¸¦ È¹µæÇÔ
+		// ì„œë²„ ì •ë³´ë¥¼ íšë“í•¨
 		ServersCommand serversCommand = new ServersCommand();
-		serversCommand.setServerList(new ServerList());		
+		serversCommand.setServerList(new ServerList());
 		if (serverListSeq > 0)
 			serversCommand.getServerList().setServerListSeq(serverListSeq);
 
@@ -369,12 +368,12 @@ public class ServersController {
 			return;
 		}
 
-		// ApplicationContext¸¦ °¡Á®¿Â´Ù.
+		// ApplicationContextë¥¼ ê°€ì ¸ì˜¨ë‹¤.
 		ApplicationContext context = WebApplicationContextUtils
 				.getWebApplicationContext(request.getSession()
 						.getServletContext());
 
-		// db ¿¬°á °¡Á®¿Â´Ù.
+		// db ì—°ê²° ê°€ì ¸ì˜¨ë‹¤.
 		SqlMapClientTemplate dataSource = (SqlMapClientTemplate) context
 				.getBean("sqlMapClientTemplate."
 						+ serverList.getServerInfo().getServerDomainName());
@@ -385,8 +384,8 @@ public class ServersController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}	
-	
+	}
+
 	@RequestMapping({ "/serverInfoJavaWebSevice.xml",
 			"/serverInfoJavaWebSevice.html" })
 	public String serverInfoJavaWebServiceGeneralMemberHandle(
