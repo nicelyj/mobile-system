@@ -13,12 +13,22 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Log4jConfigurer;
 
 /**
- * ehcache의 분산캐시 설정에서 local address를 제거. 서버벌로 각각 ehcache.xml 설정파일을 참조하기 어렵기 때문에
- * 사용함.
+ * <pre>
+ * Class Name : RMICacheManagerPeerProviderFactoryProxy.java
+ * Description : ehcache의 분산캐시 설정에서 local address를 제거. 서버벌로 각각 ehcache.xml 설정파일을 참조하기 어렵기 때문에 
+ * 사용함
  * 
- * @author throat
+ *  Modification Information
+ *  Modify Date			Modifier		Comment
+ * ---------------------------------------------------
+ *  2011. 11. 23.		song7749		신규 생성
  * 
+ * </pre>
+ * 
+ * @author song7749
+ * @since 2011. 11. 23.
  */
+
 public class RMICacheManagerPeerProviderFactoryProxy extends
 		RMICacheManagerPeerProviderFactory {
 	private static final Log logger = LogFactory.getLog(Log4jConfigurer.class);

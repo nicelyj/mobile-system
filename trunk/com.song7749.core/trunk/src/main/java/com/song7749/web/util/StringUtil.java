@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
 /**
  * <pre>
  * Class Name : StringUtil.java
- * Description : ½ºÆ®¸µ °ü·Ã À¯Æ¿¸®Æ¼
+ * Description : ìŠ¤íŠ¸ë§ ê´€ë ¨ ìœ í‹¸ë¦¬í‹°
  * 
  *  Modification Information
  *  Modify Date		Modifier		Comment
  * ---------------------------------------------------
- *  2011. 11. 23.	song7749		½Å±Ô »ı¼º
+ *  2011. 11. 23.	song7749		ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 
@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
 	/**
-	 * ¹®ÀÚ¿­ ÀÚ¸£±â
+	 * ë¬¸ìì—´ ìë¥´ê¸°
 	 * 
 	 * @param str
 	 * @param strSize
@@ -41,11 +41,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÅÂ±× Á¦°Å
+	 * íƒœê·¸ ì œê±°
 	 * 
 	 * @param str
-	 *            ÅÂ±×¸¦ Æ÷ÇÔÇÑ ¹®ÀÚ¿­
-	 * @return returnValue ÅÂ±×¸¦ Á¦°ÅÇÑ ¹®ÀÚ¿­
+	 *            íƒœê·¸ë¥¼ í¬í•¨í•œ ë¬¸ìì—´
+	 * @return returnValue íƒœê·¸ë¥¼ ì œê±°í•œ ë¬¸ìì—´
 	 */
 	public static String removeTagAll(String str) {
 		String returnValue = "";
@@ -56,12 +56,12 @@ public class StringUtil {
 	}
 
 	/**
-	 * allowTags Á¦¿Ü ÈÄ ÅÂ±×¸¸ Á¦°Å
+	 * allowTags ì œì™¸ í›„ íƒœê·¸ë§Œ ì œê±°
 	 * 
 	 * @param str
-	 *            ÅÂ±×¸¦ Æ÷ÇÔÇÑ ¹®ÀÚ¿­
+	 *            íƒœê·¸ë¥¼ í¬í•¨í•œ ë¬¸ìì—´
 	 * @param allowTags
-	 *            Á¦°Å¿¡¼­ Á¦¿ÜµÉ ÅÂ±×
+	 *            ì œê±°ì—ì„œ ì œì™¸ë  íƒœê·¸
 	 * @return
 	 */
 	public static String stripTags(String str, String allowTags) {
@@ -75,13 +75,13 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÌ¹ÌÁö ¸®»çÀÌÂ¡À» À§ÇÑ ÀÌ¹ÌÁö ¸µÅ© º¯È¯ ÇÏ±â. ÀÌ¹ÌÁö ¸®»çÀÌÁî Ã³¸® ÄÁÆ®·Ñ·¯¸¦ °¢ À¥ ÇÁ·ÎÁ§Æ®¿¡¼­ ÀÛ¼ºÀ» ÇØ¾ßÇÔ
+	 * ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì§•ì„ ìœ„í•œ ì´ë¯¸ì§€ ë§í¬ ë³€í™˜ í•˜ê¸°. ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆ ì²˜ë¦¬ ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ê° ì›¹ í”„ë¡œì íŠ¸ì—ì„œ ì‘ì„±ì„ í•´ì•¼í•¨
 	 * 
 	 * @param contents
 	 * @param processUrl
-	 *            ÀÌ¹ÌÁö ¸®»çÀÌÁî¸¦ À§ÇÑ Ã³¸® URL
+	 *            ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆë¥¼ ìœ„í•œ ì²˜ë¦¬ URL
 	 * @param width
-	 *            ¸®»çÀÌÁî ÀÌ¹ÌÁö »çÀÌÁî
+	 *            ë¦¬ì‚¬ì´ì¦ˆ ì´ë¯¸ì§€ ì‚¬ì´ì¦ˆ
 	 * @param largeImageMake
 	 *            (N:false, Y:true)
 	 * @return
@@ -97,7 +97,7 @@ public class StringUtil {
 				.compile("(?i)<img[^<>]*src=[\"']?([^>\"']+)[\"']?[^<>]*>");
 		java.util.regex.Matcher matcher = pattern.matcher(contents);
 		while (matcher.find()) {
-			// FIXME replacement ¼öÁ¤
+			// FIXME replacement ìˆ˜ì •
 			if (width != null) {
 				replacement = "<p align=\"center\"><table width=\"100%\"><tr><td align=\"center\"><table><tr><td><div class=\"nsthum\"><img src=\""
 						+ processUrl
@@ -121,7 +121,7 @@ public class StringUtil {
 						+ matcher.group(1)
 						+ "\"/><span class=\"zoom\" id=\"zoom[]\" name=\"zoom[]\"></span></div></td></tr></table></td></tr></table></p>";
 			}
-			// ½Ç¹ö¶óÀÌÆ® ÀÌ¹ÌÁö °ø¹éÀ¸·Î Ã³¸®
+			// ì‹¤ë²„ë¼ì´íŠ¸ ì´ë¯¸ì§€ ê³µë°±ìœ¼ë¡œ ì²˜ë¦¬
 			if (matcher.group(1).indexOf("silverlight") != -1) {
 				replacement = "";
 			}
@@ -133,11 +133,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÌ¹ÌÁö ¸®»çÀÌÂ¡À» À§ÇÑ ÀÌ¹ÌÁö ¸µÅ© º¯È¯ ÇÏ±â. ÀÌ¹ÌÁö ¸®»çÀÌÁî Ã³¸® ÄÁÆ®·Ñ·¯¸¦ °¢ À¥ ÇÁ·ÎÁ§Æ®¿¡¼­ ÀÛ¼ºÀ» ÇØ¾ßÇÔ
+	 * ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì§•ì„ ìœ„í•œ ì´ë¯¸ì§€ ë§í¬ ë³€í™˜ í•˜ê¸°. ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆ ì²˜ë¦¬ ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ê° ì›¹ í”„ë¡œì íŠ¸ì—ì„œ ì‘ì„±ì„ í•´ì•¼í•¨
 	 * 
 	 * @param contents
 	 * @param processUrl
-	 *            ÀÌ¹ÌÁö ¸®»çÀÌÁî¸¦ À§ÇÑ Ã³¸® URL
+	 *            ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆë¥¼ ìœ„í•œ ì²˜ë¦¬ URL
 	 * @param width
 	 * @return
 	 */
@@ -147,11 +147,11 @@ public class StringUtil {
 	}
 
 	/**
-	 * ÀÌ¹ÌÁö ¸®»çÀÌÂ¡À» À§ÇÑ ÀÌ¹ÌÁö ¸µÅ© º¯È¯ ÇÏ±â. ÀÌ¹ÌÁö ¸®»çÀÌÁî Ã³¸® ÄÁÆ®·Ñ·¯¸¦ °¢ À¥ ÇÁ·ÎÁ§Æ®¿¡¼­ ÀÛ¼ºÀ» ÇØ¾ßÇÔ
+	 * ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì§•ì„ ìœ„í•œ ì´ë¯¸ì§€ ë§í¬ ë³€í™˜ í•˜ê¸°. ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆ ì²˜ë¦¬ ì»¨íŠ¸ë¡¤ëŸ¬ë¥¼ ê° ì›¹ í”„ë¡œì íŠ¸ì—ì„œ ì‘ì„±ì„ í•´ì•¼í•¨
 	 * 
 	 * @param contents
 	 * @param processUrl
-	 *            ÀÌ¹ÌÁö ¸®»çÀÌÁî¸¦ À§ÇÑ Ã³¸® URL
+	 *            ì´ë¯¸ì§€ ë¦¬ì‚¬ì´ì¦ˆë¥¼ ìœ„í•œ ì²˜ë¦¬ URL
 	 * @return
 	 */
 	public static String getImgMatchedReplacement(String contents,
@@ -160,10 +160,10 @@ public class StringUtil {
 	}
 
 	/**
-	 * URLEncode µÆ´ÂÁö Ã¼Å© ÇÏ´Â ¸Ş¼­µå
+	 * URLEncode ëëŠ”ì§€ ì²´í¬ í•˜ëŠ” ë©”ì„œë“œ
 	 * 
 	 * @param content
-	 *            Ã¼Å© ÇÏ°íÀÚ ÇÏ´Â¹®ÀÚ¿­
+	 *            ì²´í¬ í•˜ê³ ì í•˜ëŠ”ë¬¸ìì—´
 	 * @return
 	 */
 	public static boolean isUrlEncoded(String content) {

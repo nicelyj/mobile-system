@@ -15,7 +15,7 @@ import org.springframework.util.Log4jConfigurer;
  * Description : 
  * 
  *  Modification Information
- *  Modify Date 			Modifier			Comment
+ *  Modify Date 		Modifier			Comment
  * -----------------------------------------------
  *  2011. 11. 23.		song7749		    신규 생성
  * 
