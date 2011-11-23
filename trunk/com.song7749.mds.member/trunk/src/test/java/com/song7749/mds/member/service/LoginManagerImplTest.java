@@ -27,18 +27,18 @@ public class LoginManagerImplTest {
 	public void setUp() {
 		Member member = new Member();
 		member.setMemberId("song77494");
-		member.setMemberName("¼Û¹Î¼ö");
-		member.setMemberNickName("º¸¾Æ¹ì");
+		member.setMemberName("ì†¡ë¯¼ìˆ˜");
+		member.setMemberNickName("ë³´ì•„ë±€");
 		member.setMemberPassword("123456789");
-		member.setMemberPasswordA("¾î¸Ó´Ï ¼ºÇÔ");
-		member.setMemberPasswordQ("¾î¸Ó´Ï ¼ºÇÔÀº?");
+		member.setMemberPasswordA("ì–´ë¨¸ë‹ˆ ì„±í•¨");
+		member.setMemberPasswordQ("ì–´ë¨¸ë‹ˆ ì„±í•¨ì€?");
 		member.setMemberEmail("song7749@gmail.com");
 
 		MemberDetail memberDetail = new MemberDetail();
 
 		memberDetail.setMemberZipcode("173-062");
-		memberDetail.setMemberAddressBase("¼­¿ï");
-		memberDetail.setMemberAddressDetail("¾çÆòµ¿");
+		memberDetail.setMemberAddressBase("ì„œìš¸");
+		memberDetail.setMemberAddressDetail("ì–‘í‰ë™");
 		memberDetail.setMemberMobileNumber("000-0000-0000");
 		memberDetail.setMemberPhoneNumber("000-0000-0000");
 		memberDetail.setMemberResistNumber("780000-000000");

@@ -79,7 +79,9 @@ public class MemberManagerTest {
 	public void testSelectMemberListByMemberSearchCommand() {
 		MemberCommand memberCommand = new MemberCommand();
 		memberCommand.setMember(new Member());
-		memberCommand.getMember().setMemberSeqList(new ArrayList<Integer>(MemberManagerTest.staticMember.getMemberSeq()));
+		memberCommand.getMember().setMemberSeqList(
+				new ArrayList<Integer>(MemberManagerTest.staticMember
+						.getMemberSeq()));
 		ArrayList<Member> members = this.memberManager
 				.selectMemberListByMemberSearchCommand(memberCommand);
 		Assert.assertTrue(members.size() > 0);
