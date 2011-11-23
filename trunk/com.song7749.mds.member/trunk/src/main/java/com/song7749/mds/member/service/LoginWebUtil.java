@@ -14,12 +14,12 @@ import com.song7749.web.util.CookieUtil;
 /**
  * <pre>
  * Class Name : LoginWebUtil.java
- * Description : ÄíÅ°°ªÀ» ÀÌ¿ëÇØ¼­ ·Î±×ÀÎ ¿©ºÎ È®ÀÎ
+ * Description : ì¿ í‚¤ê°’ì„ ì´ìš©í•´ì„œ ë¡œê·¸ì¸ ì—¬ë¶€ í™•ì¸
  * 
  *  Modification Information
  *  Modify Date 	Modifier			Comment
  * -----------------------------------------------
- *  2011. 9. 2.		song7749			½Å±Ô »ı¼º
+ *  2011. 9. 2.		song7749			ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 
@@ -35,7 +35,7 @@ public class LoginWebUtil {
 			HttpServletResponse httpServletResponse) throws Exception {
 		CookieUtil cookieUtil = new CookieUtil(httpServletRequest);
 
-		// À¯È¿±â°£ ³»¿¡ ´Ù½Ã ·Î±×ÀÎ ½Ãµµ¸¦ Çß´Â°¡ °Ë»ç
+		// ìœ íš¨ê¸°ê°„ ë‚´ì— ë‹¤ì‹œ ë¡œê·¸ì¸ ì‹œë„ë¥¼ í–ˆëŠ”ê°€ ê²€ì‚¬
 		if (cookieUtil.getValue("authKey") != null) {
 			MemberAuth memberAuth = new MemberAuth();
 			memberAuth.setMemberAuthKey(cookieUtil.getValue("authKey"));
@@ -52,7 +52,7 @@ public class LoginWebUtil {
 
 		MemberAuth memberAuth = new MemberAuth();
 		memberAuth.setMember(member);
-		// ·Î±×ÀÎ ¼º°ø½Ã¿¡ cookie ±â·ÏÇÔ.
+		// ë¡œê·¸ì¸ ì„±ê³µì‹œì— cookie ê¸°ë¡í•¨.
 		try {
 			if (this.loginManager.login(memberAuth)) {
 				httpServletResponse.addCookie(CookieUtil.createCookie(
@@ -87,7 +87,7 @@ public class LoginWebUtil {
 			memberAuth.setMemberAuthKey(cookieUtil.getValue("authKey"));
 			if (this.loginManager.checkAuth(memberAuth) == false) {
 				return false;
-			} else {// ·Î±×ÀÎ ¼º°ø½Ã¿¡ ÄíÅ°°ª °»½Å
+			} else {// ë¡œê·¸ì¸ ì„±ê³µì‹œì— ì¿ í‚¤ê°’ ê°±ì‹ 
 				httpServletResponse.addCookie(CookieUtil.createCookie(
 						"authKey", memberAuth.getMemberAuthKey(), "/",
 						1 * 60 * 60));

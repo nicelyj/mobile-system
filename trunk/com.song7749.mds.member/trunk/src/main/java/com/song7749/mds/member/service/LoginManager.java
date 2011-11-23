@@ -11,7 +11,7 @@ import com.song7749.mds.member.model.MemberAuth;
  *  Modification Information
  *  Modify Date 	Modifier			Comment
  * -----------------------------------------------
- *  2011. 9. 1.		song7749		    Ω≈±‘ ª˝º∫
+ *  2011. 9. 1.		song7749		    Ïã†Í∑ú ÏÉùÏÑ±
  * 
  * </pre>
  * 

@@ -17,12 +17,12 @@ import com.song7749.util.string.ObjectSerializeUtil;
 /**
  * <pre>
  * Class Name : LoginManagerImpl.java
- * Description : ·Î±×ÀÎ ¸Å´ÏÀú ±¸Çö Å¬·¡½º
+ * Description : ë¡œê·¸ì¸ ë§¤ë‹ˆì € êµ¬í˜„ í´ë˜ìŠ¤
  * 
  *  Modification Information
  *  Modify Date 	Modifier		Comment
  * -----------------------------------------------
- *  2011. 9. 1.		song7749		½Å±Ô »ı¼º
+ *  2011. 9. 1.		song7749		ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 
@@ -47,7 +47,7 @@ public class LoginManagerImpl implements LoginManager {
 
 		Member selectedMember = selectedMemberList.get(0);
 
-		// ¸¶Áö¸· ·Î±×ÀÎ ½Ã°£À» À¥¼­¹ö ±âºĞ½Ã·Î ³Ö´Â´Ù.
+		// ë§ˆì§€ë§‰ ë¡œê·¸ì¸ ì‹œê°„ì„ ì›¹ì„œë²„ ê¸°ë¶„ì‹œë¡œ ë„£ëŠ”ë‹¤.
 		Date date = new Date();
 		SimpleDateFormat formatter = new SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss", Locale.KOREA);
@@ -75,10 +75,10 @@ public class LoginManagerImpl implements LoginManager {
 		} else {
 			Member member = this.getAuth(memberAuth);
 
-			// À¯È¿±â°£ ÃÊ°úµÇ¾ú´Â°¡ °Ë»çÇÑ´Ù.
+			// ìœ íš¨ê¸°ê°„ ì´ˆê³¼ë˜ì—ˆëŠ”ê°€ ê²€ì‚¬í•œë‹¤.
 			SimpleDateFormat formatter = new SimpleDateFormat(
 					"yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-			// ÄíÅ°½Ã°£
+			// ì¿ í‚¤ì‹œê°„
 			Date cookieTime = null;
 			Date nowTime = new Date();
 			try {
@@ -87,12 +87,12 @@ public class LoginManagerImpl implements LoginManager {
 				e.printStackTrace();
 			}
 
-			// À¯È¿±â°£ÀÌ Áö³µ´Ù!
+			// ìœ íš¨ê¸°ê°„ì´ ì§€ë‚¬ë‹¤!
 			if (cookieTime.getTime() + 1 * 60 * 60 * 1000 < nowTime.getTime()) {
 				this.logout(memberAuth);
 				return false;
 			}
-			// À¯È¿±â°£ ÀÌ³»¸é, ½Ã°£À» °»½ÅÇØ¼­ ´Ù½Ã ÀÎÁõÅ°¸¦ ±â·ÏÇÑ´Ù.
+			// ìœ íš¨ê¸°ê°„ ì´ë‚´ë©´, ì‹œê°„ì„ ê°±ì‹ í•´ì„œ ë‹¤ì‹œ ì¸ì¦í‚¤ë¥¼ ê¸°ë¡í•œë‹¤.
 			else {
 				member.setMemberLastLoginTime(formatter.format(nowTime));
 				memberAuth.setMemberAuthKey(this.setAuth(member));
@@ -115,7 +115,7 @@ public class LoginManagerImpl implements LoginManager {
 	private String setAuth(Member member) {
 		String memberAuthKey = null;
 		try {
-			// serialize ÇÑµÚ¿¡ ¾ÏÈ£È­ÇÏ¿© ÀúÀåÇÑ´Ù.
+			// serialize í•œë’¤ì— ì•”í˜¸í™”í•˜ì—¬ ì €ì¥í•œë‹¤.
 			memberAuthKey = SecurityUtil.encrypt(ObjectSerializeUtil
 					.toString(member));
 		} catch (Exception e) {
