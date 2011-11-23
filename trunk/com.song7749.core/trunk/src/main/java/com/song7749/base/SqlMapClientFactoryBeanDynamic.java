@@ -10,11 +10,19 @@ import org.springframework.orm.ibatis.SqlMapClientFactoryBean;
 import org.springframework.util.Log4jConfigurer;
 
 /**
- * SqlMapClientFactory 의 설정파일을 개발환경에 따라 동적으로 호출. SqlMapClientFactoryBean 클래스를
- * 상속받아 설정파일을 전달하는 부분에 분기 설정.
+ * <pre>
+ * Class Name : SqlMapClientFactoryBeanDynamic.java
+ * Description : 
+ * 
+ *  Modification Information
+ *  Modify Date 			Modifier			Comment
+ * -----------------------------------------------
+ *  2011. 11. 23.		song7749		    신규 생성
+ * 
+ * </pre>
  * 
  * @author song7749
- * 
+ * @since 2011. 11. 23.
  */
 public class SqlMapClientFactoryBeanDynamic extends SqlMapClientFactoryBean {
 	private static boolean isPrinted = false;
