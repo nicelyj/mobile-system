@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * <pre>
  * Class Name : StringUtil.java
- * Description : 스트링 관련 유틸리티
+ * Description : 스트링 관련 유틸리티 
  * 
  *  Modification Information
  *  Modify Date		Modifier		Comment
