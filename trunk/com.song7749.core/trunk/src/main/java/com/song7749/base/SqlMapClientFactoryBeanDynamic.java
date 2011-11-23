@@ -43,7 +43,8 @@ public class SqlMapClientFactoryBeanDynamic extends SqlMapClientFactoryBean {
 		if (System.getenv("DEV_ADOPTED_ENV").equals("DEVELOPER_PC")) {
 			configFile = developer;
 			message = "developer PC    ";
-		} else if (System.getenv("DEV_ADOPTED_ENV").equals("DEVELOPING_SERVER") || System.getenv("DEV_ADOPTED_ENV") == null) {
+		} else if (System.getenv("DEV_ADOPTED_ENV").equals("DEVELOPING_SERVER")
+				|| System.getenv("DEV_ADOPTED_ENV") == null) {
 			configFile = testServer;
 			message = "test server     ";
 		} else if (System.getenv("DEV_ADOPTED_ENV").equals("OPERATING_SERVER")) {
