@@ -5,6 +5,22 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <pre>
+ * Class Name : StringUtil.java
+ * Description : 스트링 관련 유틸리티
+ * 
+ *  Modification Information
+ *  Modify Date		Modifier		Comment
+ * ---------------------------------------------------
+ *  2011. 11. 23.	song7749		신규 생성
+ * 
+ * </pre>
+ * 
+ * @author song7749
+ * @since 2011. 11. 23.
+ */
+
 public class StringUtil {
 	/**
 	 * 문자열 자르기
