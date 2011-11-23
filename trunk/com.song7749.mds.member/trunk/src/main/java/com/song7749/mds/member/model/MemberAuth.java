@@ -5,12 +5,12 @@ import com.song7749.base.BaseObject;
 /**
  * <pre>
  * Class Name : MemberAuth.java
- * Description : È¸¿ø ÀÎÁõ ¸ğµâ
- * 	ÀÎÁõÅ° ¼ÂÀº setMemeber È£Ãâ½Ã¿¡¸¸ ÃÊ±âÈ­ µÈ´Ù.
+ * Description : íšŒì› ì¸ì¦ ëª¨ë“ˆ
+ * 	ì¸ì¦í‚¤ ì…‹ì€ setMemeber í˜¸ì¶œì‹œì—ë§Œ ì´ˆê¸°í™” ëœë‹¤.
  *  Modification Information
  *  Modify Date 	Modifier		Comment
  * -----------------------------------------------
- *  2011. 9. 1.		song7749		½Å±Ô »ı¼º
+ *  2011. 9. 1.		song7749		ì‹ ê·œ ìƒì„±
  * 
  * </pre>
  * 
