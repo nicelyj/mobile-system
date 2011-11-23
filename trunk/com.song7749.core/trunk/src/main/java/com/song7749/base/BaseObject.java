@@ -8,13 +8,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
 /**
  * <pre>
  * Class Name : BaseObject.java
- * Description : Model ê°ì²´ì˜ Base í´ë˜ìŠ¤. Serializable ìƒì† ë° toString ë©”ì†Œë“œ ì œê³µ. ëª¨ë“  Model ê°ì²´ëŠ” ì´ í´ë˜ìŠ¤ë¥¼
- * ìƒì†ë°›ì•„ì•¼ í•˜ë©° ê°ì²´í†µì‹ ì„ ìœ„í•´ serialVersionUIDë¥¼ ìƒì„±í•  ê²ƒ.
+ * Description : Model °´Ã¼ÀÇ Base Å¬·¡½º. Serializable »ó¼Ó ¹× toString ¸Ş¼Òµå Á¦°ø. ¸ğµç Model °´Ã¼´Â ÀÌ Å¬·¡½º¸¦
+ * »ó¼Ó¹Ş¾Æ¾ß ÇÏ¸ç °´Ã¼Åë½ÅÀ» À§ÇØ serialVersionUID¸¦ »ı¼ºÇÒ °Í.
  * 
  *  Modification Information
  *  Modify Date		Modifier		Comment
  * ---------------------------------------------------
- *  2011. 11. 23.	song7749		ì‹ ê·œ ìƒì„±
+ *  2011. 11. 23.	song7749		½Å±Ô »ı¼º
  * 
  * </pre>
  * 
