@@ -3,7 +3,6 @@ package com.song7749.mds.board.service;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +24,7 @@ import com.song7749.mds.board.model.command.BoardListCommand;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:META-INF/spring/applicationContext*" })
-public class BoardManagerTest extends TestCase {
+public class BoardManagerTest {
 	@Autowired
 	private BoardManager boardManager;
 	private static Board staticBoard;
@@ -79,7 +78,7 @@ public class BoardManagerTest extends TestCase {
 	 * .
 	 */
 	@Test
-	public void testInsertBoardList() {
+	public void testInsertBoardListt() {
 		BoardList boardList = new BoardList();
 		boardList.setBoardCommentCount(0);
 		boardList.setBoardListDisplayYN("Y");
@@ -284,4 +283,5 @@ public class BoardManagerTest extends TestCase {
 		Assert.assertTrue(processVal > 0);
 		BoardManagerTest.staticBoardList = boardList;
 	}
+
 }
