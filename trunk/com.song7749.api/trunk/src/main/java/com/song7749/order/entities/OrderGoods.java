@@ -12,10 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
+import org.hibernate.annotations.BatchSize;
 
 import com.song7749.base.BaseObject;
 
@@ -103,16 +100,15 @@ public class OrderGoods extends BaseObject {
 	/**
 	 * 주문 (부모 객체)
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name = "nOrderNumberSeq",nullable=false)
 	private Order order;
 
 	/**
 	 * 주문 상품 배송정보
 	 */
-	@OneToOne(mappedBy="orderGoods",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@LazyToOne(LazyToOneOption.NO_PROXY)
-	@Fetch(FetchMode.JOIN)
+	@OneToOne(mappedBy="orderGoods",fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
+	@BatchSize(size=10)
 	@JoinColumn(name="nOrderGoodsSeq")
 	private OrderGoodsDelivery orderGoodsDelivery;
 

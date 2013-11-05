@@ -5,28 +5,34 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.annotations.Parameter;
+
+import com.song7749.base.BaseObject;
 
 @Entity
 @Table(name = "tOrderGoodsDelivery")
 @org.hibernate.annotations.Table(comment = "주문 상품 배송정보", appliesTo = "tOrderGoodsDelivery")
-public class OrderGoodsDelivery {
+public class OrderGoodsDelivery extends BaseObject{
+
+	private static final long serialVersionUID = 7514134219253630571L;
 
 	/**
 	 * 주문상품 고유키
 	 */
+	@GenericGenerator(name = "generator", strategy = "foreign",parameters = @Parameter(name = "property", value = "orderGoods"))
 	@Id
-	@GenericGenerator(name="foreign_one_to_one_generator", strategy = "foreign",parameters = @Parameter(name="property",value="orderGoods"))
-	@GeneratedValue(generator = "foreign_one_to_one_generator")
+	@GeneratedValue(generator = "generator")
 	@Column(name = " nOrderGoodsSeq", columnDefinition = "int(10) unsigned COMMENT '주문상품 고유키'", nullable = false)
 	private Long orderGoodsSeq;
+
+	@OneToOne(fetch=FetchType.LAZY)
+	@PrimaryKeyJoinColumn
+	private OrderGoods orderGoods;
 
 	/**
 	 * 배송업체고유키
@@ -59,11 +65,6 @@ public class OrderGoodsDelivery {
 	private Long orderStateSeq;
 
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@LazyToOne(LazyToOneOption.NO_PROXY)
-	@JoinColumn(name="nGoodsSeq")
-	private OrderGoods orderGoods;
-
 	/**
 	 * 기본 생성자
 	 */
@@ -80,20 +81,6 @@ public class OrderGoodsDelivery {
 		this.wMSOrderStateSeq = wMSOrderStateSeq;
 		this.wMSBarcode = wMSBarcode;
 		this.orderStateSeq = orderStateSeq;
-	}
-
-	/**
-	 * 주문상품 고유키 setter
-	 */
-	public void setOrderGoodsSeq(Long orderGoodsSeq) {
-		this.orderGoodsSeq = orderGoodsSeq;
-	}
-
-	/**
-	 * 주문상품 고유키 getter
-	 */
-	public Long getOrderGoodsSeq() {
-		return this.orderGoodsSeq;
 	}
 
 	/**
@@ -179,6 +166,4 @@ public class OrderGoodsDelivery {
 	public void setOrderGoods(OrderGoods orderGoods) {
 		this.orderGoods = orderGoods;
 	}
-
-
 }

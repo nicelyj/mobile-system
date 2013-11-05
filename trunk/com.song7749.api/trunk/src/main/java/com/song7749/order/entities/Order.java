@@ -13,9 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.ColumnTransformer;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.song7749.base.BaseObject;
 
@@ -52,6 +51,7 @@ public class Order extends BaseObject {
 	/**
 	 * 결제수단 고유키
 	 */
+//	@Transient 무시하기
 	@Column(name = " nPaymentMethodSeq", columnDefinition = "int(10) unsigned COMMENT '결제수단 고유키'", nullable = false)
 	private Long paymentMethodSeq;
 
@@ -77,10 +77,7 @@ public class Order extends BaseObject {
 	 * 주문회원 아이디
 	 */
 	@Column(name = " sMemberId", columnDefinition = "varchar(20) COMMENT '주문회원 아이디'", nullable = true)
-	@ColumnTransformer(
-			read="unseal_text(sMemberId)",
-			write="seal_text(CAST(? AS CHAR CHARACTER SET UTF8))"
-	)
+	@ColumnTransformer(read = "unseal_text(sMemberId)", write = "seal_text(?)")
 	private String memberId;
 
 	/**
@@ -105,6 +102,7 @@ public class Order extends BaseObject {
 	 * 주문회원 아이피
 	 */
 	@Column(name = " sMemberIP", columnDefinition = "varchar(39) COMMENT '주문회원 아이피'", nullable = true)
+	@ColumnTransformer(read = "unseal_text(sMemberIP)", write = "seal_text(?)")
 	private String memberIP;
 
 	/**
@@ -134,9 +132,16 @@ public class Order extends BaseObject {
 	/**
 	 * 주문 상품 객체
 	 */
-	@OneToMany(targetEntity = OrderGoods.class, mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@BatchSize(size = 10)
 	private final List<OrderGoods> orderGoodsList = new ArrayList<OrderGoods>();
+
+	/**
+	 * 주문 상품 광고 객체
+	 */
+	@OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@BatchSize(size = 10)
+	private final List<OrderAdvertisementInfo> orderAdvertisementInfoList = new ArrayList<OrderAdvertisementInfo>();
 
 	public Order() {
 	}
@@ -380,9 +385,29 @@ public class Order extends BaseObject {
 	/**
 	 * 주문 상품 조회
 	 *
-	 * @return Set<orderGoods>
+	 * @return List<orderGoods>
 	 */
 	public List<OrderGoods> getOrderGoodsList() {
 		return orderGoodsList;
+	}
+
+	/**
+	 * 주문 광고 정보 추가
+	 * @param orderAdvertisementInfo
+	 */
+	public void addOrderAdvertisementInfo(OrderAdvertisementInfo orderAdvertisementInfo){
+		if(null==orderAdvertisementInfo){
+			throw new IllegalArgumentException("orderAdvertisementInfo is null !");
+		}
+		orderAdvertisementInfo.setOrder(this);
+		this.orderAdvertisementInfoList.add(orderAdvertisementInfo);
+	}
+
+	/**
+	 * 주문 광고 조회
+	 * @return the orderAdvertisementInfoList
+	 */
+	public List<OrderAdvertisementInfo> getOrderAdvertisementInfoList() {
+		return orderAdvertisementInfoList;
 	}
 }

@@ -21,6 +21,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.song7749.order.entities.Order;
+import com.song7749.order.entities.OrderAdvertisementInfo;
 import com.song7749.order.entities.OrderGoods;
 import com.song7749.order.entities.OrderGoodsDelivery;
 
@@ -42,19 +43,19 @@ public class HibernateOrderRepositoryTest {
 	@Before
 	public void setUp() throws Exception {
 		order = new Order();
+		order.setOrderNumberSeq(1L);
 		session = billingSessionFactory.getCurrentSession();
 	}
 
 	@Test
 	@Transactional
 	public void testSave() throws Exception {
-		order.setOrderNumberSeq(1L);
 		order.setCreateDate(new Date(System.currentTimeMillis()));
 		order.setCreateTime(new Time(System.currentTimeMillis()));
 		order.setDeliverySeq(1L);
 		order.setIDNumber("1");
 		order.setMarketPlaceSeq(1L);
-		order.setMemberId("쀍");
+		order.setMemberId("이런");
 		order.setMemberIP("1111");
 		order.setMemberSeq(1L);
 		order.setOrderStateSeq(1L);
@@ -67,29 +68,30 @@ public class HibernateOrderRepositoryTest {
 		OrderGoods orderGoods2 = new OrderGoods(2L, 2L, 2L, "bbbb", 1000L, 1000L, 100, 1000L, 1L, 1L, 1000);
 
 		OrderGoodsDelivery orderGoodsDelivery = new OrderGoodsDelivery(1L, "1234", 1L, "aaaaa", 1L);
-		orderGoods.setOrderGoodsDelivery(orderGoodsDelivery );
+		orderGoods2.setOrderGoodsDelivery(orderGoodsDelivery );
 
 		orderGoods.setOrder(order);
 		order.addOrderGoods(orderGoods);
 		order.addOrderGoods(orderGoods2);
+
+		OrderAdvertisementInfo orderAdvertisementInfo = new OrderAdvertisementInfo(1L);
+		order.addOrderAdvertisementInfo(orderAdvertisementInfo);
+
 		hibernateOrderRepository.save(order);
 
-
 		// 저장하려는 객체와 이미 저장되어 있는 객체간에 데이터 일치를 검증한다.
-		Order selectedOrder = (Order)session.createCriteria(order.getClass()).add(Restrictions.eq("orderNumberSeq", 1L)).list().get(0);
+		Order selectedOrder = (Order)session.createCriteria(order.getClass()).add(Restrictions.eq("orderNumberSeq", 1L)).setMaxResults(1).list().get(0);
 
 		assertThat(order, is(selectedOrder));
 		assertThat(selectedOrder.getOrderGoodsList().size(), is(order.getOrderGoodsList().size()));
-
-		selectedOrder.getOrderGoodsList().remove(0);
-		session.save(order);
 	}
 
 	@Test
 	@Transactional(readOnly=true)
 	public void testFindByOrderNumberSeq() throws Exception {
-		order.setOrderNumberSeq(1L);
 		Order selectedOrder = hibernateOrderRepository.findByOrderNumberSeq(order);
+//		Order selectedOrder = (Order)session.createCriteria(order.getClass()).add(Restrictions.eq("orderNumberSeq", 1L)).setFetchMode("orderGoodsList", FetchMode.JOIN).list().get(0);
+		selectedOrder.getOrderGoodsList().get(0).getGoodsName();
 
 		assertThat(selectedOrder.getOrderNumberSeq(), is(order.getOrderNumberSeq()));
 	}

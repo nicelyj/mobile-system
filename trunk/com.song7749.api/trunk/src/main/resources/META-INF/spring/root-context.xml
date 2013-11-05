@@ -33,6 +33,9 @@
 		<property name="dataSource" ref="billingDataSource" />
 		<property name="configLocation" value="classpath:/hibernate.cfg.xml" />
 		<property name="packagesToScan" value="com.song7749.*.entities"/>
+		<property name="entityInterceptor">
+			<bean class="com.song7749.hibernate.util.HibernateSecurityInterceptor"/>
+		</property> 
 	</bean>
 
 	<!-- Hibernate4용 TransactionManager 설정 -->
